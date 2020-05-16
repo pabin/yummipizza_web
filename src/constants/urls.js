@@ -6,7 +6,7 @@ const getAuthenticationUrl = () => `${HTTP_OR_HTTPS}://${DOMAIN_NAME}/accounts/a
 const getUserRetrieveOrUpdateUrl = (user_id) => `${HTTP_OR_HTTPS}://${DOMAIN_NAME}/account/api/user/${user_id}/`;
 
 // Inventory
-const getItemListUrl = (user_id) => `${HTTP_OR_HTTPS}://${DOMAIN_NAME}/inventory/api/items/${user_id}/`;
+const getItemListUrl = () => `${HTTP_OR_HTTPS}://${DOMAIN_NAME}/inventory/api/items/`;
 const getShoppingCartCreateUrl = () => `${HTTP_OR_HTTPS}://${DOMAIN_NAME}/inventory/api/cart/`;
 const getCartRetrieveOrUpdateUrl = (cart_id) => `${HTTP_OR_HTTPS}://${DOMAIN_NAME}/inventory/api/cart/${cart_id}/`;
 const getOrderCreateUrl = () => `${HTTP_OR_HTTPS}://${DOMAIN_NAME}/inventory/api/order/`;
@@ -22,7 +22,7 @@ const getItemRatingCreateUrl = (item_id) => `${HTTP_OR_HTTPS}://${DOMAIN_NAME}/r
 
 export {
   getAuthenticationUrl,
-  getItemListUrl,
+  getUserRetrieveOrUpdateUrl,
 
   getItemListUrl,
   getShoppingCartCreateUrl,
