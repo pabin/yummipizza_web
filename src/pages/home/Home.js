@@ -2,12 +2,12 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import {
-  Navbar,
-  Nav,
-  NavDropdown,
   Form,
   FormControl,
   Button,
+  Container,
+  Row,
+  Col,
 } from 'react-bootstrap';
 
 import logo from '../../logo.svg';
@@ -16,6 +16,7 @@ import './Home.css';
 import { itemListFetch } from '../../store/actions/ItemListActions';
 import { userAuthentication } from '../../store/actions/AuthenticationActions';
 
+import ItemCard from '../../components/ItemCard'
 
 
 class HomePage extends React.Component {
@@ -39,29 +40,97 @@ class HomePage extends React.Component {
     }} = this.props
 
     return (
-      <div>
+      <Row className="home-row">
+        <Col sm={3}>
+          <h5 align="center">Product Filters</h5>
+          <div className="filter-container">
+            <h6>Type</h6>
+            <Form>
+              <Form.Check
+                custom
+                type="checkbox"
+                id="veg-checkbox"
+                label="Veg"
+              />
+              <Form.Check
+                custom
+                type="checkbox"
+                id="non-veg-checkbox"
+                label="Non-Veg"
+              />
+            </Form>
+          </div>
 
-        <Form inline>
-          <FormControl type="text" placeholder="Search" className="mr-sm-2" />
-          <Button variant="outline-success">Search</Button>
-        </Form>
+          <div className="filter-container">
+            <h6>Price</h6>
+            <Form>
+              <Form.Check
+                custom
+                type="checkbox"
+                label="$0 - $10"
+                id="0-10-checkbox"
+              />
+              <Form.Check
+                custom
+                type="checkbox"
+                label="$11 - $20"
+                id="11-20-checkbox"
+              />
+              <Form.Check
+                custom
+                type="checkbox"
+                label="$21 - $30"
+                id="21-30-checkbox"
+              />
+              <Form.Check
+                custom
+                type="checkbox"
+                id="30-100-checkbox"
+                label="$30- $100"
+              />
+            </Form>
+          </div>
 
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Hi from Home Page
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
+          <div className="filter-container">
+            <h6>Rating</h6>
+            <Form>
+              <Form.Check
+                custom
+                type="checkbox"
+                id="veg-checkbox"
+                label="Veg"
+              />
+              <Form.Check
+                custom
+                type="checkbox"
+                id="non-veg-checkbox"
+                label="Non-Veg"
+              />
+            </Form>
+          </div>
+
+        </Col>
+        {
+          itemListFetched ?
+          <Col sm={9} style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap'}}>
+            {
+              itemList.results.map((item, index) => (
+                <ItemCard
+                  key={index}
+                  name={item.name}
+                  image={item.item_image}
+                  price={item.ls_price}
+                />
+              ))
+            }
+          </Col>
+          : itemListFetching ?
+          <Col sm={9} className="justify-content-center align-items-center">
+            Loading...
+          </Col>
+          : null
+        }
+      </Row>
     );
   }
 }

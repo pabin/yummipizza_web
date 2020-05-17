@@ -7,9 +7,17 @@ import {
   Form,
   FormControl,
   Button,
+  Container,
+  Row,
+  Col,
 } from 'react-bootstrap';
 
 import { Link } from 'react-router-dom';
+
+import './Navbar.css'
+import logo from '../assets/logo/logo_cropped.png';
+import cart from '../assets/icons/cart.png';
+
 
 
 class NavBar extends React.Component {
@@ -17,45 +25,56 @@ class NavBar extends React.Component {
   render() {
 
     return (
-      <div className="App">
-
+      <div>
         <Nav className="justify-content-end custom-nav" activeKey="/home">
           <Nav.Item>
-            <Nav.Link><Link to={'/'}>HOME</Link></Nav.Link>
+            <Nav.Link as={Link} to="/orders">ORDERS</Nav.Link>
           </Nav.Item>
           <Nav.Item>
-            <Nav.Link><Link to={'/items'}>ITEMS</Link></Nav.Link>
+            <Nav.Link as={Link} to="/items">ITEMS</Nav.Link>
           </Nav.Item>
           <Nav.Item>
-            <Nav.Link><Link to={'/orders'}>ORDERS</Link></Nav.Link>
+            <Nav.Link as={Link} to={'/login'}>LOGIN</Nav.Link>
           </Nav.Item>
           <Nav.Item>
-            <Nav.Link><Link to={'/login'}>LOGIN</Link></Nav.Link>
-          </Nav.Item>
-          <Nav.Item>
-            <Nav.Link><Link to={'/register'}>SIGNUP</Link></Nav.Link>
+            <Nav.Link as={Link} to={'/register'}>SIGNUP</Nav.Link>
           </Nav.Item>
         </Nav>
 
-        <Navbar bg="light" expand="lg">
-          <Navbar.Brand href="#home">The Yummi Pizza</Navbar.Brand>
-          <Navbar.Toggle aria-controls="basic-navbar-nav" />
-          <Navbar.Collapse className="justify-content-end">
-            <Nav className="mr-auto">
-              <Nav.Link href="#home">Home</Nav.Link>
-              <Nav.Link href="#link">Link</Nav.Link>
-              <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-                <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-                <NavDropdown.Divider />
-                <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
-              </NavDropdown>
-            </Nav>
+        <Container>
+          <Navbar className="custom-navbar" expand="lg">
+            <Navbar.Brand href="/">
+              <img
+                src={logo}
+                height="50"
+                className="d-inline-block align-top"
+                alt="React Bootstrap logo"
+              />
+            </Navbar.Brand>
 
-          </Navbar.Collapse>
-        </Navbar>
+            <Navbar.Toggle aria-controls="basic-navbar-nav" />
+            <Navbar.Collapse className="justify-content-center">
 
+              <Form className="form" inline>
+                <FormControl style={{"width": "70%", "backgroundColor": "#EFEFEF"}} type="text" placeholder="Search Yummi Pizzas" className="mr-sm-2" />
+                <Button className="button">Search</Button>
+              </Form>
+
+              <div className="cart">
+                <img
+                  style={{"marginRight": "10px"}}
+                  src={cart}
+                  height="50"
+                  className="d-inline-block align-top"
+                  alt="React Bootstrap logo"
+                />
+
+              <h1>0</h1>
+              </div>
+
+            </Navbar.Collapse>
+          </Navbar>
+        </Container>
       </div>
     );
   }

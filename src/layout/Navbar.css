@@ -1,0 +1,38 @@
+.form {
+  /* align-items: center; */
+  /* justify-content: center; */
+  width: 70%;
+  /* background-color: red; */
+}
+
+
+.cart {
+  display: flex;
+  /* flex: 1; */
+  /* justify-content: space-around; */
+  border-bottom-color: black;
+  /* padding: 10px 100px 10px 100px; */
+}
+
+.button {
+  background-color: purple;
+  border: none;
+}
+
+.button:hover {
+  background-color: green;
+}
+
+.custom-nav {
+  height: 30px;
+  font-size: 12px;
+  background-color: #DFDFDF;
+  /* border-bottom-width: 2px; */
+  /* border: 5px; */
+  border-color: '#4A148C';
+  /* border-radius: 50px; */
+}
+
+.custom-navbar {
+  /* margin-top: 30px; */
+}
