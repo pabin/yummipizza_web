@@ -43,9 +43,8 @@ class NavBar extends React.Component {
 
         <div className="navbar-container">
           <Navbar className="custom-navbar" expand="lg">
-            <Navbar.Brand href="/" style={{backgroundColor: 'green'}}>
+            <Navbar.Brand href="/">
               <img
-                style={{backgroundColor: 'blue'}}
                 src={logo}
                 width="40%"
                 height="auto"
