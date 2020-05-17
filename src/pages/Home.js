@@ -1,10 +1,11 @@
 import React from 'react';
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
 
 import logo from '../logo.svg';
 import '../App.css';
 
-import { itemListFetch } from '../store/actions/ItemListActions'
+import { itemListFetch } from '../store/actions/ItemListActions';
+import { userAuthentication } from '../store/actions/AuthenticationActions';
 
 
 
@@ -98,7 +99,8 @@ class HomePage extends React.Component {
       ]
     }
 
-    // this.props.dispatchItemListFetch()
+    this.props.dispatchItemListFetch()
+    // this.props.dispatchUserAuthentication("ilovepizza", "ilovepizza")
   }
 
   render() {
@@ -111,7 +113,7 @@ class HomePage extends React.Component {
 
     const items = this.state.itemList
     console.log('items length', items.length);
-    
+
     return (
       <div className="App">
         <header className="App-header">
@@ -140,6 +142,7 @@ const mapStateToProps  = state => ({
 
 const mapDispatchToProps = {
   dispatchItemListFetch: () => itemListFetch(),
+  dispatchUserAuthentication: (username, password) => userAuthentication(username, password),
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomePage)

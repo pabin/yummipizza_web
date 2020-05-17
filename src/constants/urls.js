@@ -1,5 +1,6 @@
 const HTTP_OR_HTTPS = "https";
-const DOMAIN_NAME = "http://localhost:8000/";
+const DOMAIN_NAME = "yummipizza-be-server.herokuapp.com";
+
 
 // Accounts
 const getAuthenticationUrl = () => `${HTTP_OR_HTTPS}://${DOMAIN_NAME}/accounts/api/authentication/`;

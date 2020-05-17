@@ -32,7 +32,8 @@ function itemListFetchFailure(err) {
 
 export function itemListFetch(page_number){
   // const TOKEN = localStorage.getItem('token')
-  const TOKEN = "6b366081b87218f8f24a68e45ff0dd443bf914ff"
+  // const TOKEN = "6b366081b87218f8f24a68e45ff0dd443bf914ff"  // local
+  const TOKEN = "6bdd459342418eae6c7cd722f8ed818e6828e4f6"  // server
   const ITEM_LIST_URL = getItemListUrl()
 
   return (dispatch) => {
@@ -47,7 +48,7 @@ export function itemListFetch(page_number){
             // }
           })
       .then(response => {
-        const itmeList = response.data.body
+        const itmeList = response.data
         console.log('Items List @ actions ', itmeList)
         // const totalPages = response.data.body.totalPages
         dispatch(itemListFetchSuccess(itmeList))
