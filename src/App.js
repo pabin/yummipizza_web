@@ -4,6 +4,7 @@ import './App.css';
 
 import NavBar from './layout/Navbar';
 import Routes from "./routes/index";
+import Footer from "./layout/Footer";
 
 
 class App extends Component {
@@ -19,6 +20,7 @@ class App extends Component {
               <div className="App">
                 <NavBar />
                 <Routes />
+                <Footer />
               </div>
         );
     }

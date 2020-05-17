@@ -41,7 +41,7 @@ class NavBar extends React.Component {
           </Nav.Item>
         </Nav>
 
-        <Container>
+        <div className="navbar-container">
           <Navbar className="custom-navbar" expand="lg">
             <Navbar.Brand href="/">
               <img
@@ -74,7 +74,7 @@ class NavBar extends React.Component {
 
             </Navbar.Collapse>
           </Navbar>
-        </Container>
+        </div>
       </div>
     );
   }

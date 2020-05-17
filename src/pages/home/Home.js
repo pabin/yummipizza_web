@@ -8,6 +8,8 @@ import {
   Container,
   Row,
   Col,
+  Card,
+  Pagination,
 } from 'react-bootstrap';
 
 import logo from '../../logo.svg';
@@ -25,6 +27,20 @@ class HomePage extends React.Component {
 
     this.state = {
       is_open: true,
+      typeFilters: [
+        {type: "checkbox", id: "veg-checkbox", label: "Veg"},
+        {type: "checkbox", id: "non-veg-checkbox", label: "Non-Veg"},
+      ],
+      priceFilters: [
+        {type: "checkbox", id: "0-10-checkbox", label: "$0 - $10"},
+        {type: "checkbox", id: "11-20-checkbox", label: "$11 - $20"},
+        {type: "checkbox", id: "21-30-checkbox", label: "$21 - $30"},
+        {type: "checkbox", id: "31-100-checkbox", label: "$31 - $100"},
+      ],
+      ratingFilters: [
+        {type: "checkbox", id: "above-3-checkbox", label: "Above 3"},
+        {type: "checkbox", id: "below-3-checkbox", label: "Below 3"},
+      ],
     }
 
     this.props.dispatchItemListFetch()
@@ -39,93 +55,97 @@ class HomePage extends React.Component {
       errorMessage,
     }} = this.props
 
+    const { typeFilters, priceFilters, ratingFilters } = this.state
+
+    const filters = [
+      {name: "Type", options: typeFilters},
+      {name: "Price", options: priceFilters},
+      {name: "Rating", options: ratingFilters},
+    ]
+
+    let active = 2;
+    let items = [];
+    for (let number = 1; number <= itemList.count/10; number++) {
+      items.push(
+        <Pagination.Item key={number} active={number === active}>
+          {number}
+        </Pagination.Item>,
+      );
+    }
+
     return (
       <Row className="home-row">
         <Col sm={3}>
-          <h5 align="center">Product Filters</h5>
-          <div className="filter-container">
-            <h6>Type</h6>
-            <Form>
-              <Form.Check
-                custom
-                type="checkbox"
-                id="veg-checkbox"
-                label="Veg"
-              />
-              <Form.Check
-                custom
-                type="checkbox"
-                id="non-veg-checkbox"
-                label="Non-Veg"
-              />
-            </Form>
-          </div>
-
-          <div className="filter-container">
-            <h6>Price</h6>
-            <Form>
-              <Form.Check
-                custom
-                type="checkbox"
-                label="$0 - $10"
-                id="0-10-checkbox"
-              />
-              <Form.Check
-                custom
-                type="checkbox"
-                label="$11 - $20"
-                id="11-20-checkbox"
-              />
-              <Form.Check
-                custom
-                type="checkbox"
-                label="$21 - $30"
-                id="21-30-checkbox"
-              />
-              <Form.Check
-                custom
-                type="checkbox"
-                id="30-100-checkbox"
-                label="$30- $100"
-              />
-            </Form>
-          </div>
-
-          <div className="filter-container">
-            <h6>Rating</h6>
-            <Form>
-              <Form.Check
-                custom
-                type="checkbox"
-                id="veg-checkbox"
-                label="Veg"
-              />
-              <Form.Check
-                custom
-                type="checkbox"
-                id="non-veg-checkbox"
-                label="Non-Veg"
-              />
-            </Form>
-          </div>
-
+          <h6 align="center">Product Filters</h6>
+          {
+            filters.map((filter, index) => (
+              <Card key={index} border="light" style={{marginBottom: "15px"}}>
+                <Card.Header>{filter.name}</Card.Header>
+                <Card.Body>
+                  <Form>
+                    {
+                      filter.options.map((filterOption, indx) => (
+                        <Form.Check
+                          key={indx}
+                          custom
+                          type={filterOption.type}
+                          id={filterOption.id}
+                          label={filterOption.label}
+                        />
+                    ))
+                    }
+                  </Form>
+                </Card.Body>
+              </Card>
+            ))
+          }
         </Col>
+
         {
           itemListFetched ?
-          <Col sm={9} style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap'}}>
-            {
-              itemList.results.map((item, index) => (
-                <ItemCard
-                  key={index}
-                  name={item.name}
-                  image={item.item_image}
-                  price={item.ls_price}
-                />
-              ))
-            }
+          <Col sm={9}>
+            <h6>Most Popular Pizzas</h6>
+            <Row>
+              <Col sm={4}>
+                <p>{itemList.results.length} Items on this page</p>
+              </Col>
+
+              <Col sm={8} className="d-flex justify-content-end">
+                <Form inline >
+                  <Form.Group controlId="exampleForm.ControlSelect1">
+                    <Form.Label>Sort By : </Form.Label>
+                    <Form.Control as="select">
+                      <option>Popularity</option>
+                      <option>Price low to high</option>
+                      <option>Price high to low</option>
+                    </Form.Control>
+                  </Form.Group>
+                </Form>
+              </Col>
+            </Row>
+
+            <hr />
+
+            <div className="d-flex align-items-center justify-content-center" style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap'}}>
+              {
+                itemList.results.map((item, index) => (
+                  <ItemCard
+                    key={index}
+                    name={item.name}
+                    image={item.item_image}
+                    price={item.ls_price}
+                    />
+                ))
+              }
+            </div>
+
+            <div className="d-flex align-items-end justify-content-end">
+              <Pagination>{items}</Pagination>
+            </div>
+
           </Col>
           : itemListFetching ?
-          <Col sm={9} className="justify-content-center align-items-center">
+          <Col sm={9} className="d-flex align-items-center justify-content-center">
             Loading...
           </Col>
           : null
