@@ -8,8 +8,8 @@
 .form {
   /* align-items: center; */
   /* justify-content: center; */
-  width: 70%;
-  /* background-color: red; */
+  width: 100%;
+  background-color: red;
 }
 
 
@@ -38,5 +38,5 @@
 
 .custom-navbar {
   /* margin-top: 30px; */
-  border-bottom: 1px solid #E7E7E7;  
+  border-bottom: 1px solid #E7E7E7;
 }

@@ -29,15 +29,19 @@ class ItemCard extends Component {
     // <p><del>$ {this.props.price + 5}</del>$5 off</p>
 
     const { item } = this.props
-    console.log('item item', item);
+
     if (this.state.redirect) {
       return (
         <Redirect to={{ pathname: '/items', state: { item: item } }} />
       )
     } else {
       return (
-        <Card style={{ width: '14rem', height: '20rem', margin: '5px'}}>
-          <Card.Img onClick={() => {this.setState({redirect: true})}} variant="top" src={item.item_image} />
+        <Card style={{ width: '14rem', height: '22rem', margin: '5px'}}>
+          <Card.Img
+            style={{height: '10rem', width: 'auto'}}
+            onClick={() => {this.setState({redirect: true})}}
+            variant="top"
+            src={item.item_image} />
           <Card.Body>
             <Card.Text>
               {item.name}

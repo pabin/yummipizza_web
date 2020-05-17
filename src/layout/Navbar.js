@@ -43,10 +43,12 @@ class NavBar extends React.Component {
 
         <div className="navbar-container">
           <Navbar className="custom-navbar" expand="lg">
-            <Navbar.Brand href="/">
+            <Navbar.Brand href="/" style={{backgroundColor: 'green'}}>
               <img
+                style={{backgroundColor: 'blue'}}
                 src={logo}
-                height="50"
+                width="40%"
+                height="auto"
                 className="d-inline-block align-top"
                 alt="React Bootstrap logo"
               />

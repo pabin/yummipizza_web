@@ -26,22 +26,41 @@ class ItemDetail extends React.Component {
   render() {
     const{ item } = this.props.location.state
 
-    let style = {
-      backgroundColor: 'white',
-      margin: '10px',
-      padding: '10px',
-      marginRight: "30px",
-      marginLeft: "30px",
+    let containerStyle = {
+      padding: "0px 30px 0px 30px",
+      backgroundColor: '#DFDFDF',
+      display: 'flex',
+      flexDirection: "column"
     }
 
+    let rowstyle = {
+      backgroundColor: 'white',
+      margin: '10px',
+      padding: '20px',
+    }
+
+    let ratingRowStyle = {
+      backgroundColor: 'white',
+      margin: "10px 0px 10px 10px",
+      padding: '20px',
+    }
+
+    let topSellerRowStyle = {
+      backgroundColor: 'white',
+      margin: "10px 10px 10px 0px",
+      padding: '20px',
+    }
+
+
     return (
-      <div style={{backgroundColor: '#DFDFDF', display: 'flex', flexDirection: "column"}}>
-        <Row style={style}>
-          <Col sm={5}>
+      <div style={containerStyle}>
+        <Row style={rowstyle}>
+          <Col sm={5} className="d-flex align-items-center justify-content-center">
             <img
-              style={{marginRight: "10px", borderRadius: '5px', margin: '10px'}}
+              style={{marginRight: "10px", borderRadius: '5px'}}
               src={item.item_image}
-              height="300"
+              width="100%"
+              height="auto"
               className="d-inline-block align-top"
               alt="React Bootstrap logo"
             />
@@ -62,13 +81,14 @@ class ItemDetail extends React.Component {
             <h5>$ {item.ls_price}</h5>
           </Col>
         </Row>
-        
-        <Row style={style}>
-          <Col sm={5}>
+
+        <Row style={rowstyle}>
+          <Col sm={5} className="d-flex align-items-center justify-content-center">
             <img
               style={{marginRight: "10px", borderRadius: '5px', margin: '10px'}}
               src={item.item_image}
-              height="300"
+              width="100%"
+              height="auto"
               className="d-inline-block align-top"
               alt="React Bootstrap logo"
             />
@@ -87,6 +107,43 @@ class ItemDetail extends React.Component {
             <h5>Delivery Address</h5>
             <h5>{item.name}</h5>
             <h5>$ {item.ls_price}</h5>
+          </Col>
+        </Row>
+
+        <Row>
+          <Col sm={8}>
+            <Row style={ratingRowStyle}>
+              <Col sm={12}>
+                <h4>Reviews and Ratings</h4>
+                <p>Rating 3</p>
+                <p>Rating 4</p>
+                <p>Rating 5</p>
+              </Col>
+            </Row>
+            <Row style={ratingRowStyle}>
+              <Col sm={12}>
+                <h4>Reviews and Ratings 2</h4>
+                <p>Rating 3</p>
+                <p>Rating 4</p>
+                <p>Rating 5</p>
+              </Col>
+            </Row>
+          </Col>
+          <Col sm={4}>
+            <Row style={topSellerRowStyle}>
+              <Col sm={12}>
+                <h5>Best Seller</h5>
+                <p>{item.name}</p>
+                <p>$ {item.ls_price}</p>
+              </Col>
+            </Row>
+            <Row style={topSellerRowStyle}>
+              <Col sm={12}>
+                <h5>Best Seller 2</h5>
+                <p>{item.name}</p>
+                <p>$ {item.ls_price}</p>
+              </Col>
+            </Row>
           </Col>
         </Row>
       </div>
