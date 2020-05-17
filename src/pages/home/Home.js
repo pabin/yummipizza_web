@@ -131,9 +131,7 @@ class HomePage extends React.Component {
                 itemList.results.map((item, index) => (
                   <ItemCard
                     key={index}
-                    name={item.name}
-                    image={item.item_image}
-                    price={item.ls_price}
+                    item={item}
                     />
                 ))
               }
