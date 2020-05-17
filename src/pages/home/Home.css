@@ -1,0 +1,36 @@
+
+.btn-flat {
+  background-color: purple;
+  color: white;
+}
+
+.btn-xxl {
+  padding: 1rem 1.5rem;
+  font-size: 1.5rem;
+}
+
+.custom-button {
+  background-color: #8E44AD;
+  font-size: 16px;
+  padding: 10px;
+  margin: 10px;
+  border: none;
+}
+
+
+.custom-button:hover {
+  background-color: #4A148C;
+}
+
+.custom-nav {
+  /* padding: 10px; */
+  height: 30px;
+  font-size: 12px;
+  background-color: #DFDFDF;
+  /* background-color: red; */
+  /* border-bottom-width: 2px; */
+  /* border: 5px; */
+  border-color: '#4A148C';
+  /* font-size: 15px; */
+  /* border-radius: 50px; */
+}

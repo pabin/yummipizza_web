@@ -1,23 +1,27 @@
-import React from 'react';
-import {Provider} from 'react-redux';
-import {BrowserRouter} from 'react-router-dom';
+import React, { Component, Suspense } from 'react';
 
-import logo from './logo.svg';
 import './App.css';
 
-import Home from './pages/Home';
-import {store} from './store'
+import NavBar from './layout/Navbar';
+import Routes from "./routes/index";
 
 
+class App extends Component {
 
-function App() {
-  return (
-    <Provider store={store}>
-      <BrowserRouter basename={"/home"}>
-          <Home />
-      </BrowserRouter>
-    </Provider>
-  );
+  constructor(props) {
+    super(props)
+    }
+
+
+    render() {
+
+        return (
+              <div className="App">
+                <NavBar />
+                <Routes />
+              </div>
+        );
+    }
 }
 
 export default App;
