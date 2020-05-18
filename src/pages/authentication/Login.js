@@ -40,7 +40,6 @@ class Login extends Component {
       errorMessage,
       user,
       token,
-      // errorMessage,
     }} = this.props
 
     const { show, onHide, onSignupPress } = this.props
@@ -68,7 +67,7 @@ class Login extends Component {
             </div>
 
             {
-              !userAuthenticating && ! userAuthenticated ?
+              !userAuthenticating && !userAuthenticated && !authenticationFailed ?
               <Form>
                 <Form.Group controlId="formBasicUsername">
                   <Row>
@@ -98,8 +97,13 @@ class Login extends Component {
               </div>
               : userAuthenticated ?
               <div className="d-flex align-items-center justify-content-center">
-                <i className="fa fa-check-circle fa-2x" style={{color: 'green', padding: '10px'}}></i>
+                <i className="fa fa-check-circle fa-2x" style={{color: '#27AE60', padding: '10px'}}></i>
                 <h5  style={{paddingTop: '5px'}}>Authenticated Successfully</h5>
+              </div>
+              : authenticationFailed ?
+              <div className="d-flex align-items-center justify-content-center">
+                <i className="fa fa-exclamation-circle fa-2x" style={{color: '#C0392B', padding: '10px'}}></i>
+                <h5  style={{paddingTop: '5px'}}>{errorMessage.toString()}</h5>
               </div>
               : null
             }

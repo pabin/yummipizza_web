@@ -92,20 +92,20 @@ class ItemCard extends Component {
   }
 
 
-  // Displays success message for 3 seconds
+  // Displays success message for 1 seconds
   successMessageAlert = () => {
     this.setState({showSuccessMessage: true})
     setTimeout(() => {
       this.setState({showSuccessMessage: false})
-    }, 3000);
+    }, 1000);
   }
 
-  // Displays error message for 2 seconds
+  // Displays error message for 1 seconds
   failureMessageAlert = () => {
     this.setState({showFailureMessage: true})
     setTimeout(() => {
       this.setState({showFailureMessage: false})
-    }, 2000);
+    }, 1000);
   }
 
   render() {
@@ -116,7 +116,7 @@ class ItemCard extends Component {
 
     if (this.state.redirect) {
       return (
-        <Redirect to={{ pathname: '/items', state: { item: item } }} />
+        <Redirect to={{ pathname: '/item', state: { item: item } }} />
       )
     } else {
       return (

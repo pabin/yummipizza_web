@@ -1,5 +1,6 @@
 const HTTP_OR_HTTPS = "https";
 const DOMAIN_NAME = "yummipizza-be-server.herokuapp.com";
+// const DOMAIN_NAME = "localhost:8000";
 
 
 // Accounts

@@ -1,17 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import {
   Button,
   Row,
   Col,
   Form,
+  Alert,
 } from 'react-bootstrap';
 
 import './Cart.css';
 
 
 const OrderSummary = (props) => {
-  const { prices, proceedToAddress, fromCart } = props
+  const [couponCode, setCouponCode] = useState("");
+  const [couponIsValid, setCouponIsValid] = useState(true);
+
+  const { prices, proceedToAddress, fromCart, onConfirmOrder } = props
 
   return (
     <div style={{padding: '10px 20px 10px 20px'}}>
@@ -50,10 +54,27 @@ const OrderSummary = (props) => {
 
         {
           fromCart ?
-          <Col sm={12} className="d-flex justify-content-center">
-            <Form.Control type="text" placeholder="Enter Coupon Coide" className="mr-sm-2" />
-            <Button variant="success">Apply</Button>
-          </Col>
+          <div>
+            <Col sm={12} className="d-flex justify-content-center">
+              <Form.Control
+                style={{"textTransform": "uppercase"}}
+                value={couponCode} type="text"
+                placeholder="Enter Coupon Code"
+                className="mr-sm-2"
+                onChange={(e => setCouponCode(e.target.value))}
+                />
+              <Button disabled={couponCode ? false : true} variant="success" onClick={() => setCouponIsValid(false)}>Apply</Button>
+            </Col>
+            <Col sm={12} style={{marginTop: '10px'}}>
+              {
+                !couponIsValid ?
+                <Alert variant="danger" style={{padding: '5px', paddingLeft: '10px'}}>
+                  Invalid Coupon Code
+                </Alert>
+                : null
+              }
+            </Col>
+          </div>
           : null
         }
 
@@ -74,7 +95,7 @@ const OrderSummary = (props) => {
             fromCart ?
             <Button onClick={proceedToAddress} variant="primary" block>Proceed to Shipping Address</Button>
             :
-            <Button onClick={proceedToAddress} variant="primary" block>Confirm Order</Button>
+            <Button onClick={onConfirmOrder} variant="primary" block>Confirm Order</Button>
           }
         </Col>
       </Row>

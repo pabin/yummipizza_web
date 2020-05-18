@@ -10,7 +10,7 @@ import Signup from '../pages/authentication/Signup';
 
 const routesList = [
     { path: '/', exact: true, name: 'Home', component: Home },
-    { path: '/items', exact: true, name: 'Items', component: ItemDetail },
+    { path: '/item', exact: true, name: 'Items', component: ItemDetail },
     { path: '/orders', exact: true, name: 'Orders', component: UserOrders },
     { path: '/cart', exact: true, name: 'Cart', component: Cart },
 
