@@ -10,9 +10,13 @@ import './styles.css'
 
 const Spinner = (props) => {
 
+  const { size } = props
+  let spinnerSize = (size ? size : 40)
+  // <i className={`fa fa-spinner fa-${spinnerSize}x spinner`}></i>
+
   return (
     <div style={{position: 'absolute'}}>
-      <i className="fa fa-spinner fa-3x spinner"></i>
+      <i className={`fa fa-spinner spinner`} style={{fontSize: `${spinnerSize}px`}}></i>
     </div>
   );
 }

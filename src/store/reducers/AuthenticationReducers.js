@@ -9,8 +9,7 @@ const initialState = {
   authenticationFailed: false,
   errorMessage: '',
   token: '',
-  username: '',
-  userid: '',
+  user: {},
 }
 
 export default (state = initialState, action) => {
@@ -21,8 +20,7 @@ export default (state = initialState, action) => {
       ...initialState,
       userAuthenticated: true,
       token: action.token,
-      username: action.username,
-      userid: action.userid,
+      user: action.user,
     }
 
     case USER_AUTHENTICATING:

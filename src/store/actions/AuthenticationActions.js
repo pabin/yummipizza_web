@@ -9,13 +9,12 @@ import axios from 'axios'
 
 
 
-function userAuthenticationSuccess(token, username, userid) {
+export function userAuthenticationSuccess(token, user) {
   console.log('User Authentication Success...')
   return {
     type: USER_AUTHENTICATION_SUCCESS,
     token: token,
-    username: username,
-    userid: userid,
+    user: user,
   }
 }
 
@@ -52,15 +51,15 @@ export function userAuthentication(username, password){
       .then(response => {
         const userDetails = response.data
         const token = userDetails.token
-        const username = userDetails.user.username
         const userid = (userDetails.user.id).toString()
+        const user = userDetails.user
 
         localStorage.setItem('token', token)
-        localStorage.setItem('accountId', userid)
-        localStorage.setItem('username', username)
+        localStorage.setItem('userid', userid)
+        localStorage.setItem('username', user.username)
 
         console.log('User Details: ', userDetails)
-        dispatch(userAuthenticationSuccess(token, username, userid))
+        dispatch(userAuthenticationSuccess(token, user))
 
       })
       .catch(err => {

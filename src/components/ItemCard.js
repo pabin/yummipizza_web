@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 import {
   Button,
@@ -7,6 +8,11 @@ import {
 
 import { Redirect } from 'react-router-dom';
 
+import Spinner from '../components/Spinner'
+import Message from '../components/Message'
+
+import { shoppingCartCreateAPI, shoppingCartUpdateAPI } from '../api/CartAPIs';
+import { userAuthenticationSuccess } from '../store/actions/AuthenticationActions';
 
 
 class ItemCard extends Component {
@@ -16,28 +22,97 @@ class ItemCard extends Component {
 
     this.state = {
       redirect: false,
+      loading: false,
+      showSuccessMessage: false,
+      showFailureMessage: false,
     }
 
   }
 
-
   onAddToCart = () => {
-    const { userAuthenticated } = this.props
+    const { item } = this.props
+
+    const { authentication: {
+      userAuthenticated,
+      token,
+      user,
+    }} = this.props
 
     if (userAuthenticated) {
-      console.log('Shopping cart create actions....');
-      this.props.onLoginPress()
 
+      this.setState({loading: true})
+      if (user.valid_cart) {
+        console.log('yes have valid cart...');
+
+        let items = []
+        user.valid_cart.items_list.map(cartItem => {
+          items.push(cartItem.id)
+        })
+        items.push(item.id)
+
+        let data = {items: items}
+
+        shoppingCartUpdateAPI(data, user.valid_cart.id)
+        .then(response => {
+          if (response.data) {
+            user.valid_cart = response.data
+            this.props.updateUserDetail(token, user)
+
+            this.successMessageAlert()
+            this.setState({loading: false})
+
+          } else if (response.error) {
+            this.failureMessageAlert()
+            this.setState({loading: false})
+          }
+        })
+      } else {
+        console.log('you dont have cart creating new one...');
+        const data = {items: [item.id]}
+
+        shoppingCartCreateAPI(data)
+        .then(response => {
+          if (response.data) {
+            user.valid_cart = response.data
+            this.props.updateUserDetail(token, user)
+
+            this.successMessageAlert()
+            this.setState({loading: false})
+
+          } else if (response.error) {
+            this.failureMessageAlert()
+            this.setState({loading: false})
+          }
+      })
+    }
     } else {
-      console.log('show login message');
+      console.log('user is not authenticated, show login message');
       this.props.onLoginPress()
     }
+  }
+
+
+  // Displays success message for 3 seconds
+  successMessageAlert = () => {
+    this.setState({showSuccessMessage: true})
+    setTimeout(() => {
+      this.setState({showSuccessMessage: false})
+    }, 3000);
+  }
+
+  // Displays error message for 2 seconds
+  failureMessageAlert = () => {
+    this.setState({showFailureMessage: true})
+    setTimeout(() => {
+      this.setState({showFailureMessage: false})
+    }, 2000);
   }
 
   render() {
     // <p><del>$ {this.props.price + 5}</del>$5 off</p>
 
     const { item } = this.props
+    const { showSuccessMessage, showFailureMessage, loading } = this.state
 
     if (this.state.redirect) {
       return (
@@ -57,13 +132,32 @@ class ItemCard extends Component {
             </Card.Text>
             <Card.Title style={{color: 'orange'}}>$ {item.ls_price}</Card.Title>
           </Card.Body>
-          <Button onClick={this.onAddToCart} style={{margin: "10px", width: '13rem', alignSelf: 'center'}} variant="primary" block>Add to Cart</Button>
+          <Button
+            onClick={this.onAddToCart}
+            style={{margin: "10px", width: '13rem', alignSelf: 'center'}}
+            variant="primary" block>
+            {
+              loading ?
+              <Spinner size={25} />
+              : null
+            }
+            Add to Cart
+          </Button>
+
+          <Message showSuccessMessage={showSuccessMessage} showFailureMessage={showFailureMessage} />
+
         </Card>
       );
     }
   }
 }
 
+const mapStateToProps  = state => ({
+  authentication: state.authentication
+})
 
+const mapDispatchToProps = {
+  updateUserDetail: (token, user) => userAuthenticationSuccess(token, user),
+}
 
-export default ItemCard
+export default connect(mapStateToProps, mapDispatchToProps)(ItemCard)

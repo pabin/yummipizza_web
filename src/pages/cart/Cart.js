@@ -45,10 +45,13 @@ class Cart extends React.Component {
   }
 
   render() {
-
     const { itemList: {
       itemListFetched,
       itemList,
+    }} = this.props
+
+    const { authentication: {
+      user,
     }} = this.props
 
     const { quantity, showRemoveWarningModal, showShippingAddressModal } = this.state
@@ -60,6 +63,7 @@ class Cart extends React.Component {
         myItems.push(itemList.results[2])
     }
 
+
     return (
       <div className="cart-container">
         <Row className="cart-row">
@@ -67,7 +71,9 @@ class Cart extends React.Component {
           <Col sm={8}>
             <Row>
               {
-                myItems.map((item, index) => (
+                user.valid_cart && user.valid_cart.items_list.length > 0 ?
+
+                user.valid_cart.items_list.map((item, index) => (
                   <Col sm={12} className="cart-item">
                     <Row>
                       <Col sm={2}>
@@ -102,23 +108,19 @@ class Cart extends React.Component {
                       </Col>
 
                       <Col sm={2} className="d-flex align-items-center justify-content-center">
-                        <i onClick={this.handleRemoveWarningShow} class="fa fa-trash fa-2x delete-icon"></i>
+                        <i onClick={this.handleRemoveWarningShow} className="fa fa-trash fa-2x delete-icon"></i>
                       </Col>
 
                     </Row>
                   </Col>
                 ))
-              }
-
-              {
-                myItems.length === 0 ?
+                :
                 <Col sm={12} className="cart-item">
                   <h5>Your cart is Empty</h5>
                   <p>
                     Go Shpping
                   </p>
                 </Col>
-                : null
               }
 
             </Row>
@@ -155,7 +157,8 @@ class Cart extends React.Component {
 }
 
 const mapStateToProps  = state => ({
-  itemList: state.itemList
+  itemList: state.itemList,
+  authentication: state.authentication
 })
 
 export default connect(mapStateToProps)(Cart)

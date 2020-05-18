@@ -38,7 +38,7 @@ class Login extends Component {
       userAuthenticating,
       authenticationFailed,
       errorMessage,
-      username,
+      user,
       token,
       // errorMessage,
     }} = this.props
@@ -50,7 +50,7 @@ class Login extends Component {
           <Modal.Header closeButton>
             {
               userAuthenticated ?
-              <h5>Welcome, {username}</h5>
+              <h5>Welcome, {user.username}</h5>
               :
               <h5>Login before shopping</h5>
             }

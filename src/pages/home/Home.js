@@ -41,7 +41,6 @@ class HomePage extends React.Component {
     }
 
     this.props.dispatchItemListFetch()
-    // this.props.dispatchUserAuthentication("ilovepizza", "ilovepizza")
   }
 
   render() {
@@ -49,13 +48,6 @@ class HomePage extends React.Component {
       itemListFetched,
       itemListFetching,
       itemList,
-      // errorMessage,
-    }} = this.props
-
-    const { authentication: {
-      userAuthenticated,
-      token,
-      username,
       // errorMessage,
     }} = this.props
 
@@ -136,7 +128,6 @@ class HomePage extends React.Component {
                   <ItemCard
                     key={index}
                     item={item}
-                    userAuthenticated={userAuthenticated}
                     onLoginPress={this.props.onLoginPress}
                     />
                 ))
@@ -161,12 +152,10 @@ class HomePage extends React.Component {
 
 const mapStateToProps  = state => ({
   itemList: state.itemList,
-  authentication: state.authentication
 })
 
 const mapDispatchToProps = {
   dispatchItemListFetch: () => itemListFetch(),
-  dispatchUserAuthentication: (username, password) => userAuthentication(username, password),
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomePage)

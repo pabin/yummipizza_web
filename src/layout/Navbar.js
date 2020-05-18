@@ -33,7 +33,7 @@ class NavBar extends React.Component {
 
     const { authentication: {
       userAuthenticated,
-      username,
+      user,
     }} = this.props
 
     const { onLoginPress, onSignupPress } = this.props
@@ -59,15 +59,22 @@ class NavBar extends React.Component {
           </Form>
 
           <div className="icon-wrapper">
+            {
+              user.valid_cart && user.valid_cart.items_list.length > 0 ?
               <Link to={'/cart'} className="cart-link">
                 <i className="fa fa-shopping-cart fa-3x"></i>
-                <span className="badge">1</span>
+                <span className="badge">{user.valid_cart.items_list.length}</span>
               </Link>
+              :
+              <Link to={'/cart'} className="cart-link">
+                <i className="fa fa-shopping-cart fa-3x"></i>
+              </Link>
+            }
           </div>
 
           {
             userAuthenticated ?
-            <Nav.Link className="cart-link">{username}</Nav.Link>
+            <Nav.Link className="cart-link">{user.username}</Nav.Link>
             :
             <Nav.Link onClick={onLoginPress} className="cart-link">Login</Nav.Link>
           }
