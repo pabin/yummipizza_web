@@ -15,6 +15,7 @@ import { itemListFetch } from '../../store/actions/ItemListActions';
 import { userAuthentication } from '../../store/actions/AuthenticationActions';
 
 import ItemCard from '../../components/ItemCard'
+import Spinner from '../../components/Spinner'
 
 
 class HomePage extends React.Component {
@@ -48,6 +49,13 @@ class HomePage extends React.Component {
       itemListFetched,
       itemListFetching,
       itemList,
+      // errorMessage,
+    }} = this.props
+
+    const { authentication: {
+      userAuthenticated,
+      token,
+      username,
       // errorMessage,
     }} = this.props
 
@@ -109,7 +117,7 @@ class HomePage extends React.Component {
               <Col sm={8} className="d-flex justify-content-end">
                 <Form inline >
                   <Form.Group controlId="exampleForm.ControlSelect1">
-                    <Form.Label>Sort By : </Form.Label>
+                    <Form.Label>Sort By &nbsp;&nbsp;</Form.Label>
                     <Form.Control as="select">
                       <option>Popularity</option>
                       <option>Price low to high</option>
@@ -128,6 +136,8 @@ class HomePage extends React.Component {
                   <ItemCard
                     key={index}
                     item={item}
+                    userAuthenticated={userAuthenticated}
+                    onLoginPress={this.props.onLoginPress}
                     />
                 ))
               }
@@ -140,7 +150,7 @@ class HomePage extends React.Component {
           </Col>
           : itemListFetching ?
           <Col sm={9} className="d-flex align-items-center justify-content-center">
-            Loading...
+            <Spinner />
           </Col>
           : null
         }
@@ -150,7 +160,8 @@ class HomePage extends React.Component {
 }
 
 const mapStateToProps  = state => ({
-  itemList: state.itemList
+  itemList: state.itemList,
+  authentication: state.authentication
 })
 
 const mapDispatchToProps = {

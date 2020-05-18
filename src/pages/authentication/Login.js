@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 import {
   Button,
@@ -9,6 +10,9 @@ import {
 } from 'react-bootstrap';
 
 import logo from '../../assets/logo/logo_cropped.png';
+import Spinner from '../../components/Spinner'
+
+import { userAuthentication } from '../../store/actions/AuthenticationActions';
 
 
 class Login extends Component {
@@ -22,17 +26,34 @@ class Login extends Component {
 
   }
 
-  render() {
-    const { show, onHide, onSignupPress } = this.props
-    // <Modal.Header closeButton>
-    //   <Modal.Title>Login Before Shopping</Modal.Title>
-    // </Modal.Header>
+  onLoginButtonPress = () => {
+    const { username, password } = this.state
+    this.props.dispatchUserAuthentication(username, password)
+  }
 
+
+  render() {
+    const { authentication: {
+      userAuthenticated,
+      userAuthenticating,
+      authenticationFailed,
+      errorMessage,
+      username,
+      token,
+      // errorMessage,
+    }} = this.props
+
+    const { show, onHide, onSignupPress } = this.props
     return (
       <Modal show={show} onHide={onHide}>
         <div style={{padding: '15px'}}>
           <Modal.Header closeButton>
-            <h5>Login before shopping</h5>
+            {
+              userAuthenticated ?
+              <h5>Welcome, {username}</h5>
+              :
+              <h5>Login before shopping</h5>
+            }
           </Modal.Header>
           <Modal.Body>
             <div className="d-flex align-items-center justify-content-center">
@@ -46,35 +67,55 @@ class Login extends Component {
                 />
             </div>
 
-            <Form>
-              <Form.Group controlId="formBasicUsername">
-                <Row>
-                  <Col sm={4}>
-                    <Form.Label>Username</Form.Label>
-                  </Col>
-                  <Col sm={8}>
-                    <Form.Control type="text" placeholder="Username" />
-                  </Col>
-                </Row>
-              </Form.Group>
+            {
+              !userAuthenticating && ! userAuthenticated ?
+              <Form>
+                <Form.Group controlId="formBasicUsername">
+                  <Row>
+                    <Col sm={4}>
+                      <Form.Label>Username</Form.Label>
+                    </Col>
+                    <Col sm={8}>
+                      <Form.Control type="text" placeholder="Username" />
+                    </Col>
+                  </Row>
+                </Form.Group>
 
-              <Form.Group controlId="formBasicPassword">
-                <Row>
-                  <Col sm={4}>
-                    <Form.Label>Password</Form.Label>
-                  </Col>
-                  <Col sm={8}>
-                    <Form.Control type="password" placeholder="Password" />
-                  </Col>
-                </Row>
-              </Form.Group>
+                <Form.Group controlId="formBasicPassword">
+                  <Row>
+                    <Col sm={4}>
+                      <Form.Label>Password</Form.Label>
+                    </Col>
+                    <Col sm={8}>
+                      <Form.Control type="password" placeholder="Password" />
+                    </Col>
+                  </Row>
+                </Form.Group>
+              </Form>
+              : userAuthenticating ?
+              <div className="d-flex align-items-center justify-content-center" style={{marginBottom: '50px'}}>
+                <Spinner />
+              </div>
+              : userAuthenticated ?
+              <div className="d-flex align-items-center justify-content-center">
+                <i className="fa fa-check-circle fa-2x" style={{color: 'green', padding: '10px'}}></i>
+                <h5  style={{paddingTop: '5px'}}>Authenticated Successfully</h5>
+              </div>
+              : null
+            }
 
-            </Form>
           </Modal.Body>
-          <Modal.Footer>
-            <Button variant="primary" onClick={onHide} block>Login</Button>
-            <Button variant="secondary" onClick={onSignupPress} block>SignUp</Button>
-          </Modal.Footer>
+            {
+              userAuthenticated ?
+              <Modal.Footer>
+                <Button variant="secondary" onClick={onHide} block>Close</Button>
+              </Modal.Footer>
+              :
+              <Modal.Footer>
+              <Button variant="primary" onClick={this.onLoginButtonPress} block>Login</Button>
+              <Button variant="secondary" onClick={onSignupPress} block>SignUp</Button>
+            </Modal.Footer>
+            }
         </div>
       </Modal>
     );
@@ -82,5 +123,12 @@ class Login extends Component {
 }
 
 
+const mapStateToProps  = state => ({
+  authentication: state.authentication
+})
 
-export default Login
+const mapDispatchToProps = {
+  dispatchUserAuthentication: (username, password) => userAuthentication(username, password),
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login)

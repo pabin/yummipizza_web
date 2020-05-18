@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 import {
   Navbar,
@@ -14,46 +15,32 @@ import { Link } from 'react-router-dom';
 import './Navbar.css'
 import logo from '../assets/logo/logo_cropped.png';
 
-import Login from '../pages/authentication/Login';
-import Signup from '../pages/authentication/Signup';
-
 
 class NavBar extends React.Component {
   constructor(props) {
     super(props)
 
     this.state = {
-      showLoginForm: false,
-      showSingupForm: false,
+      // showLoginForm: false,
+      // showSingupForm: false,
     }
 
   }
 
-  onLoginPress = () => {
-    this.setState({showLoginForm: true})
-  }
-
-  onLoginClose = () => {
-    this.setState({showLoginForm: false})
-  }
-
-  onSignupPress = () => {
-    console.log('singup now...');
-    this.setState({showLoginForm: false, showSingupForm: true})
-  }
-
-  onSignupClose = () => {
-    this.setState({showSingupForm: false})
-  }
 
   render() {
     // <Nav.Link as={Link} to={'/login'}>LOGIN</Nav.Link>
 
-    const { showLoginForm, showSingupForm } = this.state
+    const { authentication: {
+      userAuthenticated,
+      username,
+    }} = this.props
+
+    const { onLoginPress, onSignupPress } = this.props
 
     return (
       <Navbar fixed="top" className="custom-navbar" expand="lg">
-        <Navbar.Brand href="/">
+        <Navbar.Brand as={Link} to="/">
           <img
             src={logo}
             width="30%"
@@ -78,16 +65,22 @@ class NavBar extends React.Component {
               </Link>
           </div>
 
-          <Nav.Link onClick={this.onLoginPress} className="cart-link">Login</Nav.Link>
-
+          {
+            userAuthenticated ?
+            <Nav.Link className="cart-link">{username}</Nav.Link>
+            :
+            <Nav.Link onClick={onLoginPress} className="cart-link">Login</Nav.Link>
+          }
         </Navbar.Collapse>
-
-        <Login show={showLoginForm} onHide={this.onLoginClose} onSignupPress={this.onSignupPress}/>
-        <Signup show={showSingupForm} onHide={this.onSignupClose} />
       </Navbar>
     );
   }
 }
 
 
-export default NavBar
+const mapStateToProps  = state => ({
+  authentication: state.authentication
+})
+
+
+export default connect(mapStateToProps)(NavBar)

@@ -22,7 +22,16 @@ class ItemCard extends Component {
 
 
   onAddToCart = () => {
-    console.log('on add to cart....');
+    const { userAuthenticated } = this.props
+
+    if (userAuthenticated) {
+      console.log('Shopping cart create actions....');
+      this.props.onLoginPress()
+
+    } else {
+      console.log('show login message');
+      this.props.onLoginPress()
+    }
   }
 
   render() {

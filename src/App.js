@@ -6,25 +6,54 @@ import NavBar from './layout/Navbar';
 import Routes from "./routes/index";
 import Footer from "./layout/Footer";
 
+import Login from './pages/authentication/Login';
+import Signup from './pages/authentication/Signup';
+
 
 class App extends Component {
 
   constructor(props) {
     super(props)
+
+    this.state = {
+      showLoginForm: false,
+      showSingupForm: false,
+    }
+  }
+
+    onLoginPress = () => {
+      this.setState({showLoginForm: true})
+    }
+
+    onLoginClose = () => {
+      this.setState({showLoginForm: false})
     }
 
 
-    render() {
+    onSignupPress = () => {
+      console.log('singup now...');
+      this.setState({showLoginForm: false, showSingupForm: true})
+    }
 
-        return (
-              <div className="App">
-                <NavBar />
-                <div style={{"paddingTop": "70px"}}>
-                  <Routes />
-                </div>
-                <Footer />
-              </div>
-        );
+    onSignupClose = () => {
+      this.setState({showSingupForm: false})
+    }
+
+    render() {
+      const { showLoginForm, showSingupForm } = this.state
+
+      return (
+          <div className="App">
+            <NavBar onLoginPress={this.onLoginPress}  />
+            <div style={{paddingTop: "70px"}}>
+              <Routes onLoginPress={this.onLoginPress} />
+            </div>
+            <Footer />
+
+            <Login show={showLoginForm} onHide={this.onLoginClose} onSignupPress={this.onSignupPress}/>
+            <Signup show={showSingupForm} onHide={this.onSignupClose} />
+          </div>
+      );
     }
 }
 
