@@ -63,14 +63,14 @@ const ShippingAddress = (props) => {
 
               <hr />
               <Form.Row>
-                <Form.Group as={Col} controlId="formGridEmail">
-                  <Form.Label>Email</Form.Label>
-                  <Form.Control type="email" placeholder="Enter email" />
-                </Form.Group>
-
-                <Form.Group as={Col} controlId="formGridPassword">
+                <Form.Group as={Col} controlId="formGridMobile">
                   <Form.Label>Mobile</Form.Label>
                     <Form.Control type="text" placeholder="Enter Mobile" />
+                </Form.Group>
+
+                <Form.Group as={Col} controlId="formGridEmail">
+                  <Form.Label>Email (Optional)</Form.Label>
+                  <Form.Control type="email" placeholder="Enter email" />
                 </Form.Group>
               </Form.Row>
 

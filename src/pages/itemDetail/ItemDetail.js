@@ -10,6 +10,7 @@ import {
 
 import './ItemDetail.css'
 import QuantityCalculator from '../../components/QuantityCalculator'
+import Rating from '../../components/Rating'
 
 
 class ItemDetail extends React.Component {
@@ -77,11 +78,8 @@ class ItemDetail extends React.Component {
           </Col>
           <Col sm={4}>
             <h5>{item.name}</h5>
-            <i class="fa fa-star fa-2x" style={{color: "orange"}}></i>
-            <i class="fa fa-star fa-2x" style={{color: "orange"}}></i>
-            <i class="fa fa-star fa-2x" style={{color: "orange"}}></i>
-            <i class="fa fa-star-half-o fa-2x" style={{color: "orange"}}></i>
-            <i class="fa fa-star-o fa-2x" style={{color: "orange"}}></i>
+
+            <Rating rating={4} />
 
             <hr/ >
             <h4 style={{color: "orange"}}>$ {item.ls_price}</h4>

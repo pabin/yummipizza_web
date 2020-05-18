@@ -48,10 +48,14 @@ const OrderSummary = (props) => {
           <p>$ {deliveryCharge.toFixed(2)}</p>
         </Col>
 
-        <Col sm={12} className="d-flex justify-content-center">
-          <Form.Control type="text" placeholder="Enter Coupon Coide" className="mr-sm-2" />
-          <Button variant="success">Apply</Button>
-        </Col>
+        {
+          fromCart ?
+          <Col sm={12} className="d-flex justify-content-center">
+            <Form.Control type="text" placeholder="Enter Coupon Coide" className="mr-sm-2" />
+            <Button variant="success">Apply</Button>
+          </Col>
+          : null
+        }
 
         <Col sm={6} style={{margin: '15px 0px 10px 0px'}}>
           <h6>Total</h6>
