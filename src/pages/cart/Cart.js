@@ -5,8 +5,6 @@ import {
   Row,
   Col,
   Button,
-  Form,
-  Card,
   Modal,
 } from 'react-bootstrap';
 
@@ -86,7 +84,6 @@ class Cart extends React.Component {
                         <QuantityCalculator
                           quantity={quantity}
                           onChange={(event) => this.setState({quantity: event.target.value})}
-                          onIncrease={() => this.setState({quantity: quantity + 1})}
                           onIncrease={() => this.setState(quantity > 9 ?{ quantity: 10} : {quantity: quantity + 1})}
                           onDecrease={() => this.setState(quantity > 1 ? { quantity: quantity - 1} : {quantity: 1})}
                           />
@@ -123,6 +120,7 @@ class Cart extends React.Component {
                 <p>Subtotal    $120</p>
                 <p>Delivery Charges    $10</p>
                 <p>Total    $130</p>
+                <Button onClick={this.onAddToCart} variant="primary" block>Confirm Order</Button>
               </Col>
             </Row>
           </Col>

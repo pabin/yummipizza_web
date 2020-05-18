@@ -6,7 +6,6 @@ import {
   Col,
   Button,
   Form,
-  ButtonGroup,
 } from 'react-bootstrap';
 
 import './ItemDetail.css'
@@ -118,7 +117,6 @@ class ItemDetail extends React.Component {
                 <QuantityCalculator
                   quantity={quantity}
                   onChange={(event) => this.setState({quantity: event.target.value})}
-                  onIncrease={() => this.setState({quantity: quantity + 1})}
                   onIncrease={() => this.setState(quantity > 9 ?{ quantity: 10} : {quantity: quantity + 1})}
                   onDecrease={() => this.setState(quantity > 1 ? { quantity: quantity - 1} : {quantity: 1})}
                   />

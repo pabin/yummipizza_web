@@ -3,20 +3,15 @@ import React from 'react';
 import {
   Navbar,
   Nav,
-  NavDropdown,
   Form,
   FormControl,
   Button,
-  Container,
-  Row,
-  Col,
 } from 'react-bootstrap';
 
 import { Link } from 'react-router-dom';
 
 import './Navbar.css'
 import logo from '../assets/logo/logo_cropped.png';
-import cart from '../assets/icons/cart.png';
 
 
 
@@ -61,10 +56,10 @@ class NavBar extends React.Component {
                 <Button className="button">Search</Button>
               </Form>
 
-              <div class="icon-wrapper">
+              <div className="icon-wrapper">
                   <Link to={'/cart'} className="cart-link">
-                    <i class="fa fa-shopping-cart fa-3x"></i>
-                    <span class="badge">1</span>
+                    <i className="fa fa-shopping-cart fa-3x"></i>
+                    <span className="badge">1</span>
                   </Link>
               </div>
 

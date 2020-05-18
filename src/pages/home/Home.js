@@ -3,16 +3,12 @@ import { connect } from 'react-redux';
 
 import {
   Form,
-  FormControl,
-  Button,
-  Container,
   Row,
   Col,
   Card,
   Pagination,
 } from 'react-bootstrap';
 
-import logo from '../../logo.svg';
 import './Home.css';
 
 import { itemListFetch } from '../../store/actions/ItemListActions';
@@ -52,7 +48,7 @@ class HomePage extends React.Component {
       itemListFetched,
       itemListFetching,
       itemList,
-      errorMessage,
+      // errorMessage,
     }} = this.props
 
     const { typeFilters, priceFilters, ratingFilters } = this.state

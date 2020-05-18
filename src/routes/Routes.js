@@ -1,6 +1,3 @@
-import React from 'react';
-
-
 import Home from '../pages/home/Home';
 import ItemDetail from '../pages/itemDetail/ItemDetail';
 import UserOrders from '../pages/userOrders/UserOrders';
