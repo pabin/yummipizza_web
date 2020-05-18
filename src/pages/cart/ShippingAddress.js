@@ -13,7 +13,7 @@ import OrderSummary from './OrderSummary';
 
 
 const ShippingAddress = (props) => {
-  const { show, onHide } = props
+  const { show, onHide, prices } = props
 
   return (
     <Modal
@@ -78,9 +78,7 @@ const ShippingAddress = (props) => {
           </Col>
           <Col sm={5}>
             <OrderSummary
-              subTotal={250}
-              deliveryCharge={50}
-              total={300}
+              prices={prices}
               />
           </Col>
         </Row>

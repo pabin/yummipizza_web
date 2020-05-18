@@ -56,13 +56,19 @@ class Cart extends React.Component {
 
     const { quantity, showRemoveWarningModal, showShippingAddressModal } = this.state
 
-    let myItems = [];
-    if (itemListFetched) {
-        myItems.push(itemList.results[0])
-        myItems.push(itemList.results[1])
-        myItems.push(itemList.results[2])
+    let prices = {}
+    let totalPrice = 0
+    if (user.valid_cart) {
+        user.valid_cart.items_list.map(item => {
+          totalPrice += item.ls_price
+        })
     }
-
+    prices.sub_total_euro = totalPrice * 0.92
+    prices.sub_total_usd = totalPrice
+    prices.delivery_euro = 10 * 0.92
+    prices.delivery_usd = 10
+    prices.total_euro = (totalPrice + 10) * 0.92
+    prices.total_usd = totalPrice + 10
 
     return (
       <div className="cart-container">
@@ -130,9 +136,7 @@ class Cart extends React.Component {
             <Row>
               <Col sm={12} className="summary">
                 <OrderSummary
-                  subTotal={250}
-                  deliveryCharge={50}
-                  total={300}
+                  prices={prices}
                   proceedToAddress={this.handleProceedOrderShow}
                   fromCart={true}
                   />
@@ -147,6 +151,7 @@ class Cart extends React.Component {
         />
 
         <ShippingAddress
+          prices={prices}
           show={showShippingAddressModal}
           onHide={this.handleProceedOrderClose}
         />

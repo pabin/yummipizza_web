@@ -11,7 +11,7 @@ import './Cart.css';
 
 
 const OrderSummary = (props) => {
-  const { subTotal, deliveryCharge, total, proceedToAddress, fromCart } = props
+  const { prices, proceedToAddress, fromCart } = props
 
   return (
     <div style={{padding: '10px 20px 10px 20px'}}>
@@ -33,19 +33,19 @@ const OrderSummary = (props) => {
           <p className="title">Subtotal</p>
         </Col>
         <Col sm={3} className="d-flex justify-content-end">
-          <p>€ {subTotal.toFixed(2)}</p>
+          <p>€ {prices.sub_total_euro.toFixed(2)}</p>
         </Col>
         <Col sm={3} className="d-flex justify-content-end">
-          <p>$ {subTotal.toFixed(2)}</p>
+          <p>$ {prices.sub_total_usd.toFixed(2)}</p>
         </Col>
         <Col sm={6}>
           <p className="title">Delivery Charges</p>
         </Col>
         <Col sm={3} className="d-flex justify-content-end">
-          <p>€ {deliveryCharge.toFixed(2)}</p>
+          <p>€ {prices.delivery_euro.toFixed(2)}</p>
         </Col>
         <Col sm={3} className="d-flex justify-content-end">
-          <p>$ {deliveryCharge.toFixed(2)}</p>
+          <p>$ {prices.delivery_usd.toFixed(2)}</p>
         </Col>
 
         {
@@ -61,10 +61,10 @@ const OrderSummary = (props) => {
           <h6>Total</h6>
         </Col>
         <Col sm={3} className="d-flex justify-content-end" style={{margin: '15px 0px 10px 0px'}}>
-          <h6>€ {total.toFixed(2)}</h6>
+          <h6>€ {prices.total_euro.toFixed(2)}</h6>
         </Col>
         <Col sm={3} className="d-flex justify-content-end" style={{margin: '15px 0px 10px 0px'}}>
-          <h6>$ {total.toFixed(2)}</h6>
+          <h6>$ {prices.total_usd.toFixed(2)}</h6>
         </Col>
       </Row>
 
@@ -72,7 +72,7 @@ const OrderSummary = (props) => {
         <Col>
           {
             fromCart ?
-            <Button onClick={proceedToAddress} variant="primary" block>Process to Shipping Address</Button>
+            <Button onClick={proceedToAddress} variant="primary" block>Proceed to Shipping Address</Button>
             :
             <Button onClick={proceedToAddress} variant="primary" block>Confirm Order</Button>
           }
