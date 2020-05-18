@@ -19,7 +19,9 @@ class App extends Component {
         return (
               <div className="App">
                 <NavBar />
-                <Routes />
+                <div style={{"paddingTop": "70px"}}>
+                  <Routes />
+                </div>
                 <Footer />
               </div>
         );

@@ -1,7 +1,11 @@
-.navbar-container {
-  /* margin-top: 20px; */
-  margin-right: 30px;
-  margin-left: 30px;
+
+.custom-navbar {
+  border-bottom: 1px solid #E7E7E7;
+  background-color: #FFF;
+  padding-right: 30px;
+  padding-left: 30px;
+  /* box-shadow: 1px 2px #E7E7E7; */
+
 }
 
 
@@ -22,18 +26,6 @@
   background-color: green;
 }
 
-.custom-nav {
-  height: 30px;
-  font-size: 12px;
-  background-color: #DFDFDF;
-}
-
-.custom-navbar {
-  /* margin-top: 30px; */
-  border-bottom: 1px solid #E7E7E7;
-}
-
-
 .icon-wrapper{
     position:relative;
     float:left;
@@ -41,18 +33,17 @@
 
 .badge{
     background: red;
-    width: 25px;
-    height: 25px;
+    width: 24px;
+    height: 24px;
     margin: 0;
     border-radius: 100%;
-    position:absolute;
-    top:-10px;
-    right:-10px;
-    padding:5px;
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    padding: 5px;
     color: white;
     font-size: 14px;
 }
-
 
 .cart-link {
   color: #17202A;
