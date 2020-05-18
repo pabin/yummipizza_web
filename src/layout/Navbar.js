@@ -61,16 +61,11 @@ class NavBar extends React.Component {
                 <Button className="button">Search</Button>
               </Form>
 
-              <div className="cart">
-                <img
-                  style={{"marginRight": "10px"}}
-                  src={cart}
-                  height="50"
-                  className="d-inline-block align-top"
-                  alt="React Bootstrap logo"
-                />
-
-              <h1>0</h1>
+              <div class="icon-wrapper">
+                  <Link to={'/cart'} className="cart-link">
+                    <i class="fa fa-shopping-cart fa-3x"></i>
+                    <span class="badge">1</span>
+                  </Link>
               </div>
 
             </Navbar.Collapse>

@@ -13,14 +13,6 @@
 }
 
 
-.cart {
-  display: flex;
-  /* flex: 1; */
-  /* justify-content: space-around; */
-  border-bottom-color: black;
-  /* padding: 10px 100px 10px 100px; */
-}
-
 .button {
   background-color: purple;
   border: none;
@@ -39,4 +31,33 @@
 .custom-navbar {
   /* margin-top: 30px; */
   border-bottom: 1px solid #E7E7E7;
+}
+
+
+.icon-wrapper{
+    position:relative;
+    float:left;
+}
+
+.badge{
+    background: red;
+    width: 25px;
+    height: 25px;
+    margin: 0;
+    border-radius: 100%;
+    position:absolute;
+    top:-10px;
+    right:-10px;
+    padding:5px;
+    color: white;
+    font-size: 14px;
+}
+
+
+.cart-link {
+  color: #17202A;
+}
+
+.cart-link:hover {
+   color: #566573;
 }

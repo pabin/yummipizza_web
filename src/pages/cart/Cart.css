@@ -1,0 +1,36 @@
+
+.cart-container {
+  background-color: #DFDFDF;
+  padding: 10px 10px;
+}
+
+.cart-row {
+  margin: 0px 30px 0px 30px;
+}
+
+.cart-item {
+  padding: 10px;
+  margin-right: 8px;
+  margin-top: 8px;
+  background-color: white;
+}
+
+.summary {
+  margin-top: 8px;
+  margin-left: 8px;
+  padding: 10px;
+  background-color: white;
+}
+
+.title {
+  color: #707B7C;
+}
+
+
+.delete-icon {
+  color: #D98880;
+}
+
+.delete-icon:hover {
+  color: #A93226;
+}
