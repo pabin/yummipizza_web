@@ -10,6 +10,9 @@ import {
 
 import './Cart.css';
 import QuantityCalculator from '../../components/QuantityCalculator';
+import ShippingAddress from './ShippingAddress';
+import RemoveWarning from './RemoveWarning';
+import OrderSummary from './OrderSummary';
 
 
 class Cart extends React.Component {
@@ -19,17 +22,26 @@ class Cart extends React.Component {
     this.state = {
       is_open: true,
       quantity: 1,
-      showDeleteWarning: false,
+      showRemoveWarningModal: false,
+      showShippingAddressModal: false,
     }
 
   }
 
-  handleDeleteWarningShow = () => {
-    this.setState({showDeleteWarning: true})
+  handleRemoveWarningShow = () => {
+    this.setState({showRemoveWarningModal: true})
   }
 
-  handleDeleteWarningClose = () => {
-    this.setState({showDeleteWarning: false})
+  handleRemoveWarningClose = () => {
+    this.setState({showRemoveWarningModal: false})
+  }
+
+  handleProceedOrderShow = () => {
+    this.setState({showShippingAddressModal: true})
+  }
+
+  handleProceedOrderClose = () => {
+    this.setState({showShippingAddressModal: false})
   }
 
   render() {
@@ -39,7 +51,7 @@ class Cart extends React.Component {
       itemList,
     }} = this.props
 
-    const { quantity, showDeleteWarning } = this.state
+    const { quantity, showRemoveWarningModal, showShippingAddressModal } = this.state
 
     let myItems = [];
     if (itemListFetched) {
@@ -90,7 +102,7 @@ class Cart extends React.Component {
                       </Col>
 
                       <Col sm={2} className="d-flex align-items-center justify-content-center">
-                        <i onClick={this.handleDeleteWarningShow} class="fa fa-trash fa-2x delete-icon"></i>
+                        <i onClick={this.handleRemoveWarningShow} class="fa fa-trash fa-2x delete-icon"></i>
                       </Col>
 
                     </Row>
@@ -114,33 +126,28 @@ class Cart extends React.Component {
 
           <Col sm={4}>
             <Row>
-
               <Col sm={12} className="summary">
-                <h5>Order Summary 1</h5>
-                <p>Subtotal    $120</p>
-                <p>Delivery Charges    $10</p>
-                <p>Total    $130</p>
-                <Button onClick={this.onAddToCart} variant="primary" block>Confirm Order</Button>
+                <OrderSummary
+                  subTotal={250}
+                  deliveryCharge={50}
+                  total={300}
+                  proceedToAddress={this.handleProceedOrderShow}
+                  fromCart={true}
+                  />
               </Col>
             </Row>
           </Col>
         </Row>
 
-        <Modal show={showDeleteWarning} onHide={this.handleDeleteWarningClose}>
-          <Modal.Header closeButton>
-            <Modal.Title>Confirm Item Remove</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>Woohoo, you're reading removing this item!</Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={this.handleDeleteWarningClose}>
-              Close
-            </Button>
-            <Button variant="danger" onClick={this.handleDeleteWarningClose}>
-              Remove
-            </Button>
-          </Modal.Footer>
-        </Modal>
+        <RemoveWarning
+          show={showRemoveWarningModal}
+          onHide={this.handleRemoveWarningClose}
+        />
 
+        <ShippingAddress
+          show={showShippingAddressModal}
+          onHide={this.handleProceedOrderClose}
+        />
 
       </div>
     );
