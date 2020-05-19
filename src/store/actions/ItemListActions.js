@@ -45,7 +45,7 @@ export function itemListFetch(page_number){
           })
       .then(response => {
         const itmeList = response.data
-        console.log('Items List @ actions ', itmeList)
+        // console.log('Items List @ actions ', itmeList)
         dispatch(itemListFetchSuccess(itmeList))
       })
       .catch(err => {

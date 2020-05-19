@@ -13,6 +13,7 @@ import { Link } from 'react-router-dom';
 
 import './Navbar.css'
 import logo from '../assets/logo/logo_cropped.png';
+import { userAuthenticationFailure } from '../store/actions/AuthenticationActions';
 
 
 // Navbar component to render site Navbar
@@ -27,16 +28,24 @@ class NavBar extends React.Component {
 
   }
 
+  handleLogout() {
+    console.log('loggout');
+    // this.props.onReduxLogout("Error")
+    // localStorage.clear();
+    // this.props.history.push("/");
+  }
+
 
   render() {
-    // <Nav.Link as={Link} to={'/login'}>LOGIN</Nav.Link>
+    // const user = JSON.parse(localStorage.getItem('user'))
+    // const userAuthenticated = localStorage.getItem('userAuthenticated')
 
     const { authentication: {
       userAuthenticated,
       user,
     }} = this.props
 
-    const { onLoginPress, onSignupPress } = this.props
+    const { onLoginPress } = this.props
 
     return (
       <Navbar fixed="top" className="custom-navbar" expand="lg">
@@ -54,7 +63,7 @@ class NavBar extends React.Component {
         <Navbar.Collapse className="justify-content-center">
 
         <Form className="form" inline>
-          <FormControl style={{"width": "60%", "backgroundColor": "#EFEFEF"}} type="text" placeholder="Search Yummi Pizzas" className="mr-sm-2" />
+          <FormControl style={{"width": "50%"}} type="text" placeholder="Search Yummi Pizza..." className="mr-sm-2" />
           <Button className="button">Search</Button>
         </Form>
 
@@ -77,6 +86,10 @@ class NavBar extends React.Component {
           <Navbar>
             <Nav.Link as={Link} to={'/orders'} className="cart-link">Orders</Nav.Link>
             <Nav.Link className="cart-link">{user.username}</Nav.Link>
+            <Nav.Link className="cart-link">
+              <i onClick={this.handleLogout} className="fa fa-sign-out" style={{fontSize: "25px"}}></i>
+            </Nav.Link>
+
           </Navbar>
           :
           <Nav.Link onClick={onLoginPress} className="cart-link">Login</Nav.Link>
@@ -87,10 +100,14 @@ class NavBar extends React.Component {
   }
 }
 
-
 const mapStateToProps  = state => ({
   authentication: state.authentication
 })
 
+const mapDispatchToProps = {
+  onReduxLogout: (error) => userAuthenticationFailure(error),
+}
 
-export default connect(mapStateToProps)(NavBar)
+export default connect(mapStateToProps, mapDispatchToProps)(NavBar)
+
+// export default NavBar

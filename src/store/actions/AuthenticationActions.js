@@ -26,7 +26,7 @@ function userAuthenticating() {
 }
 
 
-function userAuthenticationFailure(err) {
+export function userAuthenticationFailure(err) {
   return {
     type: USER_AUTHENTICATION_FAILURE,
     errorMessage: err,
@@ -57,17 +57,19 @@ export function userAuthentication(username, password){
         localStorage.setItem('token', token)
         localStorage.setItem('userid', userid)
         localStorage.setItem('username', user.username)
+        localStorage.setItem('userAuthenticated', true)
+        localStorage.setItem('user', JSON.stringify(user))
 
         setTimeout(() => {
           dispatch(userAuthenticationSuccess(token, user))
-        }, 1500);
+        }, 500);
       })
       .catch(err => {
         console.log('Error on User Authentication: ', err)
 
         setTimeout(() => {
           dispatch(userAuthenticationFailure(err))
-        }, 1500);
+        }, 500);
       });
   }
 

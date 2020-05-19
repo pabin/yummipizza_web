@@ -5,14 +5,12 @@ import {
   Form,
   Row,
   Col,
-  Card,
   Pagination,
 } from 'react-bootstrap';
 
 import './Home.css';
 
 import { itemListFetch } from '../../store/actions/ItemListActions';
-import { userAuthentication } from '../../store/actions/AuthenticationActions';
 
 import ItemCard from '../../components/ItemCard'
 import Spinner from '../../components/Spinner'

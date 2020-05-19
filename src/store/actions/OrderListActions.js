@@ -6,7 +6,7 @@ import {
   ORDER_LIST_FETCHING } from '../reducers/OrderListReducers'
 
 import { getUserOrderListUrl } from '../../constants/urls'
-import store from "../index";
+// import store from "../index";
 
 
 function orderListFetchSuccess(orderList) {
@@ -32,7 +32,7 @@ function orderListFetchFailure(err) {
 
 
 export function orderListFetch(){
-  const { token } = store.getState().authentication
+  const TOKEN = localStorage.getItem('token')
   const ORDER_LIST_URL = getUserOrderListUrl()
 
   return (dispatch) => {
@@ -40,7 +40,7 @@ export function orderListFetch(){
     axios({
             method: "GET",
             url: `${ORDER_LIST_URL}`,
-            headers: {'Authorization': 'Token ' + token},
+            headers: {'Authorization': 'Token ' + TOKEN},
 
             // data: {
             //   pageNumber: page_number,
@@ -53,7 +53,7 @@ export function orderListFetch(){
 
         setTimeout(() => {
           dispatch(orderListFetchSuccess(orderList))
-        }, 1000);
+        }, 500);
 
         // dispatch(orderListFetchSuccess(orderList))
       })

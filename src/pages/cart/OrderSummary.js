@@ -11,7 +11,7 @@ import {
 import './Cart.css';
 
 
-// Order Summary component to show summary of a user order 
+// Order Summary component to show summary of a user order
 const OrderSummary = (props) => {
   const [couponCode, setCouponCode] = useState("");
   const [couponIsValid, setCouponIsValid] = useState(true);
@@ -38,19 +38,19 @@ const OrderSummary = (props) => {
           <p className="title">Subtotal</p>
         </Col>
         <Col sm={3} className="d-flex justify-content-end">
-          <p>€ {prices.sub_total_euro.toFixed(2)}</p>
+          <p>€{prices.sub_total_euro.toFixed(2)}</p>
         </Col>
         <Col sm={3} className="d-flex justify-content-end">
-          <p>$ {prices.sub_total_usd.toFixed(2)}</p>
+          <p>${prices.sub_total_usd.toFixed(2)}</p>
         </Col>
         <Col sm={6}>
           <p className="title">Delivery Charges</p>
         </Col>
         <Col sm={3} className="d-flex justify-content-end">
-          <p>€ {prices.delivery_euro.toFixed(2)}</p>
+          <p>€{prices.delivery_euro.toFixed(2)}</p>
         </Col>
         <Col sm={3} className="d-flex justify-content-end">
-          <p>$ {prices.delivery_usd.toFixed(2)}</p>
+          <p>${prices.delivery_usd.toFixed(2)}</p>
         </Col>
 
         {
@@ -83,10 +83,10 @@ const OrderSummary = (props) => {
           <h6>Total</h6>
         </Col>
         <Col sm={3} className="d-flex justify-content-end" style={{margin: '15px 0px 10px 0px'}}>
-          <h6>€ {prices.total_euro.toFixed(2)}</h6>
+          <h6>€{prices.total_euro.toFixed(2)}</h6>
         </Col>
         <Col sm={3} className="d-flex justify-content-end" style={{margin: '15px 0px 10px 0px'}}>
-          <h6>$ {prices.total_usd.toFixed(2)}</h6>
+          <h6>${prices.total_usd.toFixed(2)}</h6>
         </Col>
       </Row>
 

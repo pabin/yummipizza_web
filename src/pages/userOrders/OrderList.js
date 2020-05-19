@@ -44,7 +44,7 @@ class OrderList extends React.Component {
     }
 
     this.props.dispatchOrderListFetch()
-    if (!this.props.authenticationuserAuthenticated) {
+    if (!this.props.authentication.userAuthenticated) {
       this.props.history.push("/")
     }
   }
@@ -113,7 +113,7 @@ class OrderList extends React.Component {
                 <tbody>
                   {
                     orderList.results.map((order, index) => (
-                      <tr>
+                      <tr key={index}>
                         <td>{index + 1}</td>
                         <td>{ new Date(order.ordered_at).toDateString() }</td>
                         <td>{order.delivery_address.name}</td>
@@ -155,7 +155,7 @@ class OrderList extends React.Component {
 
           {
             orderListFetched && orderList.results.length <= 0 ?
-            <Col sm={12} className="cart-item" className="d-flex align-items-center justify-content-center">
+            <Col sm={12} className="cart-item d-flex align-items-center justify-content-center">
               <h5>No orders found!</h5>
               <p>
                 Go Shpping
@@ -191,7 +191,7 @@ class OrderList extends React.Component {
                 {
                   showDetailModal ?
                   selectedOrder.order_items.map((item, index) => (
-                    <tr>
+                    <tr key={index}>
                       <td style={{padding: '5px', width: "120px"}}>
                         <img
                           style={{borderRadius: '5px'}}
@@ -220,7 +220,12 @@ class OrderList extends React.Component {
                 <tr>
                   <td colspan="2"></td>
                   <th>Total</th>
-                  <th>${showDetailModal ? (selectedOrder.total_price - 10).toFixed(2) : null} {"+ $10"}</th>
+                  {
+                    selectedOrder.status === "DELIVERED" ?
+                    <th>${showDetailModal ? (selectedOrder.total_price - 10).toFixed(2) : null} {"+ $10"}</th>
+                    :
+                    <th>${showDetailModal ? (selectedOrder.total_price - 10).toFixed(2) : null}</th>
+                  }
                   <td></td>
                 </tr>
               </tbody>

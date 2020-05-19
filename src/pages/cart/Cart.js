@@ -5,9 +5,7 @@ import {
   Row,
   Col,
   Button,
-  Modal,
 } from 'react-bootstrap';
-import { Redirect } from 'react-router-dom';
 
 import './Cart.css';
 import QuantityCalculator from '../../components/QuantityCalculator';
@@ -42,7 +40,6 @@ class Cart extends React.Component {
   // Create order from user input data, and make user cart inactive
   orderCreate = (data) => {
     const { authentication: {
-      userAuthenticated,
       token,
       user,
     }} = this.props
@@ -65,6 +62,8 @@ class Cart extends React.Component {
         // log success
         const user = response.data
         this.props.updateUserDetail(token, user)
+        localStorage.setItem('user', JSON.stringify(user))
+
         this.showingLoading(this.successMessageAlert)
 
       } else if (response.error) {
@@ -77,7 +76,7 @@ class Cart extends React.Component {
   showingLoading = (messageAlert) => {
     setTimeout(() => {
       messageAlert()
-    }, 1500);
+    }, 500);
   }
 
   // Displays success message for 1 seconds
@@ -121,11 +120,6 @@ class Cart extends React.Component {
 
 
   render() {
-    const { itemList: {
-      itemListFetched,
-      itemList,
-    }} = this.props
-
     const { authentication: {
       user,
     }} = this.props
@@ -177,7 +171,7 @@ class Cart extends React.Component {
 
                         <Col sm={2}>
                           <p className="title">Price</p>
-                          <h4 style={{color: 'orange'}}>$ {item.ls_price}</h4>
+                          <h4 style={{color: 'orange'}}>${item.ls_price}</h4>
                         </Col>
 
                         <Col sm={2}>
@@ -254,7 +248,6 @@ class Cart extends React.Component {
 }
 
 const mapStateToProps  = state => ({
-  itemList: state.itemList,
   authentication: state.authentication
 })
 

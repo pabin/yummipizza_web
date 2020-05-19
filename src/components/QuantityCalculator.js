@@ -24,7 +24,6 @@ const QuantityCalculator = (props) => {
       <input
         type="tel"
         className="form-control"
-        id="quantity"
         style={{"width": "50px", borderRadius: "0px"}}
         value={quantity}
         onChange={(e) => setQuantity(e.target.value)}/>

@@ -1,11 +1,5 @@
 import React from 'react';
 
-import {
-  Button,
-  ButtonGroup,
-} from 'react-bootstrap';
-
-
 
 // Rating component to render the ratings of a item, based on its value of 1 to 5
 const Rating = (props) => {
@@ -21,12 +15,12 @@ const Rating = (props) => {
     <div>
       {
         Array.from(Array(rating), (e, index) => (
-          <i className="fa fa-star fa-2x" style={style}></i>
+          <i key={index} className="fa fa-star fa-2x" style={style}></i>
         ))
       }
       {
         Array.from(Array(5-rating), (e, index) => (
-          <i className="fa fa-star-o fa-2x" style={style}></i>
+          <i key={index} className="fa fa-star-o fa-2x" style={style}></i>
         ))
       }
     </div>

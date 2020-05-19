@@ -40,12 +40,11 @@ class Login extends Component {
       userAuthenticated,
       userAuthenticating,
       authenticationFailed,
-      errorMessage,
+      // errorMessage,
       user,
-      token,
+      // token,
     }} = this.props
 
-    const { loading } = this.state
     const { show, onHide, onSignupPress } = this.props
 
     if (!userAuthenticating) {
@@ -117,7 +116,7 @@ class Login extends Component {
                 : userAuthenticated ?
                   <div className="d-flex align-items-center justify-content-center">
                     <i className="fa fa-check-circle fa-2x" style={{color: '#27AE60', padding: '10px'}}></i>
-                    <h5  style={{paddingTop: '5px'}}>Login Successfull !</h5>
+                    <h5  style={{paddingTop: '5px'}}>Login Successful !</h5>
                   </div>
                 : null
               }

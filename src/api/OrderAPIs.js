@@ -4,19 +4,19 @@ import {
   getOrderCreateUrl,
 } from '../constants/urls'
 
-import store from "../store/index";
+// import store from "../store/index";
 
 
-
+// orderCreate API function to Call OrderCreate API from server
 export const orderCreateAPI = async (data) => {
+  const TOKEN = localStorage.getItem('token')
   const ORDER_CREATE_CREATE_URL = getOrderCreateUrl()
-  const { token } = store.getState().authentication
 
   let responseData = {data: null, error: null}
   await axios({
           method: "POST",
           url: `${ORDER_CREATE_CREATE_URL}`,
-          headers: {'Authorization': 'Token ' + token},
+          headers: {'Authorization': 'Token ' + TOKEN},
           data: data
         })
     .then(response => {

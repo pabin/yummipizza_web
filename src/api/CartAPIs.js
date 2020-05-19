@@ -5,19 +5,19 @@ import {
   getCartRetrieveOrUpdateUrl,
 } from '../constants/urls'
 
-import store from "../store/index";
+// import store from "../store/index";
 
 
 // Create new shoppping cart for user, and add item to it, valid for 10 minutes
 export const shoppingCartCreateAPI = async (data) => {
+  const TOKEN = localStorage.getItem('token')
   const SHOPPING_CART_CREATE_URL = getShoppingCartCreateUrl()
-  const { token } = store.getState().authentication
 
   let responseData = {data: null, error: null}
   await axios({
           method: "POST",
           url: `${SHOPPING_CART_CREATE_URL}`,
-          headers: {'Authorization': 'Token ' + token},
+          headers: {'Authorization': 'Token ' + TOKEN},
           data: data
         })
     .then(response => {
@@ -35,8 +35,8 @@ export const shoppingCartCreateAPI = async (data) => {
 
 // Update items to existing valid cart of user
 export const shoppingCartUpdateAPI = async (data, cart_id) => {
+  const TOKEN = localStorage.getItem('token')
   const SHOPPING_CART_UPDATE_URL = getCartRetrieveOrUpdateUrl(cart_id)
-  const { token } = store.getState().authentication
 
   console.log('data @ api', data);
 
@@ -44,7 +44,7 @@ export const shoppingCartUpdateAPI = async (data, cart_id) => {
   await axios({
           method: "PUT",
           url: `${SHOPPING_CART_UPDATE_URL}`,
-          headers: {'Authorization': 'Token ' + token},
+          headers: {'Authorization': 'Token ' + TOKEN},
           data: data
         })
     .then(response => {

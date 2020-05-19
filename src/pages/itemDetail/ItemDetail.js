@@ -60,8 +60,10 @@ class ItemDetail extends React.Component {
         .then(response => {
           if (response.data) {
             user.valid_cart = response.data
+            localStorage.setItem('user', JSON.stringify(user))
             this.props.updateUserDetail(token, user)
             this.showingLoading(this.successMessageAlert)
+
           } else if (response.error) {
             this.showingLoading(this.failureMessageAlert)
           }
@@ -74,7 +76,9 @@ class ItemDetail extends React.Component {
         .then(response => {
           if (response.data) {
             user.valid_cart = response.data
+            localStorage.setItem('user', JSON.stringify(user))
             this.props.updateUserDetail(token, user)
+
             this.showingLoading(this.successMessageAlert)
 
           } else if (response.error) {
@@ -125,7 +129,7 @@ class ItemDetail extends React.Component {
 
     let containerStyle = {
       padding: "0px 30px 0px 30px",
-      backgroundColor: '#DFDFDF',
+      backgroundColor: '#EBEDEF',
       display: 'flex',
       flexDirection: "column"
     }
@@ -134,24 +138,27 @@ class ItemDetail extends React.Component {
       backgroundColor: 'white',
       margin: '10px',
       padding: '20px',
+      borderRadius: '5px'
     }
 
     let ratingRowStyle = {
       backgroundColor: 'white',
       margin: "10px 0px 10px 10px",
       padding: '20px',
+      borderRadius: '5px'
     }
 
     let topSellerRowStyle = {
       backgroundColor: 'white',
       margin: "10px 10px 10px 0px",
       padding: '20px',
+      borderRadius: '5px'
     }
 
 
     return (
       <div style={containerStyle}>
-        <Row style={rowstyle}>
+        <Row style={rowstyle} className="custom-shadow">
           <Col sm={5} className="d-flex align-items-center justify-content-center">
             <img
               style={{marginRight: "10px", borderRadius: '5px'}}
@@ -204,7 +211,7 @@ class ItemDetail extends React.Component {
 
             <Row style={{marginTop: '20px'}}>
               <Col md={6}>
-                <Button onClick={() => this.props.history.push('/')} variant="primary" block>Continue Shopping</Button>
+                <Button onClick={() => this.props.history.push('/')} variant="secondary" block>Continue Shopping</Button>
               </Col>
               <Col md={6}>
                 <Button onClick={this.onAddToCart} variant="primary" block>Add to Cart</Button>
@@ -215,18 +222,18 @@ class ItemDetail extends React.Component {
           </Col>
           <Col sm={3}>
             <h6 className="title">Delivery Options</h6>
-            <p><i class="fa fa-map-marker" style={{fontSize: '20px', margin: '5px'}}></i> With in 20 KM of city</p>
+            <p><i className="fa fa-map-marker" style={{fontSize: '20px', margin: '5px'}}></i> With in 20 KM of city</p>
             <hr/ >
 
-            <h6 className="title">Returns</h6>
-            <p><i class="fa fa-times-circle-o" style={{fontSize: '20px', margin: '5px'}}></i>No return of delivered goods</p>
+            <h6 className="title">Return Policy</h6>
+            <p><i className="fa fa-exclamation-circle" style={{fontSize: '20px', margin: '5px'}}></i>No return of delivered goods</p>
             <hr/ >
           </Col>
         </Row>
 
         <Row>
           <Col sm={8}>
-            <Row style={ratingRowStyle}>
+            <Row style={ratingRowStyle} className="custom-shadow">
               <Col sm={12}>
                 <h4>Reviews and Ratings</h4>
                 <p>Rating 3</p>
@@ -234,7 +241,7 @@ class ItemDetail extends React.Component {
                 <p>Rating 5</p>
               </Col>
             </Row>
-            <Row style={ratingRowStyle}>
+            <Row style={ratingRowStyle} className="custom-shadow">
               <Col sm={12}>
                 <h4>Reviews and Ratings 2</h4>
                 <p>Rating 3</p>
@@ -244,14 +251,14 @@ class ItemDetail extends React.Component {
             </Row>
           </Col>
           <Col sm={4}>
-            <Row style={topSellerRowStyle}>
+            <Row style={topSellerRowStyle} className="custom-shadow">
               <Col sm={12}>
                 <h5>Best Seller</h5>
                 <p>{item.name}</p>
                 <p>$ {item.ls_price}</p>
               </Col>
             </Row>
-            <Row style={topSellerRowStyle}>
+            <Row style={topSellerRowStyle} className="custom-shadow">
               <Col sm={12}>
                 <h5>Best Seller 2</h5>
                 <p>{item.name}</p>

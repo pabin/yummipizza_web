@@ -33,6 +33,9 @@ class ItemCard extends Component {
   // Create new cart if no cart is present else update items to valid cart
   onAddToCart = () => {
     const { item } = this.props
+    // const user = JSON.parse(localStorage.getItem('user'))
+    // const userAuthenticated = localStorage.getItem('userAuthenticated')
+    // const token = localStorage.getItem('token')
 
     const { authentication: {
       userAuthenticated,
@@ -58,6 +61,7 @@ class ItemCard extends Component {
         .then(response => {
           if (response.data) {
             user.valid_cart = response.data
+            localStorage.setItem('user', JSON.stringify(user))
             this.props.updateUserDetail(token, user)
 
             this.successMessageAlert()
@@ -76,6 +80,7 @@ class ItemCard extends Component {
         .then(response => {
           if (response.data) {
             user.valid_cart = response.data
+            localStorage.setItem('user', JSON.stringify(user))
             this.props.updateUserDetail(token, user)
 
             this.successMessageAlert()
