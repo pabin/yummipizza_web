@@ -58,6 +58,19 @@ class OrderList extends React.Component {
     this.setState({showDetailModal: true, selectedOrder: order})
   }
 
+  formatDatetime = (datetime) => {
+    let dt = new Date(datetime)
+    let finalDT = `${dt.getFullYear()}-${dt.getMonth()+1}-${dt.getDate()}`
+    return finalDT
+  }
+
+  formatTime = (datetime) => {
+    let dt = new Date(datetime)
+    let finalDT = `${dt.getHours()}:${dt.getMinutes()}`
+    return finalDT
+  }
+
+
   render() {
     const { orderList: {
       orderListFetched,
@@ -115,7 +128,7 @@ class OrderList extends React.Component {
                     orderList.results.map((order, index) => (
                       <tr key={index}>
                         <td>{index + 1}</td>
-                        <td>{ new Date(order.ordered_at).toDateString() }</td>
+                        <td>{this.formatDatetime(order.ordered_at)} <Badge variant="dark">{this.formatTime(order.ordered_at)}</Badge></td>
                         <td>{order.delivery_address.name}</td>
                         <td>{order.contact_detail.mobile}</td>
                         <td>{order.order_items.length}</td>

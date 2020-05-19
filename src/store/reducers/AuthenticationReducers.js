@@ -1,6 +1,7 @@
 export const USER_AUTHENTICATION_SUCCESS = 'USER_AUTHENTICATION_SUCCESS'
 export const USER_AUTHENTICATION_FAILURE = 'USER_AUTHENTICATION_FAILURE'
 export const USER_AUTHENTICATING = 'USER_AUTHENTICATING'
+export const USER_AUTHENTICATION_LOGOUT = 'USER_AUTHENTICATION_LOGOUT'
 
 
 const initialState = {
@@ -34,6 +35,11 @@ export default (state = initialState, action) => {
       ...initialState,
       authenticationFailed: true,
       errorMessage: action.errorMessage,
+    }
+
+    case USER_AUTHENTICATION_LOGOUT:
+    return {
+      ...initialState,
     }
 
     default:
