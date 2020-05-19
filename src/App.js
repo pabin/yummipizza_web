@@ -56,6 +56,7 @@ class App extends Component {
 
     render() {
       const { showLoginForm, showSingupForm } = this.state
+      const userAuthenticated = localStorage.getItem('userAuthenticated')
 
       return (
           <div className="App">
@@ -63,7 +64,7 @@ class App extends Component {
             <div style={{paddingTop: "70px"}}>
               <Routes
                 onLoginPress={this.onLoginPress}
-                authentication={this.props.authentication} />
+                userAuthenticated={userAuthenticated} />
             </div>
             <Footer />
 
@@ -80,12 +81,8 @@ class App extends Component {
 }
 
 
-const mapStateToProps  = state => ({
-  authentication: state.authentication
-})
-
 const mapDispatchToProps = {
   updateUserDetail: (token, user) => userAuthenticationSuccess(token, user),
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(App)
+export default connect(null, mapDispatchToProps)(App)

@@ -36,3 +36,12 @@
     transform: rotate(360deg);
   }
 }
+
+.item-card {
+  box-shadow: 2px 2px #D5D8DC;
+  cursor: pointer;
+}
+
+.item-card:hover {
+  box-shadow: 4px 4px #AEB6BF;
+}

@@ -44,7 +44,7 @@ class OrderList extends React.Component {
     }
 
     this.props.dispatchOrderListFetch()
-    if (!this.props.authentication.userAuthenticated) {
+    if (!this.props.userAuthenticated) {
       this.props.history.push("/")
     }
   }
@@ -89,7 +89,7 @@ class OrderList extends React.Component {
 
     let active = 2;
     let items = [];
-    for (let number = 1; number <= orderList.count; number++) {
+    for (let number = 1; number <= orderList.count/10; number++) {
       items.push(
         <Pagination.Item key={number} active={number === active}>
           {number}
@@ -161,9 +161,8 @@ class OrderList extends React.Component {
           }
 
           <Col sm={9} className="d-flex align-items-end justify-content-end">
-            <div style={{marginTop: '20px'}}>
-              <Pagination>{items}</Pagination>
-            </div>
+            <Pagination>{items}</Pagination>
+
           </Col>
 
           {
@@ -184,7 +183,7 @@ class OrderList extends React.Component {
           show={showDetailModal}
           onHide={() => this.setState({showDetailModal: false})}
           aria-labelledby="example-modal-sizes-title-lg"
-        >
+          >
           <Modal.Header closeButton>
             <h5>Order Details</h5>
           </Modal.Header>

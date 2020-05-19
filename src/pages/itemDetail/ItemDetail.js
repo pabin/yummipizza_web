@@ -96,7 +96,7 @@ class ItemDetail extends React.Component {
   showingLoading = (messageAlert) => {
     setTimeout(() => {
       messageAlert()
-    }, 1500);
+    }, 1000);
   }
 
   // Displays success message for 1 seconds

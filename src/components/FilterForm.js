@@ -15,7 +15,7 @@ const FilterForm = (props) => {
     <div>
       {
         filters.map((filter, index) => (
-          <Card key={index} border="light" style={{marginBottom: "5px"}}>
+          <Card key={index} border="light" style={{marginBottom: "5px"}} className="custom-shadow">
             <Card.Header>{filter.name}</Card.Header>
             <Card.Body>
               <Form>

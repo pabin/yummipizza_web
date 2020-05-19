@@ -56,7 +56,7 @@ const NavBar = (props) => {
       <Navbar.Collapse className="justify-content-center">
 
       <Form className="form" inline>
-        <FormControl style={{"width": "50%"}} type="text" placeholder="Search Yummi Pizza..." className="mr-sm-2" />
+        <FormControl style={{"width": "60%"}} type="text" placeholder="Search Yummi Pizza..." className="mr-sm-2" />
         <Button className="button">Search</Button>
       </Form>
 

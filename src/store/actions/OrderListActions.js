@@ -41,7 +41,6 @@ export function orderListFetch(){
             method: "GET",
             url: `${ORDER_LIST_URL}`,
             headers: {'Authorization': 'Token ' + TOKEN},
-
             // data: {
             //   pageNumber: page_number,
             //   filters: {}
@@ -50,12 +49,7 @@ export function orderListFetch(){
       .then(response => {
         const orderList = response.data
         // console.log('Order List @ actions ', JSON.stringify(orderList))
-
-        setTimeout(() => {
-          dispatch(orderListFetchSuccess(orderList))
-        }, 500);
-
-        // dispatch(orderListFetchSuccess(orderList))
+        dispatch(orderListFetchSuccess(orderList))
       })
       .catch(err => {
         console.log('Error on Order List Fetch: ', err)

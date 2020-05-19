@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Switch, Route } from 'react-router-dom';
 
 import routesList from './Routes';
 import PageNotFound from '../components/PageNotFound';
+import ScrollToTop from '../components/ScrollToTop';
 
 
 // Routes component to create react-router routes for navigation
@@ -20,17 +21,20 @@ class Routes extends React.Component {
               render={props => (
                   <route.component
                     {...props}
-                    authentication={this.props.authentication}
+                    userAuthenticated={this.props.userAuthenticated}
                     onLoginPress={this.props.onLoginPress} />
               )} />
       ) : (null);
     });
 
     return (
-      <Switch>
-        {menu}
-        <PageNotFound />
-      </Switch>
+      <Fragment>
+        <ScrollToTop />
+        <Switch>
+          {menu}
+          <PageNotFound />
+        </Switch>
+      </Fragment>
     );
   }
 }

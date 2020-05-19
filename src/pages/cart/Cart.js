@@ -76,7 +76,7 @@ class Cart extends React.Component {
   showingLoading = (messageAlert) => {
     setTimeout(() => {
       messageAlert()
-    }, 500);
+    }, 1000);
   }
 
   // Displays success message for 1 seconds

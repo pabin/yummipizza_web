@@ -12,21 +12,21 @@ import OrderSummary from './OrderSummary';
 
 // Shipping Address modal component to display a form to add address and contact detail
 const ShippingAddress = (props) => {
-  const [name, setName] = useState("14 Roadland Avenue");
+  const [name, setName] = useState(Math.floor((Math.random() * 1000) + 1)+" St Avenue");
   const [street, setStreet] = useState("Apt 43");
   const [city, setCity] = useState("Kathmandu");
   const [state, setState] = useState("State 3");
   const [zipCode, setZipCode] = useState("44700");
 
-  const [mobile, setMobile] = useState("9811000000");
+  const [mobile, setMobile] = useState("9841"+Math.floor((Math.random() * 1000000)+ 1));
   const [email, setEmail] = useState("ilovepizza@gmail.com");
 
   const { show, onHide, prices, orderCreate } = props
 
 
   const onConfirmOrder = () => {
-    let statusValues = ["DELIVERED", "DELIVERED", "DELIVERED", "DELIVERED", "CANCELLED", "PENDING"]
-    let statusIndex = Math.floor((Math.random() * 6) + 1);
+    let statusValues = ["DELIVERED", "DELIVERED", "CANCELLED", "PENDING"]
+    let statusIndex = Math.floor((Math.random() * 4) + 1);
 
     const data = {
       delivery_address: {
@@ -41,7 +41,7 @@ const ShippingAddress = (props) => {
         email: email
       },
       total_price: prices.total_usd,
-      status: statusValues[statusIndex]
+      status: statusValues[(statusIndex-1)]
     }
 
     orderCreate(data)

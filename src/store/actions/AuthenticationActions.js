@@ -62,14 +62,14 @@ export function userAuthentication(username, password){
 
         setTimeout(() => {
           dispatch(userAuthenticationSuccess(token, user))
-        }, 500);
+        }, 1000);
       })
       .catch(err => {
         console.log('Error on User Authentication: ', err)
 
         setTimeout(() => {
           dispatch(userAuthenticationFailure(err))
-        }, 500);
+        }, 1000);
       });
   }
 

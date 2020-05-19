@@ -94,7 +94,7 @@ const OrderSummary = (props) => {
         <Col>
           {
             fromCart ?
-            <Button onClick={proceedToAddress} variant="primary" block>Proceed to Shipping Address</Button>
+            <Button onClick={proceedToAddress} variant="primary" block>Proceed Order</Button>
             :
             <Button onClick={onConfirmOrder} variant="primary" block>Confirm Order</Button>
           }

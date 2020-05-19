@@ -127,13 +127,13 @@ class ItemCard extends Component {
       )
     } else {
       return (
-        <Card style={{ width: '14rem', height: '22rem', margin: '5px'}}>
+        <Card style={{ width: '14rem', height: '22rem', margin: '5px'}} className="item-card">
           <Card.Img
             style={{height: '10rem', width: 'auto'}}
             onClick={() => {this.setState({redirect: true})}}
             variant="top"
             src={item.item_image} />
-          <Card.Body>
+          <Card.Body onClick={() => {this.setState({redirect: true})}}>
             <Card.Text>
               {item.name}
             </Card.Text>
