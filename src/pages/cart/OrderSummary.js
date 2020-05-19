@@ -11,6 +11,7 @@ import {
 import './Cart.css';
 
 
+// Order Summary component to show summary of a user order 
 const OrderSummary = (props) => {
   const [couponCode, setCouponCode] = useState("");
   const [couponIsValid, setCouponIsValid] = useState(true);

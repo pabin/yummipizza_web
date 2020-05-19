@@ -15,6 +15,7 @@ import './Navbar.css'
 import logo from '../assets/logo/logo_cropped.png';
 
 
+// Navbar component to render site Navbar 
 class NavBar extends React.Component {
   constructor(props) {
     super(props)

@@ -15,6 +15,7 @@ import Spinner from '../../components/Spinner'
 import { userAuthentication } from '../../store/actions/AuthenticationActions';
 
 
+// Login modal component to show, login form when user is not authenticated
 class Login extends Component {
   constructor(props) {
     super(props)

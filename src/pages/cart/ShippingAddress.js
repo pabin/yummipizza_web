@@ -11,6 +11,7 @@ import {
 import OrderSummary from './OrderSummary';
 
 
+// Shipping Address modal component to display a form to add address and contact detail
 const ShippingAddress = (props) => {
   const [name, setName] = useState("14 Roadland Avenue");
   const [street, setStreet] = useState("Apt 43");

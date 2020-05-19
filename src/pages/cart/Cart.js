@@ -15,13 +15,14 @@ import ShippingAddress from './ShippingAddress';
 import RemoveWarning from './RemoveWarning';
 import OrderSummary from './OrderSummary';
 
-import Spinner from '../../components/Spinner';
 import Message from '../../components/Message'
+import FullScreenLoading from '../../components/FullScreenLoading'
 
 import { orderCreateAPI } from '../../api/OrderAPIs';
 import { userAuthenticationSuccess } from '../../store/actions/AuthenticationActions';
 
 
+// List out all the items in cart and proceed to address fill and confirm order
 class Cart extends React.Component {
   constructor(props) {
     super(props)
@@ -37,6 +38,8 @@ class Cart extends React.Component {
 
   }
 
+
+  // Create order from user input data, and make user cart inactive
   orderCreate = (data) => {
     const { authentication: {
       userAuthenticated,
@@ -60,21 +63,17 @@ class Cart extends React.Component {
     .then(response => {
       if (response.data) {
         // log success
-
         const user = response.data
-
         this.props.updateUserDetail(token, user)
         this.showingLoading(this.successMessageAlert)
 
-
       } else if (response.error) {
-        // log error
         this.showingLoading(this.failureMessageAlert)
-
       }
     })
   }
 
+  // Displays loading screen for 1.5 second
   showingLoading = (messageAlert) => {
     setTimeout(() => {
       messageAlert()
@@ -104,29 +103,6 @@ class Cart extends React.Component {
     this.props.history.push("/");
   }
 
-  loading = () => {
-    return (
-      <Modal
-          size="sm"
-          show={this.state.loading}
-          aria-labelledby="example-modal-sizes-title-sm"
-          centered
-        >
-          <Modal.Body>
-            <div className="d-flex align-items-center justify-content-center">
-              <h5 style={{paddingTop: '40px'}}></h5>
-              <Spinner size={50} />
-            </div>
-            <div className="d-flex align-items-center justify-content-center">
-              <h5  style={{paddingTop: '15px'}}>Creating Order...</h5>
-            </div>
-
-          </Modal.Body>
-        </Modal>
-    );
-  }
-
-
   handleRemoveWarningShow = () => {
     this.setState({showRemoveWarningModal: true})
   }
@@ -154,7 +130,7 @@ class Cart extends React.Component {
       user,
     }} = this.props
 
-    const { showRemoveWarningModal, showShippingAddressModal, showSuccessMessage, showFailureMessage } = this.state
+    const { showRemoveWarningModal, showShippingAddressModal, showSuccessMessage, showFailureMessage, loading } = this.state
 
     let prices = {}
     let totalPrice = 0
@@ -264,9 +240,11 @@ class Cart extends React.Component {
           orderCreate={this.orderCreate}
         />
 
-      {this.loading()}
-
-      <Message showSuccessMessage={showSuccessMessage} showFailureMessage={showFailureMessage} />
+      <FullScreenLoading show={loading} message="Creating Order..." />
+      <Message
+        successMessage="Order Created Successfully"
+        showSuccessMessage={showSuccessMessage}
+        showFailureMessage={showFailureMessage} />
 
       </div>
     );

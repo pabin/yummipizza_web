@@ -11,6 +11,7 @@ import {
 import logo from '../../assets/logo/logo_cropped.png';
 
 
+// Signup modal component to show, signup form when user has no account
 class Signup extends Component {
   constructor(props) {
     super(props)

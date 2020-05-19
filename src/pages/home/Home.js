@@ -18,6 +18,8 @@ import ItemCard from '../../components/ItemCard'
 import Spinner from '../../components/Spinner'
 
 
+// Home page for rendering home screen of the site, list the available items
+// No authentication required, user can perform different item filter actions
 class HomePage extends React.Component {
   constructor(props) {
     super(props)

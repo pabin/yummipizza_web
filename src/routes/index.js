@@ -4,6 +4,7 @@ import { Switch, Route } from 'react-router-dom';
 import routesList from './Routes';
 
 
+// Routes component to create react-router routes for navigation
 class Routes extends React.Component {
 
   render() {

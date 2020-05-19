@@ -7,6 +7,7 @@ import {
 
 
 
+// Warning modal component to display a warnign on performing some user actions
 const RemoveWarning = (props) => {
   const { show, onHide } = props
 

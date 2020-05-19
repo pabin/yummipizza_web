@@ -8,6 +8,7 @@ import {
 
 
 
+// Footer component to render site footer
 class Footer extends Component {
 
 

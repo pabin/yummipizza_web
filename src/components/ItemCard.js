@@ -15,6 +15,7 @@ import { shoppingCartCreateAPI, shoppingCartUpdateAPI } from '../api/CartAPIs';
 import { userAuthenticationSuccess } from '../store/actions/AuthenticationActions';
 
 
+// Item card component to display basic details of a item in home page
 class ItemCard extends Component {
 
   constructor(props) {
@@ -29,6 +30,7 @@ class ItemCard extends Component {
 
   }
 
+  // Create new cart if no cart is present else update items to valid cart
   onAddToCart = () => {
     const { item } = this.props
 
@@ -144,7 +146,10 @@ class ItemCard extends Component {
             Add to Cart
           </Button>
 
-          <Message showSuccessMessage={showSuccessMessage} showFailureMessage={showFailureMessage} />
+          <Message
+            successMessage="Added Successfully"
+            showSuccessMessage={showSuccessMessage}
+            showFailureMessage={showFailureMessage}  />
 
         </Card>
       );

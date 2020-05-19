@@ -7,6 +7,7 @@ import {
 
 
 
+// Rating component to render the ratings of a item, based on its value of 1 to 5
 const Rating = (props) => {
   const { rating } = props
 

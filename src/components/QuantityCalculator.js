@@ -6,7 +6,7 @@ import {
 } from 'react-bootstrap';
 
 
-
+// Quantity Calculator component to increase or decrease the item quantity
 const QuantityCalculator = (props) => {
   const [quantity, setQuantity] = useState(1);
 

@@ -8,6 +8,7 @@ import {
 import store from "../store/index";
 
 
+// Create new shoppping cart for user, and add item to it, valid for 10 minutes
 export const shoppingCartCreateAPI = async (data) => {
   const SHOPPING_CART_CREATE_URL = getShoppingCartCreateUrl()
   const { token } = store.getState().authentication
@@ -32,6 +33,7 @@ export const shoppingCartCreateAPI = async (data) => {
 }
 
 
+// Update items to existing valid cart of user
 export const shoppingCartUpdateAPI = async (data, cart_id) => {
   const SHOPPING_CART_UPDATE_URL = getCartRetrieveOrUpdateUrl(cart_id)
   const { token } = store.getState().authentication

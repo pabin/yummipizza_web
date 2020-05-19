@@ -1,5 +1,5 @@
 import React from 'react';
-// import { connect } from 'react-redux';
+import { connect } from 'react-redux';
 
 import {
   Row,
@@ -12,30 +12,116 @@ import './ItemDetail.css'
 import QuantityCalculator from '../../components/QuantityCalculator'
 import Rating from '../../components/Rating'
 
+import Message from '../../components/Message'
+import FullScreenLoading from '../../components/FullScreenLoading'
 
+import { shoppingCartCreateAPI, shoppingCartUpdateAPI } from '../../api/CartAPIs';
+import { userAuthenticationSuccess } from '../../store/actions/AuthenticationActions';
+
+
+// Item detail page, displays all the details of a particular item
+// User can rate a item and give reviews from this page
 class ItemDetail extends React.Component {
   constructor(props) {
     super(props)
 
     this.state = {
-      is_open: true,
-      quantity: 1,
+      loading: false,
+      showSuccessMessage: false,
+      showFailureMessage: false,
     }
-
   }
 
-
+  // Create new cart if no cart is present else update items to valid cart
   onAddToCart = () => {
-    console.log('on add to cart...');
+    const { item } = this.props.location.state
+
+    const { authentication: {
+      userAuthenticated,
+      token,
+      user,
+    }} = this.props
+
+    if (userAuthenticated) {
+
+      this.setState({loading: true})
+      if (user.valid_cart) {
+        console.log('yes have valid cart...');
+
+        let items = []
+        user.valid_cart.items_list.map(cartItem => {
+          items.push(cartItem.id)
+        })
+        items.push(item.id)
+
+        let data = {items: items}
+
+        shoppingCartUpdateAPI(data, user.valid_cart.id)
+        .then(response => {
+          if (response.data) {
+            user.valid_cart = response.data
+            this.props.updateUserDetail(token, user)
+            this.showingLoading(this.successMessageAlert)
+          } else if (response.error) {
+            this.showingLoading(this.failureMessageAlert)
+          }
+        })
+      } else {
+        console.log('you dont have cart creating new one...');
+        const data = {items: [item.id]}
+
+        shoppingCartCreateAPI(data)
+        .then(response => {
+          if (response.data) {
+            user.valid_cart = response.data
+            this.props.updateUserDetail(token, user)
+            this.showingLoading(this.successMessageAlert)
+
+          } else if (response.error) {
+            this.showingLoading(this.failureMessageAlert)
+          }
+      })
+    }
+    } else {
+      console.log('user is not authenticated, show login message');
+      this.props.onLoginPress()
+    }
   }
 
-  onContinueShopping = () => {
-    console.log('on add to cart...');
+  // Displays loading screen for 1.5 second
+  showingLoading = (messageAlert) => {
+    setTimeout(() => {
+      messageAlert()
+    }, 1500);
   }
+
+  // Displays success message for 1 seconds
+  successMessageAlert = () => {
+    this.setState({loading: false});
+    this.setState({showSuccessMessage: true})
+    setTimeout(() => {
+      this.redirectToHome()
+    }, 1000);
+  }
+
+  // Displays error message for 1 seconds
+  failureMessageAlert = () => {
+    this.setState({loading: false});
+    this.setState({showFailureMessage: true})
+    setTimeout(() => {
+      this.setState({showFailureMessage: false})
+    }, 1000);
+  }
+
+  redirectToHome = () => {
+    this.setState({showSuccessMessage: false})
+    this.props.history.push("/");
+  }
+
 
   render() {
     const { item } = this.props.location.state
-    const { quantity } = this.state
+    const { showSuccessMessage, showFailureMessage, loading } = this.state
 
     let containerStyle = {
       padding: "0px 30px 0px 30px",
@@ -112,18 +198,13 @@ class ItemDetail extends React.Component {
                 <h6 className="title">Quantity</h6>
               </Col>
               <Col sm={9}>
-                <QuantityCalculator
-                  quantity={quantity}
-                  onChange={(event) => this.setState({quantity: event.target.value})}
-                  onIncrease={() => this.setState(quantity > 9 ?{ quantity: 10} : {quantity: quantity + 1})}
-                  onDecrease={() => this.setState(quantity > 1 ? { quantity: quantity - 1} : {quantity: 1})}
-                  />
+                <QuantityCalculator item={item} />
               </Col>
             </Row>
 
             <Row style={{marginTop: '20px'}}>
               <Col md={6}>
-                <Button onClick={this.onContinueShopping} variant="primary" block>Continue Shopping</Button>
+                <Button onClick={() => this.props.history.push('/')} variant="primary" block>Continue Shopping</Button>
               </Col>
               <Col md={6}>
                 <Button onClick={this.onAddToCart} variant="primary" block>Add to Cart</Button>
@@ -179,6 +260,13 @@ class ItemDetail extends React.Component {
             </Row>
           </Col>
         </Row>
+
+        <FullScreenLoading show={loading} message="Adding Item..." />
+        <Message
+          successMessage="Added Successfully"
+          showSuccessMessage={showSuccessMessage}
+          showFailureMessage={showFailureMessage} />
+
       </div>
     );
   }
@@ -186,4 +274,12 @@ class ItemDetail extends React.Component {
 
 
 
-export default ItemDetail
+const mapStateToProps  = state => ({
+  authentication: state.authentication
+})
+
+const mapDispatchToProps = {
+  updateUserDetail: (token, user) => userAuthenticationSuccess(token, user),
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ItemDetail)

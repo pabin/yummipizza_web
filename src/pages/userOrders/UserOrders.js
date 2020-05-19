@@ -5,6 +5,7 @@ import React from 'react';
 
 
 
+// User order page to list out all the users previously placed orders
 class UserOrders extends React.Component {
   constructor(props) {
     super(props)

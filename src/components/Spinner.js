@@ -8,6 +8,7 @@ import {
 import './styles.css'
 
 
+// Spinner component to display a spinner loader on different user actions, can be placed on desired places
 const Spinner = (props) => {
 
   const { size } = props
