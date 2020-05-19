@@ -44,6 +44,9 @@ class OrderList extends React.Component {
     }
 
     this.props.dispatchOrderListFetch()
+    if (!this.props.authenticationuserAuthenticated) {
+      this.props.history.push("/")
+    }
   }
 
   redirectToHome = () => {
@@ -94,7 +97,7 @@ class OrderList extends React.Component {
 
           {
             orderListFetched ?
-            <Col sm={9} style={{backgroundColor: 'white', borderRadius: '5px', minHeight: '400px'}}>
+            <Col sm={9} style={{backgroundColor: 'white', borderRadius: '5px', minHeight: '400px'}} className="custom-shadow">
               <Table responsive>
                 <thead>
                   <tr>
@@ -135,13 +138,13 @@ class OrderList extends React.Component {
               </Table>
             </Col>
             : orderListFetching ?
-            <Col sm={9} style={{backgroundColor: 'white', borderRadius: '5px', minHeight: '400px'}} className="d-flex align-items-center justify-content-center">
+            <Col sm={9} style={{backgroundColor: 'white', borderRadius: '5px', minHeight: '400px'}} className="d-flex align-items-center justify-content-center custom-shadow">
               <Spinner />
             </Col>
             :
-            <Col sm={9} style={{backgroundColor: 'white', borderRadius: '5px', minHeight: '400px'}} className="d-flex align-items-center justify-content-center">
+            <Col sm={9} style={{backgroundColor: 'white', borderRadius: '5px', minHeight: '400px'}} className="d-flex align-items-center justify-content-center custom-shadow">
               <p>{errorMessage.toString()}</p>
-            </Col>            
+            </Col>
           }
 
           <Col sm={9} className="d-flex align-items-end justify-content-end">

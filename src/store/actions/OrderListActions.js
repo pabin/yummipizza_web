@@ -49,7 +49,7 @@ export function orderListFetch(){
           })
       .then(response => {
         const orderList = response.data
-        console.log('Order List @ actions ', JSON.stringify(orderList))
+        // console.log('Order List @ actions ', JSON.stringify(orderList))
 
         setTimeout(() => {
           dispatch(orderListFetchSuccess(orderList))
@@ -58,7 +58,7 @@ export function orderListFetch(){
         // dispatch(orderListFetchSuccess(orderList))
       })
       .catch(err => {
-        console.log('Error on Items List Fetch: ', err)
+        console.log('Error on Order List Fetch: ', err)
         dispatch(orderListFetchFailure(err))
       });
   }

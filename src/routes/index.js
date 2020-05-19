@@ -2,6 +2,7 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 
 import routesList from './Routes';
+import PageNotFound from '../components/PageNotFound';
 
 
 // Routes component to create react-router routes for navigation
@@ -17,7 +18,10 @@ class Routes extends React.Component {
               exact={route.exact}
               name={route.name}
               render={props => (
-                  <route.component {...props} onLoginPress={this.props.onLoginPress} />
+                  <route.component
+                    {...props}
+                    authentication={this.props.authentication}
+                    onLoginPress={this.props.onLoginPress} />
               )} />
       ) : (null);
     });
@@ -25,6 +29,7 @@ class Routes extends React.Component {
     return (
       <Switch>
         {menu}
+        <PageNotFound />
       </Switch>
     );
   }

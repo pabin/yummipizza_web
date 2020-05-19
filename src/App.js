@@ -1,5 +1,5 @@
 import React, { Component, Suspense } from 'react';
-
+import { connect } from 'react-redux';
 import './App.css';
 
 import NavBar from './layout/Navbar';
@@ -46,15 +46,26 @@ class App extends Component {
           <div className="App">
             <NavBar onLoginPress={this.onLoginPress}  />
             <div style={{paddingTop: "70px"}}>
-              <Routes onLoginPress={this.onLoginPress} />
+              <Routes
+                onLoginPress={this.onLoginPress}
+                authentication={this.props.authentication} />
             </div>
             <Footer />
 
-            <Login show={showLoginForm} onHide={this.onLoginClose} onSignupPress={this.onSignupPress}/>
-            <Signup show={showSingupForm} onHide={this.onSignupClose} />
+            <Login
+              show={showLoginForm}
+              onHide={this.onLoginClose}
+              onSignupPress={this.onSignupPress}/>
+            <Signup
+              show={showSingupForm}
+              onHide={this.onSignupClose} />
           </div>
       );
     }
 }
 
-export default App;
+const mapStateToProps  = state => ({
+  authentication: state.authentication
+})
+
+export default connect(mapStateToProps)(App)
