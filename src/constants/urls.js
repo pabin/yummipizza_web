@@ -9,6 +9,7 @@ const getUserRetrieveOrUpdateUrl = (user_id) => `${HTTP_OR_HTTPS}://${DOMAIN_NAM
 
 // Inventory
 const getItemListUrl = () => `${HTTP_OR_HTTPS}://${DOMAIN_NAME}/inventory/api/items/`;
+const getItemFilterUrl = () => `${HTTP_OR_HTTPS}://${DOMAIN_NAME}/inventory/api/items-filter/`;
 const getShoppingCartCreateUrl = () => `${HTTP_OR_HTTPS}://${DOMAIN_NAME}/inventory/api/cart/`;
 const getCartRetrieveOrUpdateUrl = (cart_id) => `${HTTP_OR_HTTPS}://${DOMAIN_NAME}/inventory/api/cart/${cart_id}/`;
 const getOrderCreateUrl = () => `${HTTP_OR_HTTPS}://${DOMAIN_NAME}/inventory/api/order/`;
@@ -27,6 +28,7 @@ export {
   getUserRetrieveOrUpdateUrl,
 
   getItemListUrl,
+  getItemFilterUrl,
   getShoppingCartCreateUrl,
   getCartRetrieveOrUpdateUrl,
   getOrderCreateUrl,

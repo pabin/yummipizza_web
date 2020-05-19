@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import {
   Form,
@@ -24,6 +24,7 @@ const FilterForm = (props) => {
                     <Form.Check
                       key={indx}
                       custom
+                      onChange={() => props.onItemFilter(filterOption, !filterOption.selected)}
                       type={filterOption.type}
                       id={filterOption.id}
                       label={filterOption.label}

@@ -38,10 +38,20 @@
 }
 
 .item-card {
-  box-shadow: 2px 2px #D5D8DC;
+  /* box-shadow: 2px 2px #D5D8DC; */
+  border: 2px solid #dadada;
+  border-radius: 7px;
+}
+
+.pointer-cursor {
   cursor: pointer;
 }
 
 .item-card:hover {
-  box-shadow: 4px 4px #AEB6BF;
+  /* box-shadow: 4px 4px #5D6D7E; */
+  box-shadow: 0 0 10px #5D6D7E;
+}
+
+.item-card-button {
+
 }

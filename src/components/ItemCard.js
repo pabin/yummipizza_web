@@ -129,12 +129,13 @@ class ItemCard extends Component {
       return (
         <Card style={{ width: '14rem', height: '22rem', margin: '5px'}} className="item-card">
           <Card.Img
+            className="pointer-cursor"
             style={{height: '10rem', width: 'auto'}}
             onClick={() => {this.setState({redirect: true})}}
             variant="top"
             src={item.item_image} />
-          <Card.Body onClick={() => {this.setState({redirect: true})}}>
-            <Card.Text>
+          <Card.Body>
+            <Card.Text onClick={() => {this.setState({redirect: true})}} className="pointer-cursor">
               {item.name}
             </Card.Text>
             <Card.Title style={{color: 'orange'}}>$ {item.ls_price}</Card.Title>

@@ -26,40 +26,64 @@ class HomePage extends React.Component {
 
     this.state = {
       is_open: true,
-      typeFilters: [
-        {type: "checkbox", id: "veg-checkbox", label: "Veg"},
-        {type: "checkbox", id: "non-veg-checkbox", label: "Non-Veg"},
-      ],
-      priceFilters: [
-        {type: "checkbox", id: "0-10-checkbox", label: "$0 - $10"},
-        {type: "checkbox", id: "11-20-checkbox", label: "$11 - $20"},
-        {type: "checkbox", id: "21-30-checkbox", label: "$21 - $30"},
-        {type: "checkbox", id: "31-100-checkbox", label: "$31 - $100"},
-      ],
-      ratingFilters: [
-        {type: "checkbox", id: "above-3-checkbox", label: "Above 3"},
-        {type: "checkbox", id: "below-3-checkbox", label: "Below 3"},
+      filters: [
+        {name: "Type", options: [
+          {type: "checkbox", id: "VEG", label: "Veg", selected: false},
+          {type: "checkbox", id: "NON_VEG", label: "Non-Veg", selected: false},
+        ]},
+        {name: "Price", options: [
+          {type: "checkbox", id: "PRICE1", label: "$1 - $10", selected: false},
+          {type: "checkbox", id: "PRICE2", label: "$11 - $20", selected: false},
+          {type: "checkbox", id: "PRICE3", label: "$21 - $30", selected: false},
+          {type: "checkbox", id: "PRICE4", label: "$31 - $40", selected: false},
+          {type: "checkbox", id: "PRICE5", label: "$41 and above", selected: false},
+        ]},
+        {name: "Rating", options: [
+          {type: "checkbox", id: "RATING", label: "Above 3", selected: false},
+        ]},
       ],
     }
 
     this.props.dispatchItemListFetch()
   }
 
+
+  onItemFilter = (filterOption, value) => {
+    const { filters } = this.state
+    filters.map(filter => {
+      filter.options.map(option => {
+        if (filterOption.id === option.id) option.selected = value;
+      })
+    })
+    this.setState({filters})
+
+    let types = []
+    let prices = []
+    filters.map(filter => {
+      filter.options.map(option => {
+        if (filter.name === "Type" && option.selected) types.push(option.id)
+        if (filter.name === "Price" && option.selected) prices.push(option.id)
+      })
+    })
+
+    let data = {
+      types: types,
+      prices: prices,
+    }
+
+    this.props.dispatchItemListFetch(data)
+
+  }
+
+
   render() {
     const { itemList: {
       itemListFetched,
       itemListFetching,
       itemList,
-      // errorMessage,
+      errorMessage,
     }} = this.props
-
-    const { typeFilters, priceFilters, ratingFilters } = this.state
-
-    const filters = [
-      {name: "Type", options: typeFilters},
-      {name: "Price", options: priceFilters},
-      {name: "Rating", options: ratingFilters},
-    ]
+    const { filters } = this.state
 
     let active = 2;
     let items = [];
@@ -75,7 +99,7 @@ class HomePage extends React.Component {
       <Row className="home-row">
         <Col sm={3}>
           <h6 align="center">Item Filters</h6>
-            <FilterForm filters={filters} />
+            <FilterForm filters={filters} onItemFilter={this.onItemFilter} />
         </Col>
 
         {
@@ -124,7 +148,10 @@ class HomePage extends React.Component {
           <Col sm={9} className="d-flex align-items-center justify-content-center">
             <Spinner />
           </Col>
-          : null
+          :
+          <Col sm={9} className="d-flex align-items-center justify-content-center">
+             <p>{errorMessage.toString()}</p>
+          </Col>
         }
       </Row>
     );
@@ -136,7 +163,7 @@ const mapStateToProps  = state => ({
 })
 
 const mapDispatchToProps = {
-  dispatchItemListFetch: () => itemListFetch(),
+  dispatchItemListFetch: (data) => itemListFetch(data),
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomePage)
