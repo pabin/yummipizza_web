@@ -2,6 +2,7 @@
 .cart-container {
   background-color: #DFDFDF;
   padding: 10px 10px;
+  min-height: 500px;
 }
 
 .cart-row {

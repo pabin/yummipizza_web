@@ -53,35 +53,34 @@ class NavBar extends React.Component {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse className="justify-content-center">
 
-          <Form className="form" inline>
-            <FormControl style={{"width": "60%", "backgroundColor": "#EFEFEF"}} type="text" placeholder="Search Yummi Pizzas" className="mr-sm-2" />
-            <Button className="button">Search</Button>
-          </Form>
+        <Form className="form" inline>
+          <FormControl style={{"width": "60%", "backgroundColor": "#EFEFEF"}} type="text" placeholder="Search Yummi Pizzas" className="mr-sm-2" />
+          <Button className="button">Search</Button>
+        </Form>
 
-          <div className="icon-wrapper">
-            {
-              user.valid_cart && user.valid_cart.items_list.length > 0 ?
-              <Link to={'/cart'} className="cart-link">
-                <i className="fa fa-shopping-cart" style={{fontSize: "40px"}}></i>
-                <span className="badge cartbadge">{user.valid_cart.items_list.length}</span>
-              </Link>
-              :
-              <Link to={'/cart'} className="cart-link">
-                <i className="fa fa-shopping-cart" style={{fontSize: "40px"}}></i>
-              </Link>
-            }
-          </div>
-
-
+        <Navbar className="icon-wrapper">
           {
-            userAuthenticated ?
-            <Nav>
-              <Nav.Link as={Link} to={'/orders'} className="cart-link">Orders</Nav.Link>
-              <Nav.Link className="cart-link">{user.username}</Nav.Link>
-            </Nav>
+            user.valid_cart && user.valid_cart.items_list.length > 0 ?
+            <Link to={'/cart'} className="cart-link">
+              <i className="fa fa-shopping-cart" style={{fontSize: "40px"}}></i>
+              <span className="badge cartbadge">{user.valid_cart.items_list.length}</span>
+            </Link>
             :
-            <Nav.Link onClick={onLoginPress} className="cart-link">Login</Nav.Link>
+            <Link to={'/cart'} className="cart-link">
+              <i className="fa fa-shopping-cart" style={{fontSize: "40px"}}></i>
+            </Link>
           }
+        </Navbar>
+
+        {
+          userAuthenticated ?
+          <Navbar>
+            <Nav.Link as={Link} to={'/orders'} className="cart-link">Orders</Nav.Link>
+            <Nav.Link className="cart-link">{user.username}</Nav.Link>
+          </Navbar>
+          :
+          <Nav.Link onClick={onLoginPress} className="cart-link">Login</Nav.Link>
+        }
         </Navbar.Collapse>
       </Navbar>
     );
