@@ -12,7 +12,7 @@ import './styles.css'
 const Spinner = (props) => {
 
   const { size } = props
-  let spinnerSize = (size ? size : 40)
+  let spinnerSize = (size ? size : 45)
   // <i className={`fa fa-spinner fa-${spinnerSize}x spinner`}></i>
 
   return (

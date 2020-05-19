@@ -242,7 +242,7 @@ class Cart extends React.Component {
 
       <FullScreenLoading show={loading} message="Creating Order..." />
       <Message
-        successMessage="Order Created Successfully"
+        successMessage="Order Create Success"
         showSuccessMessage={showSuccessMessage}
         showFailureMessage={showFailureMessage} />
 

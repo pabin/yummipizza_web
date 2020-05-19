@@ -10,7 +10,7 @@ import './styles.css'
 // Message component to display a success and failure message after certain user actions
 const Message = (props) => {
 
-  const { showSuccessMessage, showFailureMessage, successMessage } = props
+  const { showSuccessMessage, showFailureMessage, successMessage, failureMessage } = props
 
   return (
     <Modal
@@ -29,7 +29,7 @@ const Message = (props) => {
             : showFailureMessage ?
             <div className="d-flex align-items-center justify-content-center">
               <i className="fa fa-exclamation-circle fa-3x" style={{color: '#C0392B', padding: '10px'}}></i>
-              <h5  style={{paddingTop: '5px'}}>Error, Try again!</h5>
+              <h5  style={{paddingTop: '5px'}}>{failureMessage ? failureMessage : "Error, Try again!"}</h5>
             </div>
             : null
           }

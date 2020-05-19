@@ -58,13 +58,16 @@ export function userAuthentication(username, password){
         localStorage.setItem('userid', userid)
         localStorage.setItem('username', user.username)
 
-        console.log('User Details: ', userDetails)
-        dispatch(userAuthenticationSuccess(token, user))
-
+        setTimeout(() => {
+          dispatch(userAuthenticationSuccess(token, user))
+        }, 1500);
       })
       .catch(err => {
         console.log('Error on User Authentication: ', err)
-        dispatch(userAuthenticationFailure(err))
+
+        setTimeout(() => {
+          dispatch(userAuthenticationFailure(err))
+        }, 1500);
       });
   }
 

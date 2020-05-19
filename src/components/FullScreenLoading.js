@@ -21,7 +21,7 @@ const FullScreenLoading = (props) => {
         <Modal.Body>
           <div className="d-flex align-items-center justify-content-center">
             <h5 style={{paddingTop: '40px'}}></h5>
-            <Spinner size={50} />
+            <Spinner size={45} />
           </div>
           <div className="d-flex align-items-center justify-content-center">
             <h5  style={{paddingTop: '15px'}}>{message}</h5>
