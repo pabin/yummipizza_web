@@ -15,7 +15,7 @@ import './Navbar.css'
 import logo from '../assets/logo/logo_cropped.png';
 
 
-// Navbar component to render site Navbar 
+// Navbar component to render site Navbar
 class NavBar extends React.Component {
   constructor(props) {
     super(props)
@@ -40,10 +40,10 @@ class NavBar extends React.Component {
 
     return (
       <Navbar fixed="top" className="custom-navbar" expand="lg">
-        <Navbar.Brand as={Link} to="/">
+        <Navbar.Brand className="d-flex justify-content-center" as={Link} to="/" style={{width: "260px", marginRight: '70px'}}>
           <img
             src={logo}
-            width="30%"
+            width="90%"
             height="auto"
             className="d-inline-block align-top"
             alt="React Bootstrap logo"
@@ -62,19 +62,23 @@ class NavBar extends React.Component {
             {
               user.valid_cart && user.valid_cart.items_list.length > 0 ?
               <Link to={'/cart'} className="cart-link">
-                <i className="fa fa-shopping-cart fa-3x"></i>
-                <span className="badge">{user.valid_cart.items_list.length}</span>
+                <i className="fa fa-shopping-cart" style={{fontSize: "40px"}}></i>
+                <span className="badge cartbadge">{user.valid_cart.items_list.length}</span>
               </Link>
               :
               <Link to={'/cart'} className="cart-link">
-                <i className="fa fa-shopping-cart fa-3x"></i>
+                <i className="fa fa-shopping-cart" style={{fontSize: "40px"}}></i>
               </Link>
             }
           </div>
 
+
           {
             userAuthenticated ?
-            <Nav.Link className="cart-link">{user.username}</Nav.Link>
+            <Nav>
+              <Nav.Link as={Link} to={'/orders'} className="cart-link">Orders</Nav.Link>
+              <Nav.Link className="cart-link">{user.username}</Nav.Link>
+            </Nav>
             :
             <Nav.Link onClick={onLoginPress} className="cart-link">Login</Nav.Link>
           }

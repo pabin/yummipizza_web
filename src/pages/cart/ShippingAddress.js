@@ -26,7 +26,8 @@ const ShippingAddress = (props) => {
 
 
   const onConfirmOrder = () => {
-
+    let statusValues = ["DELIVERED", "DELIVERED", "DELIVERED", "CANCELLED", "PENDING"]
+    let statusIndex = Math.floor((Math.random() * 5) + 1);
 
     const data = {
       delivery_address: {
@@ -41,7 +42,7 @@ const ShippingAddress = (props) => {
         email: email
       },
       total_price: prices.total_usd,
-      status: "DELIVERED"
+      status: statusValues[statusIndex]
     }
 
     orderCreate(data)

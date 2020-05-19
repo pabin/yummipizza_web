@@ -2,8 +2,8 @@
 .custom-navbar {
   border-bottom: 1px solid #E7E7E7;
   background-color: #FFF;
-  padding-right: 30px;
-  padding-left: 30px;
+  padding-right: 40px;
+  padding-left: 40px;
   /* box-shadow: 1px 2px #E7E7E7; */
 
 }
@@ -31,7 +31,7 @@
     float:left;
 }
 
-.badge{
+.cartbadge{
     background: red;
     width: 24px;
     height: 24px;

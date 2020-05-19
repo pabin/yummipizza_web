@@ -16,6 +16,8 @@ import { userAuthentication } from '../../store/actions/AuthenticationActions';
 
 import ItemCard from '../../components/ItemCard'
 import Spinner from '../../components/Spinner'
+import FilterForm from '../../components/FilterForm'
+
 
 
 // Home page for rendering home screen of the site, list the available items
@@ -74,29 +76,8 @@ class HomePage extends React.Component {
     return (
       <Row className="home-row">
         <Col sm={3}>
-          <h6 align="center">Product Filters</h6>
-          {
-            filters.map((filter, index) => (
-              <Card key={index} border="light" style={{marginBottom: "15px"}}>
-                <Card.Header>{filter.name}</Card.Header>
-                <Card.Body>
-                  <Form>
-                    {
-                      filter.options.map((filterOption, indx) => (
-                        <Form.Check
-                          key={indx}
-                          custom
-                          type={filterOption.type}
-                          id={filterOption.id}
-                          label={filterOption.label}
-                        />
-                    ))
-                    }
-                  </Form>
-                </Card.Body>
-              </Card>
-            ))
-          }
+          <h6 align="center">Item Filters</h6>
+            <FilterForm filters={filters} />
         </Col>
 
         {
