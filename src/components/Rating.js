@@ -3,10 +3,12 @@ import React from 'react';
 
 // Rating component to render the ratings of a item, based on its value of 1 to 5
 const Rating = (props) => {
-  const { rating } = props
+  const { rating, size, cursor } = props
 
   let style = {
-    color: "orange"
+    color: "orange",
+    fontSize: size ? `${size}px` : '22px',
+    cursor: cursor ?  cursor : null
   }
 
   // <i className="fa fa-star-half-o fa-2x"></i>
@@ -15,12 +17,12 @@ const Rating = (props) => {
     <div>
       {
         Array.from(Array(rating), (e, index) => (
-          <i key={index} className="fa fa-star fa-2x" style={style}></i>
+          <i key={index} className="fa fa-star" style={style}></i>
         ))
       }
       {
         Array.from(Array(5-rating), (e, index) => (
-          <i key={index} className="fa fa-star-o fa-2x" style={style}></i>
+          <i key={index} className="fa fa-star-o" style={style}></i>
         ))
       }
     </div>

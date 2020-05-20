@@ -285,7 +285,7 @@ class Cart extends React.Component {
                         </Col>
 
                         <Col sm={2}>
-                          <p className="title">Price</p>
+                          <span className="cart-item-title">Price</span>
                           {
                             item.size === "LARGE" ?
                             <h4 style={{color: 'orange'}}>${item.item.ls_price}</h4>
@@ -295,7 +295,7 @@ class Cart extends React.Component {
                         </Col>
 
                         <Col sm={2}>
-                          <p className="title">Quantity</p>
+                          <span className="cart-item-title">Quantity</span>
                           <QuantityCalculator
                             item={item}
                             quantity={item.quantity}
