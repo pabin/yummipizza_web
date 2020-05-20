@@ -14,6 +14,7 @@ import { itemListFetch } from '../../store/actions/ItemListActions';
 
 import ItemCard from '../../components/ItemCard'
 import Spinner from '../../components/Spinner'
+import ServersidePagination from '../../components/Pagination'
 import FilterForm from '../../components/FilterForm'
 
 
@@ -24,7 +25,11 @@ class HomePage extends React.Component {
   constructor(props) {
     super(props)
 
+    var params = new URLSearchParams(this.props.location.search);
+    var page = parseInt(params.get('page'))
+
     this.state = {
+      currentPage: (page ? page : 1),
       is_open: true,
       sort_by: "",
       filters: [
@@ -49,7 +54,11 @@ class HomePage extends React.Component {
       // reviews: [],
     }
 
-    this.props.dispatchItemListFetch({list: true})
+    if (page) {
+      this.props.dispatchItemListFetch({filter: true, data: {page: page}})
+    } else {
+      this.props.dispatchItemListFetch({list: true})
+    }
   }
 
 
@@ -103,8 +112,23 @@ class HomePage extends React.Component {
 
   onItemSorting = (value) => {
     const { types, prices, reviews } = this.state
-    this.props.dispatchItemListFetch({filter: true, data: {types: types, prices:prices, reviews: reviews, sort_by: value}})
+    if (value) this.props.dispatchItemListFetch({filter: true, data: {types: types, prices:prices, reviews: reviews, sort_by: value}})
   }
+
+  handlePagination = (page) => {
+    this.setState({currentPage: page})
+    const { types, prices, reviews, sort_by } = this.state
+    const data = {
+        types: types,
+        prices:prices,
+        reviews: reviews,
+        sort_by: sort_by,
+        page: page
+      }
+    this.props.history.push(`/?page=${page}`);
+    this.props.dispatchItemListFetch({filter: true, data: data})
+  }
+
 
   render() {
     const { itemList: {
@@ -115,15 +139,6 @@ class HomePage extends React.Component {
     }} = this.props
     const { filters } = this.state
     // console.log('filters', filters);
-    let active = 2;
-    let items = [];
-    for (let number = 1; number <= itemList.count/10; number++) {
-      items.push(
-        <Pagination.Item key={number} active={number === active}>
-          {number}
-        </Pagination.Item>,
-      );
-    }
 
     return (
       <Row className="home-row">
@@ -152,6 +167,7 @@ class HomePage extends React.Component {
                           this.setState({sort_by:e.target.value})
                           this.onItemSorting(e.target.value)
                         }}>
+                      <option value="">Sorty By</option>
                       <option value="LOW_TO_HIGH">Price low to high</option>
                       <option value="HIGHT_TO_LOW">Price high to low</option>
                     </Form.Control>
@@ -174,9 +190,12 @@ class HomePage extends React.Component {
               }
             </div>
 
-            <div className="d-flex align-items-end justify-content-end">
-              <Pagination>{items}</Pagination>
-            </div>
+            <ServersidePagination
+              totalItems={itemList.count}
+              itemPerPage={16}
+              currentPage={this.state.currentPage}
+              handlePagination={this.handlePagination}
+               />
 
           </Col>
           : itemListFetching ?

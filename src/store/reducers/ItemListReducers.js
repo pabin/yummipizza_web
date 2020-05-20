@@ -7,6 +7,7 @@ const initialState = {
   itemListFetched: false,
   itemListFetching: false,
   itemList: {},
+  backupItemList: {},
   errorMessage: '',
 }
 
@@ -18,6 +19,7 @@ export default (state = initialState, action) => {
       ...initialState,
       itemListFetched: true,
       itemList: action.itemList,
+      backupItemList: action.backupItemList
     }
 
     case ITEM_LIST_FETCHING:

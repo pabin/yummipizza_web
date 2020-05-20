@@ -8,10 +8,11 @@ import {
 import { getItemListUrl, getItemFilterUrl, getItemSortingUrl } from '../../constants/urls'
 
 
-function itemListFetchSuccess(itemList) {
+export function itemListFetchSuccess(itemList, backupItemList) {
   return {
     type: ITEM_LIST_FETCH_SUCCESS,
     itemList: itemList,
+    backupItemList: backupItemList,
   }
 }
 
@@ -47,9 +48,9 @@ export function itemListFetch(data){
             params: params
           })
       .then(response => {
-        const itmeList = response.data
-        // console.log('Items List @ actions ', itmeList)
-        dispatch(itemListFetchSuccess(itmeList))
+        const itemList = response.data
+        console.log('Items List @ actions ', itemList)
+        dispatch(itemListFetchSuccess(itemList, itemList.results))
       })
       .catch(err => {
         // console.log('Error on Items List Fetch: ', err)

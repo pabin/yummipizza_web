@@ -16,10 +16,12 @@ import './Navbar.css'
 import logo from '../assets/logo/logo_cropped.png';
 import FullScreenLoading from '../components/FullScreenLoading'
 import { USER_AUTHENTICATION_LOGOUT } from '../store/reducers/AuthenticationReducers';
+import { itemListFetchSuccess } from '../store/actions/ItemListActions';
 
 
 const NavBar = (props) => {
   const [loading, setLoading] = useState(false)
+  const [searchTerm, setSearchTerm] = useState("")
   const history = useHistory();
 
   const { authentication: {
@@ -27,8 +29,14 @@ const NavBar = (props) => {
     user,
   }} = props
 
-  const { onLoginPress } = props
+  const { itemList: {
+    itemList,
+    backupItemList,
+  }} = props
 
+  const { onLoginPress, onItemFilter } = props
+
+  // Handles user logout, clears localstorage and redux store
   const handleLogout = () => {
     setLoading(true)
     props.onUserLogout()
@@ -39,6 +47,20 @@ const NavBar = (props) => {
       setLoading(false)
     }, 1000);
   }
+
+
+  // Handles item search
+  const handleItemSearch = (search_term) => {
+    console.log('search_term', search_term);
+    let filteredItems = []
+    backupItemList.map(item => {
+      if (item.name.toLowerCase().includes(search_term.toLowerCase())) filteredItems.push(item);
+    })
+
+    itemList.results = search_term ? filteredItems: backupItemList
+    onItemFilter(itemList, backupItemList)
+  }
+
 
   return (
     <Navbar fixed="top" className="custom-navbar" expand="lg">
@@ -56,8 +78,16 @@ const NavBar = (props) => {
       <Navbar.Collapse className="justify-content-center">
 
       <Form className="form" inline>
-        <FormControl style={{"width": "60%"}} type="text" placeholder="Search Yummi Pizza..." className="mr-sm-2" />
-        <Button className="button">Search</Button>
+        <FormControl
+          onChange={(e) => (
+             setSearchTerm(e.target.value),
+             handleItemSearch(e.target.value)
+          )}
+          style={{"width": "60%"}}
+          type="text"
+          placeholder="Search Yummi Pizza..."
+          className="mr-sm-2" />
+        <Button onClick={() => handleItemSearch(searchTerm)} className="button">Search</Button>
       </Form>
 
       <Navbar className="icon-wrapper">
@@ -96,11 +126,13 @@ const NavBar = (props) => {
 
 
 const mapStateToProps  = state => ({
-  authentication: state.authentication
+  authentication: state.authentication,
+  itemList: state.itemList,
 })
 
 const mapDispatchToProps = dispatch => ({
   onUserLogout: () => dispatch({type: USER_AUTHENTICATION_LOGOUT}),
+  onItemFilter: (itemList, backupItemList) => dispatch(itemListFetchSuccess(itemList, backupItemList)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(NavBar)

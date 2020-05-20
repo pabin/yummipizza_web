@@ -12,10 +12,10 @@ import {
   Pagination,
 } from 'react-bootstrap';
 
-// import './OrderList.css';
 
 import Spinner from '../../components/Spinner'
 import FilterForm from '../../components/FilterForm'
+import ServersidePagination from '../../components/Pagination'
 import { orderListFetch } from '../../store/actions/OrderListActions';
 
 
@@ -24,7 +24,12 @@ class OrderList extends React.Component {
   constructor(props) {
     super(props)
 
+    var params = new URLSearchParams(this.props.location.search);
+    var page = parseInt(params.get('page'))
+
+
     this.state = {
+      currentPage: (page ? page : 1),
       showDetailModal: false,
       selectedOrder: "",
       filters: [
@@ -47,7 +52,12 @@ class OrderList extends React.Component {
       ],
     }
 
-    this.props.dispatchOrderListFetch({list: true})
+    if (page) {
+      this.props.dispatchOrderListFetch({filter: true, data: {page: page}})
+    } else {
+      this.props.dispatchOrderListFetch({list: true})
+    }
+
     if (!this.props.userAuthenticated) {
       this.props.history.push("/")
     }
@@ -120,6 +130,21 @@ class OrderList extends React.Component {
     let dt = new Date(datetime)
     let finalDT = `${dt.getHours()}:${dt.getMinutes()}`
     return finalDT
+  }
+
+
+  handlePagination = (page) => {
+    this.setState({currentPage: page})
+    const { dates, prices, status } = this.state
+    let data = {
+      dates: dates,
+      prices: prices,
+      status: status,
+      page: page
+    }
+
+    this.props.history.push(`/orders/?page=${page}`);
+    this.props.dispatchOrderListFetch({filter: true, data: data})
   }
 
 
@@ -204,6 +229,7 @@ class OrderList extends React.Component {
                   }
                 </tbody>
               </Table>
+
             </Col>
             : orderListFetching ?
             <Col sm={9} style={{backgroundColor: 'white', borderRadius: '5px', minHeight: '400px'}} className="d-flex align-items-center justify-content-center custom-shadow">
@@ -215,9 +241,13 @@ class OrderList extends React.Component {
             </Col>
           }
 
-          <Col sm={9} className="d-flex align-items-end justify-content-end">
-            <Pagination>{items}</Pagination>
-
+          <Col sm={12} className="d-flex align-items-end justify-content-end">
+            <ServersidePagination
+              totalItems={orderList.count}
+              itemPerPage={10}
+              currentPage={this.state.currentPage}
+              handlePagination={this.handlePagination}
+              />
           </Col>
 
           {

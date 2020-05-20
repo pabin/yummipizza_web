@@ -1,6 +1,6 @@
-const HTTP_OR_HTTPS = "http";
-// const DOMAIN_NAME = "yummipizza-be-server.herokuapp.com";
-const DOMAIN_NAME = "localhost:8000";
+const HTTP_OR_HTTPS = "https";
+const DOMAIN_NAME = "yummipizza-be-server.herokuapp.com";
+// const DOMAIN_NAME = "localhost:8000";
 
 
 // Accounts
@@ -39,7 +39,7 @@ export {
   getShoppingCartCreateUrl,
   getCartRetrieveOrUpdateUrl,
   getCartItemRetrieveOrUpdateUrl,
-  
+
   getOrderCreateUrl,
   getUserOrderListUrl,
   getUserOrderFilterUrl,
