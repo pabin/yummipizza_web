@@ -87,7 +87,7 @@ const NavBar = (props) => {
           type="text"
           placeholder="Search Yummi Pizza..."
           className="mr-sm-2" />
-        <Button onClick={() => handleItemSearch(searchTerm)} className="button">Search</Button>
+        <Button onClick={() => handleItemSearch(searchTerm)} variant="secondary">Search</Button>
       </Form>
 
       <Navbar className="icon-wrapper">
