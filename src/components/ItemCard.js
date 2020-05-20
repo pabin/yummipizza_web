@@ -131,9 +131,6 @@ class ItemCard extends Component {
 
   render() {
     // <p><del>$ {this.props.price + 5}</del>$5 off</p>
-    let badges = ["secondary", "light", "warning", "dark", "dark", "dark"]
-    let discounts = ["Special Discount", "Holiday Offer", "StayHome Discount", "Royalty Discount", "Royalty Discount", "Royalty Discount"]
-    let badgeIndex = Math.floor((Math.random() * 6) + 1);
 
     const { item } = this.props
     const { showSuccessMessage, showFailureMessage, loading } = this.state
@@ -158,10 +155,27 @@ class ItemCard extends Component {
             </span>
             <h4 style={{color: 'orange', fontWeight: 'bold'}}>${item.ls_price}</h4>
 
-            <span style={{fontSize: '14px', color: '#707B7C', marginRight: '10px', marginTop: '0px'}}>
-              <del>$ {(item.ls_price + 0.10 * item.ls_price).toFixed(1)}</del>
-            </span>
-            <Badge variant={`${badges[badgeIndex-1]}`}>{`${discounts[badgeIndex-1]}`}</Badge>
+            {
+              item.discount ?
+              <span style={{fontSize: '14px', color: '#707B7C', marginRight: '10px', marginTop: '0px'}}>
+                <del>$ {(item.ls_price + ((item.discount.discount_percent / 100) * item.ls_price)).toFixed(1)}</del>
+              </span>
+              : null
+            }
+
+            {
+              item.discount ?
+              item.discount.code === 'SPECIAL' ?
+              <Badge variant="secondary">{item.discount.name}</Badge>
+              : item.discount.code === 'LOYALTY' ?
+              <Badge variant="dark">{item.discount.name}</Badge>
+              : item.discount.code === 'HOLIDAY' ?
+              <Badge variant="light">{item.discount.name}</Badge>
+              : item.discount.code === 'STAYHOME' ?
+              <Badge variant="warning">{item.discount.name}</Badge>
+              : null
+              : null
+            }
 
           </Card.Body>
           <Button
