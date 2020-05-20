@@ -243,6 +243,10 @@ class Cart extends React.Component {
           user.valid_cart && user.valid_cart.cart_items.length > 0 ?
             <Col sm={8}>
               <Row>
+                <Col sm={12} className="cart-item d-flex align-items-center" style={{padding: "10px"}}>
+                  <i className="fa fa-shopping-cart" style={{fontSize: "30px", marginLeft: '10px', marginRight: "20px"}}></i>
+                  <h5 style={{paddingTop: '10px'}}>{user.valid_cart.cart_items.length} Item(s) in Your Cart</h5>
+                </Col>
                 {
                   user.valid_cart.cart_items.map((item, index) => (
                     <Col sm={12} className="cart-item" key={index}>

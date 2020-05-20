@@ -411,7 +411,7 @@ class ItemDetail extends React.Component {
                   commentFetched ?
                   <Col sm={12}>
                     <div>
-                      <h6>{comments.count} user Reviews </h6>
+                      <h6>{comments.count} user Review(s) </h6>
                       <hr />
                       {
                         comments.results.map((comment, index) => (
@@ -489,7 +489,7 @@ class ItemDetail extends React.Component {
           </Col>
           <Col sm={4}>
             <Card style={{marginRight: '10px', marginop: '10px'}}>
-              <Card.Header><h4>Recommended Items</h4></Card.Header>
+              <Card.Header><h5>Recommended Items</h5></Card.Header>
             </Card>
             {
               popularItems.slice(0, 4).map((popularItem, index) => (
