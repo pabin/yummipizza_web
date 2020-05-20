@@ -30,6 +30,7 @@ const NavBar = (props) => {
   }} = props
 
   const { itemList: {
+    itemListFetched,
     itemList,
     backupItemList,
   }} = props
@@ -51,14 +52,16 @@ const NavBar = (props) => {
 
   // Handles item search
   const handleItemSearch = (search_term) => {
-    console.log('search_term', search_term);
-    let filteredItems = []
-    backupItemList.map(item => {
-      if (item.name.toLowerCase().includes(search_term.toLowerCase())) filteredItems.push(item);
-    })
+    if (itemListFetched) {
+      console.log('search_term', search_term);
+      let filteredItems = []
+      backupItemList.map(item => {
+        if (item.name.toLowerCase().includes(search_term.toLowerCase())) filteredItems.push(item);
+      })
 
-    itemList.results = search_term ? filteredItems: backupItemList
-    onItemFilter(itemList, backupItemList)
+      itemList.results = search_term ? filteredItems: backupItemList
+      onItemFilter(itemList, backupItemList)      
+    }
   }
 
 
