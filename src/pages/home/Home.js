@@ -26,25 +26,30 @@ class HomePage extends React.Component {
 
     this.state = {
       is_open: true,
+      sort_by: "",
       filters: [
-        {name: "Type", options: [
+        {name: "Type", id: 'TYPE', options: [
           {type: "checkbox", id: "VEG", label: "Veg", selected: false},
           {type: "checkbox", id: "NON_VEG", label: "Non-Veg", selected: false},
         ]},
-        {name: "Price", options: [
+        {name: "Price", id: 'PRICE',  options: [
           {type: "checkbox", id: "PRICE1", label: "$1 - $10", selected: false},
           {type: "checkbox", id: "PRICE2", label: "$11 - $20", selected: false},
           {type: "checkbox", id: "PRICE3", label: "$21 - $30", selected: false},
           {type: "checkbox", id: "PRICE4", label: "$31 - $40", selected: false},
           {type: "checkbox", id: "PRICE5", label: "$41 and above", selected: false},
         ]},
-        {name: "Rating", options: [
-          {type: "checkbox", id: "RATING", label: "Above 3", selected: false},
+        {name: "Rating and Reviews", id: 'REVIEW', options: [
+          {type: "checkbox", id: "REVIEWS", label: "Have Reviews", selected: false},
+          {type: "checkbox", id: "RATINGS", label: "Have Ratings", selected: false},
         ]},
       ],
+      // types: [],
+      // prices: [],
+      // reviews: [],
     }
 
-    this.props.dispatchItemListFetch()
+    this.props.dispatchItemListFetch({list: true})
   }
 
 
@@ -59,22 +64,47 @@ class HomePage extends React.Component {
 
     let types = []
     let prices = []
+    let reviews = []
+
+    // let { types, prices, reviews, sort_by } = this.state
+    let { sort_by } = this.state
     filters.map(filter => {
       filter.options.map(option => {
-        if (filter.name === "Type" && option.selected) types.push(option.id)
-        if (filter.name === "Price" && option.selected) prices.push(option.id)
+        if (filter.id == "TYPE") {
+          if (option.selected) {
+            console.log('yes type is selected', option.id, option.selected);
+            types.push(option.id)
+          } else types.pop(option.id);
+        } else if (filter.id == "PRICE") {
+          if (option.selected) {
+            console.log('yes price is selected', option.id, option.selected);
+            prices.push(option.id)
+          } else prices.pop(option.id);
+        } else if (filter.id == "REVIEW") {
+          if (option.selected) {
+            console.log('yes reviews is selected', option.id, option.selected);
+            reviews.push(option.id)
+          } else reviews.pop(option.id);
+        }
       })
     })
+
+    this.setState({types: types, prices: prices, reviews: reviews})
 
     let data = {
       types: types,
       prices: prices,
+      reviews: reviews,
+      sort_by: sort_by,
     }
-
-    this.props.dispatchItemListFetch(data)
-
+    console.log('data', data);
+    this.props.dispatchItemListFetch({filter: true, data: data})
   }
 
+  onItemSorting = (value) => {
+    const { types, prices, reviews } = this.state
+    this.props.dispatchItemListFetch({filter: true, data: {types: types, prices:prices, reviews: reviews, sort_by: value}})
+  }
 
   render() {
     const { itemList: {
@@ -84,7 +114,7 @@ class HomePage extends React.Component {
       errorMessage,
     }} = this.props
     const { filters } = this.state
-
+    console.log('filters', filters);
     let active = 2;
     let items = [];
     for (let number = 1; number <= itemList.count/10; number++) {
@@ -115,10 +145,15 @@ class HomePage extends React.Component {
                 <Form inline >
                   <Form.Group controlId="exampleForm.ControlSelect1">
                     <Form.Label>Sort By &nbsp;&nbsp;</Form.Label>
-                    <Form.Control as="select">
-                      <option>Popularity</option>
-                      <option>Price low to high</option>
-                      <option>Price high to low</option>
+                    <Form.Control
+                      as="select"
+                      value={this.state.sort_by}
+                      onChange={(e) => {
+                          this.setState({sort_by:e.target.value})
+                          this.onItemSorting(e.target.value)
+                        }}>
+                      <option value="LOW_TO_HIGH">Price low to high</option>
+                      <option value="HIGHT_TO_LOW">Price high to low</option>
                     </Form.Control>
                   </Form.Group>
                 </Form>

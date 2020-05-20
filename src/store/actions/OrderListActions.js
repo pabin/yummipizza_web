@@ -5,8 +5,7 @@ import {
   ORDER_LIST_FETCH_FAILURE,
   ORDER_LIST_FETCHING } from '../reducers/OrderListReducers'
 
-import { getUserOrderListUrl } from '../../constants/urls'
-// import store from "../index";
+import { getUserOrderListUrl, getUserOrderFilterUrl } from '../../constants/urls'
 
 
 function orderListFetchSuccess(orderList) {
@@ -31,24 +30,28 @@ function orderListFetchFailure(err) {
 }
 
 
-export function orderListFetch(){
+export function orderListFetch(data){
   const TOKEN = localStorage.getItem('token')
-  const ORDER_LIST_URL = getUserOrderListUrl()
+
+  if (data.filter) {
+    var URL = getUserOrderFilterUrl()
+    var params = data.data
+  } else if (data.list) {
+    var URL = getUserOrderListUrl()
+    var params = null
+  }
 
   return (dispatch) => {
     dispatch(orderListFetching())
     axios({
             method: "GET",
-            url: `${ORDER_LIST_URL}`,
+            url: `${URL}`,
             headers: {'Authorization': 'Token ' + TOKEN},
-            // data: {
-            //   pageNumber: page_number,
-            //   filters: {}
-            // }
+            params: params
           })
       .then(response => {
         const orderList = response.data
-        // console.log('Order List @ actions ', JSON.stringify(orderList))
+        console.log('Order List @ actions ', JSON.stringify(orderList))
         dispatch(orderListFetchSuccess(orderList))
       })
       .catch(err => {

@@ -27,27 +27,79 @@ class OrderList extends React.Component {
     this.state = {
       showDetailModal: false,
       selectedOrder: "",
-      typeFilters: [
-        {type: "checkbox", id: "veg-checkbox", label: "Veg"},
-        {type: "checkbox", id: "non-veg-checkbox", label: "Non-Veg"},
-      ],
-      priceFilters: [
-        {type: "checkbox", id: "0-10-checkbox", label: "$0 - $10"},
-        {type: "checkbox", id: "11-20-checkbox", label: "$11 - $20"},
-        {type: "checkbox", id: "21-30-checkbox", label: "$21 - $30"},
-        {type: "checkbox", id: "31-100-checkbox", label: "$31 - $100"},
-      ],
-      ratingFilters: [
-        {type: "checkbox", id: "above-3-checkbox", label: "Above 3"},
-        {type: "checkbox", id: "below-3-checkbox", label: "Below 3"},
+      filters: [
+        {name: "Date", id: 'DATE', options: [
+          {type: "checkbox", id: "THIS_WEEK", label: "This Week", selected: false},
+          {type: "checkbox", id: "LAST_WEEK", label: "Last Week", selected: false},
+          {type: "checkbox", id: "ALL", label: "All Order", selected: false},
+        ]},
+        {name: "Total Price", id: 'PRICE',  options: [
+          {type: "checkbox", id: "PRICE1", label: "$1 - $50", selected: false},
+          {type: "checkbox", id: "PRICE2", label: "$51 - $100", selected: false},
+          {type: "checkbox", id: "PRICE3", label: "$101 - $200", selected: false},
+          {type: "checkbox", id: "PRICE4", label: "$201 and above", selected: false},
+        ]},
+        {name: "Status", id: 'STATUS', options: [
+          {type: "checkbox", id: "DELIVERED", label: "Delivered", selected: false},
+          {type: "checkbox", id: "PENDING", label: "Pending", selected: false},
+          {type: "checkbox", id: "CANCELLED", label: "Cancelled", selected: false},
+        ]},
       ],
     }
 
-    this.props.dispatchOrderListFetch()
+    this.props.dispatchOrderListFetch({list: true})
     if (!this.props.userAuthenticated) {
       this.props.history.push("/")
     }
   }
+
+
+  onItemFilter = (filterOption, value) => {
+    const { filters } = this.state
+    filters.map(filter => {
+      filter.options.map(option => {
+        if (filterOption.id === option.id) option.selected = value;
+      })
+    })
+    this.setState({filters})
+
+    let dates = []
+    let prices = []
+    let status = []
+
+    // let { types, prices, reviews, sort_by } = this.state
+    filters.map(filter => {
+      filter.options.map(option => {
+        if (filter.id == "DATE") {
+          if (option.selected) {
+            console.log('yes date is selected', option.id, option.selected);
+            dates.push(option.id)
+          } else dates.pop(option.id);
+        } else if (filter.id == "PRICE") {
+          if (option.selected) {
+            console.log('yes price is selected', option.id, option.selected);
+            prices.push(option.id)
+          } else prices.pop(option.id);
+        } else if (filter.id == "STATUS") {
+          if (option.selected) {
+            console.log('yes status is selected', option.id, option.selected);
+            status.push(option.id)
+          } else status.pop(option.id);
+        }
+      })
+    })
+
+    this.setState({dates: dates, prices: prices, status: status})
+
+    let data = {
+      dates: dates,
+      prices: prices,
+      status: status,
+    }
+    console.log('data', data);
+    this.props.dispatchOrderListFetch({filter: true, data: data})
+  }
+
 
   redirectToHome = () => {
     this.setState({showSuccessMessage: false})
@@ -79,13 +131,7 @@ class OrderList extends React.Component {
       errorMessage,
     }} = this.props
 
-    const { typeFilters, priceFilters, ratingFilters, showDetailModal, selectedOrder } = this.state
-
-    const filters = [
-      {name: "Type", options: typeFilters},
-      {name: "Price", options: priceFilters},
-      {name: "Rating", options: ratingFilters},
-    ]
+    const { filters, showDetailModal, selectedOrder } = this.state
 
     let active = 2;
     let items = [];
@@ -105,12 +151,14 @@ class OrderList extends React.Component {
             <Card style={{marginBottom: '5px'}}>
               <Card.Header><h6>Order Filters</h6></Card.Header>
             </Card>
-            <FilterForm filters={filters} />
+            <FilterForm onItemFilter={this.onItemFilter} filters={filters} />
           </Col>
 
           {
             orderListFetched ?
             <Col sm={9} style={{backgroundColor: 'white', borderRadius: '5px', minHeight: '400px'}} className="custom-shadow">
+              <p style={{padding: '10px', paddingBottom: '0px'}}>{orderList.results.length} Orders on this page</p>
+
               <Table responsive>
                 <thead>
                   <tr>
@@ -125,6 +173,7 @@ class OrderList extends React.Component {
                 </thead>
                 <tbody>
                   {
+                    orderList.results.length > 0 ?
                     orderList.results.map((order, index) => (
                       <tr key={index}>
                         <td>{index + 1}</td>
@@ -146,6 +195,12 @@ class OrderList extends React.Component {
                         <td><Button variant="default" onClick={() => this.handleDetailModalShow(order)}>View</Button></td>
                       </tr>
                     ))
+                    :
+                    <tr>
+                      <td colspan="7">
+                        <h5 align="center" style={{paddingTop: '100px'}}>No orders found!</h5>
+                      </td>
+                    </tr>
                   }
                 </tbody>
               </Table>
@@ -169,9 +224,6 @@ class OrderList extends React.Component {
             orderListFetched && orderList.results.length <= 0 ?
             <Col sm={12} className="cart-item d-flex align-items-center justify-content-center">
               <h5>No orders found!</h5>
-              <p>
-                Go Shpping
-              </p>
             </Col>
             : null
           }
@@ -256,7 +308,7 @@ const mapStateToProps  = state => ({
 })
 
 const mapDispatchToProps = {
-  dispatchOrderListFetch: () => orderListFetch(),
+  dispatchOrderListFetch: (data) => orderListFetch(data),
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(OrderList)

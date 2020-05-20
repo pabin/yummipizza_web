@@ -5,7 +5,7 @@ import {
   ITEM_LIST_FETCH_FAILURE,
   ITEM_LIST_FETCHING } from '../reducers/ItemListReducers'
 
-import { getItemListUrl, getItemFilterUrl } from '../../constants/urls'
+import { getItemListUrl, getItemFilterUrl, getItemSortingUrl } from '../../constants/urls'
 
 
 function itemListFetchSuccess(itemList) {
@@ -31,21 +31,24 @@ function itemListFetchFailure(err) {
 
 
 export function itemListFetch(data){
-  const ITEM_LIST_URL = getItemListUrl()
-  const ITEM_FILTER_URL = getItemFilterUrl()
-
-  URL = data ? ITEM_FILTER_URL : ITEM_LIST_URL
+  if (data.filter) {
+    var URL = getItemFilterUrl()
+    var params = data.data
+  } else if (data.list) {
+    var URL = getItemListUrl()
+    var params = null
+  }
 
   return (dispatch) => {
     dispatch(itemListFetching())
     axios({
             method: "GET",
             url: `${URL}`,
-            params: data ? data : null
+            params: params
           })
       .then(response => {
         const itmeList = response.data
-        console.log('Items List @ actions ', itmeList)
+        // console.log('Items List @ actions ', itmeList)
         dispatch(itemListFetchSuccess(itmeList))
       })
       .catch(err => {

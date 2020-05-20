@@ -25,8 +25,8 @@ const ShippingAddress = (props) => {
 
 
   const onConfirmOrder = () => {
-    let statusValues = ["DELIVERED", "DELIVERED", "CANCELLED", "PENDING"]
-    let statusIndex = Math.floor((Math.random() * 4) + 1);
+    let statusValues = ["DELIVERED", "DELIVERED", "DELIVERED", "CANCELLED", "PENDING"]
+    let statusIndex = Math.floor((Math.random() * 5) + 1);
 
     const data = {
       delivery_address: {
