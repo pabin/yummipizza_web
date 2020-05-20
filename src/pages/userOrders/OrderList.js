@@ -281,8 +281,9 @@ class OrderList extends React.Component {
                 <tr>
                   <th></th>
                   <th>Name</th>
-                  <th>Quantity</th>
+                  <th>Qty</th>
                   <th>Price</th>
+                  <th>Total</th>
                   <th>Size</th>
                 </tr>
               </thead>
@@ -310,6 +311,13 @@ class OrderList extends React.Component {
                           <td>${item.item.ms_price.toFixed(2)}</td>
                         }
 
+                        {
+                          item.size === "LARGE" ?
+                          <td>${(item.item.ls_price * item.quantity).toFixed(2)}</td>
+                          :
+                          <td>${(item.item.ms_price * item.quantity).toFixed(2)}</td>
+                        }
+
                       <td>
                         {
                           item.size === "LARGE" ?
@@ -323,7 +331,7 @@ class OrderList extends React.Component {
                 : null
                 }
                 <tr>
-                  <td colSpan="2"></td>
+                  <td colSpan="3"></td>
                   <th>Total</th>
                   {
                     selectedOrder.status === "CANCELLED" ?
