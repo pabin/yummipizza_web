@@ -206,7 +206,12 @@ class OrderList extends React.Component {
                         <td>{order.delivery_address.name}</td>
                         <td>{order.contact_detail.mobile}</td>
                         <td>{order.order_items.length}</td>
-                        <td>${order.total_price.toFixed(2)}</td>
+                        {
+                          order.status === "CANCELLED" ?
+                          <td>${(order.total_price - 10).toFixed(2)}</td>
+                          :
+                          <td>${(order.total_price).toFixed(2)}</td>
+                        }
                         <td>
                           {
                             order.status === "DELIVERED" ?
@@ -298,7 +303,13 @@ class OrderList extends React.Component {
                       </td>
                       <td>{item.item.name}</td>
                       <td>{item.quantity}</td>
-                      <td>${item.item.ls_price.toFixed(2)}</td>
+                        {
+                          item.size === "LARGE" ?
+                          <td>${item.item.ls_price.toFixed(2)}</td>
+                          :
+                          <td>${item.item.ms_price.toFixed(2)}</td>
+                        }
+
                       <td>
                         {
                           item.size === "LARGE" ?
@@ -315,10 +326,10 @@ class OrderList extends React.Component {
                   <td colSpan="2"></td>
                   <th>Total</th>
                   {
-                    selectedOrder.status === "DELIVERED" ?
-                    <th>${showDetailModal ? (selectedOrder.total_price - 10).toFixed(2) : null} {"+ $10"}</th>
+                    selectedOrder.status === "CANCELLED" ?
+                    <th>${showDetailModal ? (selectedOrder.total_price - 10).toFixed(2) : null} </th>
                     :
-                    <th>${showDetailModal ? (selectedOrder.total_price - 10).toFixed(2) : null}</th>
+                    <th>${showDetailModal ? (selectedOrder.total_price - 10).toFixed(2) : null} {"+ $10"}</th>
                   }
                   <td></td>
                 </tr>
