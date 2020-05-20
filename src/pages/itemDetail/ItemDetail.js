@@ -6,6 +6,7 @@ import {
   Col,
   Button,
   Form,
+  Card,
 } from 'react-bootstrap';
 
 import './ItemDetail.css'
@@ -18,6 +19,7 @@ import FullScreenLoading from '../../components/FullScreenLoading'
 
 import { shoppingCartCreateAPI, shoppingCartUpdateAPI } from '../../api/CartAPIs';
 import { commentCreateAPI } from '../../api/CommentAPIs';
+import { itemViewsUpdateAPI, popularItemsListAPI } from '../../api/ItemAPIs';
 
 import { userAuthenticationSuccess } from '../../store/actions/AuthenticationActions';
 import { commentFetchSuccess } from '../../store/actions/CommentActions';
@@ -39,9 +41,43 @@ class ItemDetail extends React.Component {
       itemSize: "MEDIUM",
       quantity: 1,
       comment: "",
+      popularItems: []
     }
-    this.props.dispatchCommentFetch(this.props.location.state.item.id)
+
+    const item_id = this.props.location.state.item.id
+    this.props.dispatchCommentFetch(item_id)
+    this.updateItemViews(item_id)
   }
+
+
+  componentDidMount() {
+    this.listPopularItems()
+  }
+
+  // List out popular items
+  listPopularItems = () => {
+    popularItemsListAPI()
+    .then(response => {
+      if (response.data) {
+        this.setState({popularItems: response.data.results})
+      } else if (response.error) {
+        // log error
+      }
+    })
+  }
+
+  // Update the views of item
+  updateItemViews = (item_id) => {
+    itemViewsUpdateAPI(item_id)
+    .then(response => {
+      if (response.data) {
+        // success
+      } else if (response.error) {
+        // log error
+      }
+    })
+  }
+
 
   // Create new cart if no cart is present else update items to valid cart
   onAddToCart = () => {
@@ -207,7 +243,7 @@ class ItemDetail extends React.Component {
     }} = this.props
 
     const { item } = this.props.location.state
-    const { showSuccessMessage, showFailureMessage, loading, quantity } = this.state
+    const { showSuccessMessage, showFailureMessage, loading, quantity, popularItems } = this.state
 
     let containerStyle = {
       padding: "0px 30px 0px 30px",
@@ -256,7 +292,7 @@ class ItemDetail extends React.Component {
           <Col sm={4}>
             <h5>{item.name}</h5>
 
-            <Rating rating={item.ratings_value.average_rating} />
+            <Rating rating={parseInt(item.ratings_value.average_rating)} />
 
             <hr/ >
             <h4 style={{color: "orange"}}>$ {item.ls_price}</h4>
@@ -339,7 +375,7 @@ class ItemDetail extends React.Component {
               </Col>
             </Row>
             <Row style={ratingRowStyle} className="custom-shadow">
-              <Col sm={12}>
+              <Col sm={12} className="d-flex align-items-center justify-content-center" style={{minHeight: '150px'}}>
                 {
                   commentFetched ?
                   <div>
@@ -347,7 +383,7 @@ class ItemDetail extends React.Component {
                     <hr />
                     {
                       comments.results.map((comment, index) => (
-                        <Row style={{marginBottom: '10px'}}>
+                        <Row key={index} style={{marginBottom: '10px'}}>
                           <Col sm={2} style={{ display: "flex", flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
                             {
                               comment.user.user_image ?
@@ -388,7 +424,7 @@ class ItemDetail extends React.Component {
                               alt="User logo"
                               />
                             :
-                            <i className="fa fa-user fa-3x"></i>
+                            <i className="fa fa-user fa-2x"></i>
                           }
                         </Col>
 
@@ -413,48 +449,33 @@ class ItemDetail extends React.Component {
             </Row>
           </Col>
           <Col sm={4}>
-            <Row style={topSellerRowStyle} className="custom-shadow">
-              <Col sm={12}>
-                <h5>Recommended Product</h5>
-                <Row>
-                  <Col sm={8}>
-                    <p>{item.name}</p>
-                    <img
-                      style={{ alignSelf: 'center', borderRadius: '10px'}}
-                      src={item.item_image}
-                      width="100%"
-                      height="auto"
-                      className="d-inline-block align-top"
-                      alt="Item Image"
-                      />
-                  </Col>
-                  <Col className="d-flex align-items-center justify-content-center">
-                     <h1>${item.ls_price}</h1>
-                  </Col>
-                </Row>
-              </Col>
-            </Row>
-            <Row style={topSellerRowStyle} className="custom-shadow">
-              <Col sm={12}>
-                <h5>Recommended Product</h5>
-                <Row>
-                  <Col sm={8}>
-                    <p>{item.name}</p>
-                    <img
-                      style={{ alignSelf: 'center', borderRadius: '10px'}}
-                      src={item.item_image}
-                      width="100%"
-                      height="auto"
-                      className="d-inline-block align-top"
-                      alt="Item Image"
-                      />
-                  </Col>
-                  <Col className="d-flex align-items-center justify-content-center">
-                     <h1>${item.ls_price}</h1>
+            <Card style={{marginRight: '10px', marginop: '10px'}}>
+              <Card.Header><h4>Recommended Items</h4></Card.Header>
+            </Card>
+            {
+              popularItems.slice(0, 4).map((popularItem, index) => (
+                <Row style={topSellerRowStyle} className="custom-shadow">
+                  <Col sm={12}>
+                    <Row>
+                      <Col sm={7}>
+                        <h6>{popularItem.name}</h6>
+                        <img
+                          style={{ alignSelf: 'center', borderRadius: '10px'}}
+                          src={popularItem.item_image}
+                          width="80%"
+                          height="auto"
+                          className="d-inline-block align-top"
+                          alt="Item Image"
+                          />
+                      </Col>
+                      <Col className="d-flex align-items-center justify-content-center">
+                        <h2>${popularItem.ls_price}</h2>
+                      </Col>
+                    </Row>
                   </Col>
                 </Row>
-              </Col>
-            </Row>
+              ))
+            }
           </Col>
         </Row>
 

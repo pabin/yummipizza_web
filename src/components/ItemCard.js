@@ -4,12 +4,14 @@ import { connect } from 'react-redux';
 import {
   Button,
   Card,
+  Badge,
 } from 'react-bootstrap';
 
 import { Redirect } from 'react-router-dom';
 
 import Spinner from '../components/Spinner'
 import Message from '../components/Message'
+import Rating from '../components/Rating'
 
 import { shoppingCartCreateAPI, shoppingCartUpdateAPI } from '../api/CartAPIs';
 import { userAuthenticationSuccess } from '../store/actions/AuthenticationActions';
@@ -129,6 +131,9 @@ class ItemCard extends Component {
 
   render() {
     // <p><del>$ {this.props.price + 5}</del>$5 off</p>
+    let badges = ["secondary", "light", "warning", "dark", "dark", "dark"]
+    let discounts = ["Special Discount", "Holiday Offer", "StayHome Discount", "Royalty Discount", "Royalty Discount", "Royalty Discount"]
+    let badgeIndex = Math.floor((Math.random() * 6) + 1);
 
     const { item } = this.props
     const { showSuccessMessage, showFailureMessage, loading } = this.state
@@ -146,11 +151,18 @@ class ItemCard extends Component {
             onClick={() => {this.setState({redirect: true})}}
             variant="top"
             src={item.item_image} />
-          <Card.Body>
-            <Card.Text onClick={() => {this.setState({redirect: true})}} className="pointer-cursor">
+          <Card.Body style={{padding: '10px'}}>
+            <span onClick={() => {this.setState({redirect: true})}} className="pointer-cursor">
               {item.name}
-            </Card.Text>
-            <Card.Title style={{color: 'orange'}}>$ {item.ls_price}</Card.Title>
+              <Rating size={16} rating={parseInt(item.ratings_value.average_rating)} />
+            </span>
+            <h4 style={{color: 'orange', fontWeight: 'bold'}}>${item.ls_price}</h4>
+
+            <span style={{fontSize: '14px', color: '#707B7C', marginRight: '10px', marginTop: '0px'}}>
+              <del>$ {(item.ls_price + 0.10 * item.ls_price).toFixed(1)}</del>
+            </span>
+            <Badge variant={`${badges[badgeIndex-1]}`}>{`${discounts[badgeIndex-1]}`}</Badge>
+
           </Card.Body>
           <Button
             onClick={this.onAddToCart}

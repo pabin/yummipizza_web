@@ -8,13 +8,6 @@ export const commentCreateAPI = async (message, user_id, item_id) => {
   const TOKEN = localStorage.getItem('token')
   var COMMENT_CREATE_URL = getItemReviewCreateUrl(item_id)
 
-  let data = {
-    message: message,
-    user: user_id
-  }
-
-  console.log('data', data);
-
   let responseData = {data: null, error: null}
   await axios({
           method: "POST",

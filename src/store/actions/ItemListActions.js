@@ -49,7 +49,7 @@ export function itemListFetch(data){
           })
       .then(response => {
         const itemList = response.data
-        console.log('Items List @ actions ', itemList)
+        // console.log('Items List @ actions ', itemList)
         dispatch(itemListFetchSuccess(itemList, itemList.results))
       })
       .catch(err => {

@@ -48,8 +48,11 @@ export function commentFetch(item_id){
           })
       .then(response => {
         const comments = response.data
-        console.log('comments @ actions', JSON.stringify(comments))
-        dispatch(commentFetchSuccess(comments))
+        setTimeout(() => {
+          dispatch(commentFetchSuccess(comments))
+        }, 5000);        
+
+        // dispatch(commentFetchSuccess(comments))
       })
       .catch(err => {
         console.log('Error on Comment Fetch: ', err)
