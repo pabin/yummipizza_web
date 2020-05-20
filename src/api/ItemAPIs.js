@@ -27,14 +27,14 @@ export const itemViewsUpdateAPI = async (item_id) => {
 
 
 export const popularItemsListAPI = async () => {
-  const TOKEN = localStorage.getItem('token')
+  // const TOKEN = localStorage.getItem('token')
   var ITEM_VIEWS_UPDATE_URL = getPopularItemListUrl()
 
   let responseData = {data: null, error: null}
   await axios({
           method: "GET",
           url: `${ITEM_VIEWS_UPDATE_URL}`,
-          headers: {'Authorization': 'Token ' + TOKEN},
+          // headers: {'Authorization': 'Token ' + TOKEN},
         })
     .then(response => {
       responseData.data = response.data
