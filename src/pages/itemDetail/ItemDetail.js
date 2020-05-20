@@ -7,6 +7,7 @@ import {
   Button,
   Form,
   Card,
+  Badge
 } from 'react-bootstrap';
 
 import './ItemDetail.css'
@@ -38,7 +39,7 @@ class ItemDetail extends React.Component {
       showFailureMessage: false,
       successMessage: "Added Successfully",
       failureMessage: "",
-      itemSize: "MEDIUM",
+      itemSize: "LARGE",
       quantity: 1,
       comment: "",
       popularItems: []
@@ -248,7 +249,7 @@ class ItemDetail extends React.Component {
     }} = this.props
 
     const { item } = this.props.location.state
-    const { showSuccessMessage, showFailureMessage, loading, quantity, popularItems } = this.state
+    const { showSuccessMessage, showFailureMessage, loading, quantity, popularItems, itemSize } = this.state
 
     let containerStyle = {
       padding: "0px 30px 0px 30px",
@@ -296,11 +297,36 @@ class ItemDetail extends React.Component {
           </Col>
           <Col sm={4}>
             <h5>{item.name}</h5>
-
             <Rating rating={parseInt(item.ratings_value.average_rating)} />
-
             <hr/ >
-            <h4 style={{color: "orange"}}>$ {item.ls_price}</h4>
+              <span style={{color: "orange", paddingTop: '0px', marginRight: '20px', fontSize: '35px', fontWeight: 'bold'}}>${ itemSize === "MEDIUM" ? item.ms_price : item.ls_price}</span>
+            {
+              item.discount ?
+              <span style={{fontSize: '14px', color: '#707B7C', marginRight: '10px', marginTop: '0px'}}>
+                {
+                  itemSize === "MEDIUM" ?
+                  <del>$ {(item.ms_price + ((item.discount.discount_percent / 100) * item.ms_price)).toFixed(1)}</del>
+                  :
+                  <del>$ {(item.ls_price + ((item.discount.discount_percent / 100) * item.ls_price)).toFixed(1)}</del>
+                }
+              </span>
+              : null
+            }
+
+            {
+              item.discount ?
+              item.discount.code === 'SPECIAL' ?
+              <Badge variant="secondary">{item.discount.name}</Badge>
+              : item.discount.code === 'LOYALTY' ?
+              <Badge variant="dark">{item.discount.name}</Badge>
+              : item.discount.code === 'HOLIDAY' ?
+              <Badge variant="light">{item.discount.name}</Badge>
+              : item.discount.code === 'STAYHOME' ?
+              <Badge variant="warning">{item.discount.name}</Badge>
+              : null
+              : null
+            }
+
             <hr/ >
             <Row>
               <Col sm={2}>
@@ -323,6 +349,7 @@ class ItemDetail extends React.Component {
                     id="large_size"
                     name="size_radio"
                     label="Large"
+                    checked={this.state.itemSize === "LARGE" ? true : false}
                     onChange={() => this.setState({itemSize: 'LARGE'})}
                     />
                 </Form>
@@ -443,7 +470,10 @@ class ItemDetail extends React.Component {
                               placeholder="Write your review..." />
                           </Col>
                         </Row>
-                        : null
+                        :
+                        <Col sm={12} className="d-flex align-items-center justify-content-center" style={{minHeight: '120px'}}>
+                          <h5>Login to Review this item!</h5>
+                        </Col>
                       }
                     </div>
                   </Col>
