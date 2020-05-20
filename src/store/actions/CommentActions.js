@@ -50,7 +50,7 @@ export function commentFetch(item_id){
         const comments = response.data
         setTimeout(() => {
           dispatch(commentFetchSuccess(comments))
-        }, 5000);        
+        }, 4000);        
 
         // dispatch(commentFetchSuccess(comments))
       })

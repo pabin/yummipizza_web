@@ -211,7 +211,7 @@ class ItemDetail extends React.Component {
     commentCreateAPI(message, user.id, item.id)
     .then(response => {
       if (response.data) {
-
+        comments.count += 1
         comments.results.push(response.data)
         this.props.onCommentUpdate(comments)
         this.setState({comment: ""})
@@ -227,6 +227,11 @@ class ItemDetail extends React.Component {
       console.log('do validate', e.target.value);
       this.onReviewCreate(e.target.value)
     }
+  }
+
+
+  onRecommendedProductSelect = (item) => {
+    this.props.location.state.item = item
   }
 
 
@@ -375,77 +380,81 @@ class ItemDetail extends React.Component {
               </Col>
             </Row>
             <Row style={ratingRowStyle} className="custom-shadow">
-              <Col sm={12} className="d-flex align-items-center justify-content-center" style={{minHeight: '150px'}}>
                 {
                   commentFetched ?
-                  <div>
-                    <h6>{comments.count} user Reviews </h6>
-                    <hr />
-                    {
-                      comments.results.map((comment, index) => (
-                        <Row key={index} style={{marginBottom: '10px'}}>
+                  <Col sm={12}>
+                    <div>
+                      <h6>{comments.count} user Reviews </h6>
+                      <hr />
+                      {
+                        comments.results.map((comment, index) => (
+                          <Row key={index} style={{marginBottom: '10px'}}>
+                            <Col sm={2} style={{ display: "flex", flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
+                              {
+                                comment.user.user_image ?
+                                <img
+                                  style={{borderRadius: '100px', alignSelf: 'center'}}
+                                  src={comment.user.user_image}
+                                  width="50px"
+                                  height="50px"
+                                  className="d-inline-block align-top"
+                                  alt="User logo"
+                                  />
+                                :
+                                <i className="fa fa-user fa-3x"></i>
+
+                              }
+                            </Col>
+                            <Col sm={9} style={{backgroundColor: '#EFEFEF', borderRadius: '10px', padding: '10px'}}>
+                              <span style={{fontWeight: 'bold'}}>{comment.user.first_name} {comment.user.last_name}</span><br/>
+                              <span>{comment.message}</span>
+                            </Col>
+                          </Row>
+                      ))
+                      }
+
+                      {
+                        userAuthenticated ?
+
+                        <Row style={{marginTop: '25px', marginBottom: '20px'}}>
                           <Col sm={2} style={{ display: "flex", flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
                             {
-                              comment.user.user_image ?
+                              user.user_image ?
                               <img
-                                style={{borderRadius: '100px', alignSelf: 'center'}}
-                                src={comment.user.user_image}
-                                width="50%"
-                                height="auto"
+                                style={{ borderRadius: '100px', alignSelf: 'center'}}
+                                src={user.user_image}
+                                width="40px"
+                                height="40px"
                                 className="d-inline-block align-top"
                                 alt="User logo"
                                 />
                               :
-                              <i className="fa fa-user fa-3x"></i>
-
+                              <i className="fa fa-user fa-2x"></i>
                             }
                           </Col>
-                          <Col sm={9} style={{backgroundColor: '#EFEFEF', borderRadius: '10px', padding: '10px'}}>
-                            <span style={{fontWeight: 'bold'}}>{comment.user.first_name} {comment.user.last_name}</span><br/>
-                            <span>{comment.message}</span>
+
+                          <Col sm={9} style={{padding: '0px', marginTop: '5px'}}>
+                            <Form.Control
+                              style={{backgroundColor: '#EFEFEF', borderRadius: '10px', padding: '10px', margin: '0px'}}
+                              type="text"
+                              onKeyDown={this.handleReviewComment}
+                              value={this.state.comment}
+                              onChange={(e) => this.setState({comment: e.target.value})}
+                              placeholder="Write your review..." />
                           </Col>
                         </Row>
-                    ))
-                    }
-
-                    {
-                      userAuthenticated ?
-
-                      <Row style={{marginTop: '25px', marginBottom: '20px'}}>
-                        <Col sm={2} style={{ display: "flex", flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
-                          {
-                            user.user_image ?
-                            <img
-                              style={{ borderRadius: '100px', alignSelf: 'center'}}
-                              src={user.user_image}
-                              width="40%"
-                              height="auto"
-                              className="d-inline-block align-top"
-                              alt="User logo"
-                              />
-                            :
-                            <i className="fa fa-user fa-2x"></i>
-                          }
-                        </Col>
-
-                        <Col sm={9} style={{padding: '0px', marginTop: '5px'}}>
-                          <Form.Control
-                            style={{backgroundColor: '#EFEFEF', borderRadius: '10px', padding: '10px', margin: '0px'}}
-                            type="text"
-                            onKeyDown={this.handleReviewComment}
-                            value={this.state.comment}
-                            onChange={(e) => this.setState({comment: e.target.value})}
-                            placeholder="Write your review..." />
-                        </Col>
-                      </Row>
-                      : null
-                    }
-                  </div>
+                        : null
+                      }
+                    </div>
+                  </Col>
                   : commentFetching ?
-                  <Spinner />
+                  <Col sm={12} className="d-flex align-items-center justify-content-center" style={{minHeight: '150px'}}>
+                    <Spinner />
+                  </Col>
                   : null
                 }
-              </Col>
+
+
             </Row>
           </Col>
           <Col sm={4}>

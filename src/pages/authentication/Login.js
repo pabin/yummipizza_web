@@ -130,7 +130,9 @@ class Login extends Component {
                 :
                 <Modal.Footer>
                 <Button variant="primary" onClick={this.onLoginButtonPress} block>Login</Button>
-                <Button variant="secondary" onClick={onSignupPress} block>SignUp</Button>
+                {/*
+                  <Button variant="secondary" onClick={onSignupPress} block>SignUp</Button>
+                  */}
               </Modal.Footer>
               }
           </div>
