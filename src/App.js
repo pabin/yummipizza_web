@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+
 import './App.css';
 
 import NavBar from './layout/Navbar';
@@ -13,28 +14,38 @@ import { userAuthenticationSuccess } from './store/actions/AuthenticationActions
 
 class App extends Component {
 
-  constructor(props) {
-    super(props)
+    constructor(props) {
+      super(props)
 
-    this.state = {
-      showLoginForm: false,
-      showSingupForm: false,
+      this.state = {
+        showLoginForm: false,
+        showSingupForm: false,
+        showModal: true
+      }
+      this.updateReduxAuthentication()
     }
-    this.updateReduxAuthentication()
-  }
 
 
-  updateReduxAuthentication = () => {
-    const user = JSON.parse(localStorage.getItem('user'))
-    const userAuthenticated = localStorage.getItem('userAuthenticated')
-    const token = localStorage.getItem('token')
-    console.log('userAuthenticated at appp', userAuthenticated);
+    updateReduxAuthentication = () => {
+      const user = JSON.parse(localStorage.getItem('user'))
+      const userAuthenticated = localStorage.getItem('userAuthenticated')
+      const token = localStorage.getItem('token')
+      console.log('userAuthenticated at appp', userAuthenticated);
 
-    if (userAuthenticated) {
-      this.props.updateUserDetail(token, user)
+      // Checks if user is authenticated in local storage
+      // Checks if the cart validity is still valid
+      if (userAuthenticated) {
+        if (user.valid_cart) {
+          console.log('user.valid_cart', user.valid_cart);
+          const validity = new Date(user.valid_cart.validity)
+          const now = new Date()
+          if (validity < now) {
+            user.valid_cart = null
+          }
+        }
+        this.props.updateUserDetail(token, user)
+      }
     }
-  }
-
 
     onLoginPress = () => {
       this.setState({showLoginForm: true})
@@ -44,9 +55,7 @@ class App extends Component {
       this.setState({showLoginForm: false})
     }
 
-
     onSignupPress = () => {
-      console.log('singup now...');
       this.setState({showLoginForm: false, showSingupForm: true})
     }
 

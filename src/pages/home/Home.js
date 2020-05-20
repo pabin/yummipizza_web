@@ -114,7 +114,7 @@ class HomePage extends React.Component {
       errorMessage,
     }} = this.props
     const { filters } = this.state
-    console.log('filters', filters);
+    // console.log('filters', filters);
     let active = 2;
     let items = [];
     for (let number = 1; number <= itemList.count/10; number++) {

@@ -26,6 +26,8 @@ class ItemCard extends Component {
       loading: false,
       showSuccessMessage: false,
       showFailureMessage: false,
+      successMessage: "Added Successfully",
+      failureMessage: ""
     }
 
   }
@@ -33,9 +35,6 @@ class ItemCard extends Component {
   // Create new cart if no cart is present else update items to valid cart
   onAddToCart = () => {
     const { item } = this.props
-    // const user = JSON.parse(localStorage.getItem('user'))
-    // const userAuthenticated = localStorage.getItem('userAuthenticated')
-    // const token = localStorage.getItem('token')
 
     const { authentication: {
       userAuthenticated,
@@ -47,34 +46,47 @@ class ItemCard extends Component {
 
       this.setState({loading: true})
       if (user.valid_cart) {
-        console.log('yes have valid cart...');
+        const if_exist = user.valid_cart.cart_items.filter(cart_item => cart_item.item.id === item.id)
 
-        let items = []
-        user.valid_cart.items_list.map(cartItem => {
-          items.push(cartItem.id)
-        })
-        items.push(item.id)
+        // Check if newly added item is in cart
+        if (if_exist.length > 0) {
+          this.setState({failureMessage: "Already in Cart!"})
+          this.failureMessageAlert()
+          this.setState({loading: false})
+        } else {
 
-        let data = {items: items}
-
-        shoppingCartUpdateAPI(data, user.valid_cart.id)
-        .then(response => {
-          if (response.data) {
-            user.valid_cart = response.data
-            localStorage.setItem('user', JSON.stringify(user))
-            this.props.updateUserDetail(token, user)
-
-            this.successMessageAlert()
-            this.setState({loading: false})
-
-          } else if (response.error) {
-            this.failureMessageAlert()
-            this.setState({loading: false})
+          const cart_item = {
+            item_id: item.id,
+            quantity: 1,
+            size: "LARGE"
           }
-        })
+
+          let data = {cart_item: cart_item}
+          shoppingCartUpdateAPI(data, user.valid_cart.id)
+          .then(response => {
+            if (response.data) {
+              user.valid_cart = response.data
+              localStorage.setItem('user', JSON.stringify(user))
+              this.props.updateUserDetail(token, user)
+
+              this.successMessageAlert()
+              this.setState({loading: false})
+
+            } else if (response.error) {
+              this.failureMessageAlert()
+              this.setState({loading: false})
+            }
+          })
+        }
+
       } else {
-        console.log('you dont have cart creating new one...');
-        const data = {items: [item.id]}
+        const data = {
+          cart_item: {
+           "item_id": item.id,
+           "quantity": 1,
+           "size": "LARGE"
+           }
+        }
 
         shoppingCartCreateAPI(data)
         .then(response => {
@@ -153,7 +165,8 @@ class ItemCard extends Component {
           </Button>
 
           <Message
-            successMessage="Added Successfully"
+            successMessage={this.state.successMessage}
+            failureMessage={this.state.failureMessage}
             showSuccessMessage={showSuccessMessage}
             showFailureMessage={showFailureMessage}  />
 

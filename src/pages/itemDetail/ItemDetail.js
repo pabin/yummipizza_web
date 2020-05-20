@@ -29,6 +29,10 @@ class ItemDetail extends React.Component {
       loading: false,
       showSuccessMessage: false,
       showFailureMessage: false,
+      successMessage: "Added Successfully",
+      failureMessage: "",
+      itemSize: "MEDIUM",
+      quantity: 1,
     }
   }
 
@@ -46,31 +50,44 @@ class ItemDetail extends React.Component {
 
       this.setState({loading: true})
       if (user.valid_cart) {
-        console.log('yes have valid cart...');
+        const if_exist = user.valid_cart.cart_items.filter(cart_item => cart_item.item.id === item.id)
 
-        let items = []
-        user.valid_cart.items_list.map(cartItem => {
-          items.push(cartItem.id)
-        })
-        items.push(item.id)
+        if (if_exist.length > 0) {
+          this.setState({failureMessage: "Already in Cart!"})
+          this.failureMessageAlert()
+        } else {
 
-        let data = {items: items}
-
-        shoppingCartUpdateAPI(data, user.valid_cart.id)
-        .then(response => {
-          if (response.data) {
-            user.valid_cart = response.data
-            localStorage.setItem('user', JSON.stringify(user))
-            this.props.updateUserDetail(token, user)
-            this.showingLoading(this.successMessageAlert)
-
-          } else if (response.error) {
-            this.showingLoading(this.failureMessageAlert)
+          const cart_item = {
+            item_id: item.id,
+            quantity: this.state.quantity,
+            size: this.state.itemSize
           }
-        })
+
+          let data = {cart_item: cart_item}
+          shoppingCartUpdateAPI(data, user.valid_cart.id)
+          .then(response => {
+            if (response.data) {
+              user.valid_cart = response.data
+              localStorage.setItem('user', JSON.stringify(user))
+              this.props.updateUserDetail(token, user)
+
+              this.successMessageAlert()
+
+            } else if (response.error) {
+              this.failureMessageAlert()
+            }
+          })
+
+        }
+
       } else {
-        console.log('you dont have cart creating new one...');
-        const data = {items: [item.id]}
+        const data = {
+          cart_item: {
+           "item_id": item.id,
+           "quantity": 1,
+           "size": "LARGE"
+           }
+        }
 
         shoppingCartCreateAPI(data)
         .then(response => {
@@ -79,10 +96,12 @@ class ItemDetail extends React.Component {
             localStorage.setItem('user', JSON.stringify(user))
             this.props.updateUserDetail(token, user)
 
-            this.showingLoading(this.successMessageAlert)
+            this.successMessageAlert()
+            this.setState({loading: false})
 
           } else if (response.error) {
-            this.showingLoading(this.failureMessageAlert)
+            this.failureMessageAlert()
+            this.setState({loading: false})
           }
       })
     }
@@ -123,9 +142,22 @@ class ItemDetail extends React.Component {
   }
 
 
+  increaseQuantity = () => {
+    const { quantity } = this.state
+    this.setState({quantity: quantity > 8 ? 9 : quantity+1})
+  }
+
+  decreaseQuantity = () => {
+    const { quantity } = this.state
+    this.setState({quantity: quantity > 1 ? quantity-1 : 1})
+  }
+
   render() {
     const { item } = this.props.location.state
-    const { showSuccessMessage, showFailureMessage, loading } = this.state
+    const { showSuccessMessage, showFailureMessage, loading, quantity } = this.state
+
+    console.log('itemSize', this.state.itemSize);
+    console.log('quantity at item apge', this.state.quantity);
 
     let containerStyle = {
       padding: "0px 30px 0px 30px",
@@ -154,6 +186,8 @@ class ItemDetail extends React.Component {
       padding: '20px',
       borderRadius: '5px'
     }
+
+    console.log('item at item detail page ===> ', item);
 
 
     return (
@@ -189,6 +223,8 @@ class ItemDetail extends React.Component {
                     id="medium_size"
                     name="size_radio"
                     label="Medium"
+                    checked={this.state.itemSize === "MEDIUM" ? true : false}
+                    onChange={() => this.setState({itemSize: 'MEDIUM'})}
                     />
                   <Form.Check
                     custom
@@ -196,6 +232,7 @@ class ItemDetail extends React.Component {
                     id="large_size"
                     name="size_radio"
                     label="Large"
+                    onChange={() => this.setState({itemSize: 'LARGE'})}
                     />
                 </Form>
               </Col>
@@ -205,7 +242,7 @@ class ItemDetail extends React.Component {
                 <h6 className="title">Quantity</h6>
               </Col>
               <Col sm={9}>
-                <QuantityCalculator item={item} />
+                <QuantityCalculator quantity={quantity} increaseQuantity={this.increaseQuantity} decreaseQuantity={this.decreaseQuantity} />
               </Col>
             </Row>
 
@@ -270,7 +307,8 @@ class ItemDetail extends React.Component {
 
         <FullScreenLoading show={loading} message="Adding Item..." />
         <Message
-          successMessage="Added Successfully"
+          successMessage={this.state.successMessage}
+          failureMessage={this.state.failureMessage}
           showSuccessMessage={showSuccessMessage}
           showFailureMessage={showFailureMessage} />
 

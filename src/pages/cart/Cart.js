@@ -5,6 +5,7 @@ import {
   Row,
   Col,
   Button,
+  Form,
 } from 'react-bootstrap';
 
 import './Cart.css';
@@ -17,6 +18,7 @@ import Message from '../../components/Message'
 import FullScreenLoading from '../../components/FullScreenLoading'
 
 import { orderCreateAPI } from '../../api/OrderAPIs';
+import { shoppingCartItemUpdateAPI, cartItemDeleteAPI } from '../../api/CartAPIs';
 import { userAuthenticationSuccess } from '../../store/actions/AuthenticationActions';
 
 
@@ -32,6 +34,7 @@ class Cart extends React.Component {
       loading: false,
       showSuccessMessage: false,
       showFailureMessage: false,
+      itemToDelete: "",
     }
 
   }
@@ -45,9 +48,9 @@ class Cart extends React.Component {
     }} = this.props
 
     let order_items = []
-    user.valid_cart.items_list.map(item => {
+    user.valid_cart.cart_items.map(item => {
       order_items.push({
-        item_id: item.id,
+        item_id: item.item.id,
         quantity: item.quantity,
         size: item.size
       })
@@ -102,8 +105,8 @@ class Cart extends React.Component {
     this.props.history.push("/");
   }
 
-  handleRemoveWarningShow = () => {
-    this.setState({showRemoveWarningModal: true})
+  handleRemoveWarningShow = (item_id) => {
+    this.setState({showRemoveWarningModal: true, itemToDelete: item_id})
   }
 
   handleRemoveWarningClose = () => {
@@ -119,6 +122,93 @@ class Cart extends React.Component {
   }
 
 
+  // Increase the quantity of the cart item globally
+  increaseQuantity = (item) => {
+    const data = {
+      item_id: item.item.id,
+      size: item.size,
+      quantity:  item.quantity > 8 ? 9 : item.quantity+1
+    }
+    this.cartItemUpdate(data, item.id)
+  }
+
+  // Decrease the quantity of the cart item globally
+  decreaseQuantity = (item) => {
+    const data = {
+      item_id: item.item.id,
+      size: item.size,
+      quantity: item.quantity > 1 ? item.quantity - 1 : 1
+    }
+    this.cartItemUpdate(data, item.id)
+  }
+
+
+  // Update item size of the cart item globally
+  oneItemSizeChange = (size, item) => {
+    const data = {
+      item_id: item.item.id,
+      size: size,
+      quantity: item.quantity
+    }
+    this.cartItemUpdate(data, item.id)
+  }
+
+
+  // Updates the cart item
+  cartItemUpdate = (data, cart_item_id) => {
+    const { authentication: {
+      token,
+      user,
+    }} = this.props
+
+    shoppingCartItemUpdateAPI(data, cart_item_id)
+    .then(response => {
+      if (response.data) {
+        const cartItemResponse = response.data
+
+        user.valid_cart.cart_items.map(cartitem => {
+          if (cartitem.id === cartItemResponse.id) {
+            cartitem.id = cartItemResponse.id
+            cartitem.quantity = cartItemResponse.quantity
+            cartitem.size = cartItemResponse.size
+            cartitem.item = cartItemResponse.item
+          }
+        })
+
+        this.props.updateUserDetail(token, user)
+        localStorage.setItem('user', JSON.stringify(user))
+
+      } else if (response.error) {
+        // log error
+      }
+    })
+  }
+
+
+  // Deelted the cart item
+  onConfirmDelete = () => {
+    const { authentication: {
+      token,
+      user,
+    }} = this.props
+
+    cartItemDeleteAPI(this.state.itemToDelete)
+    .then(response => {
+      if (response.data) {
+
+        let filteredCartItems = user.valid_cart.cart_items.filter(cartitm => cartitm.id != this.state.itemToDelete)
+        user.valid_cart.cart_items = filteredCartItems
+
+        this.setState({showRemoveWarningModal: false})
+        this.props.updateUserDetail(token, user)
+        localStorage.setItem('user', JSON.stringify(user))
+      } else if (response.error) {
+        this.setState({showRemoveWarningModal: false})
+      }
+    })
+  }
+
+
   render() {
     const { authentication: {
       user,
@@ -129,14 +219,18 @@ class Cart extends React.Component {
     let prices = {}
     let totalPrice = 0
     if (user.valid_cart) {
-        user.valid_cart.items_list.map(item => {
-          totalPrice += item.ls_price
+        user.valid_cart.cart_items.map(item => {
+          if (item.size === "LARGE") {
+            totalPrice += item.item.ls_price * item.quantity
+          } else if (item.size === "MEDIUM") {
+            totalPrice += item.item.ms_price * item.quantity
+          }
         })
     }
 
-    prices.sub_total_euro = totalPrice * 0.92
+    prices.sub_total_euro = totalPrice * 0.92  // 0.92 conversion rate
     prices.sub_total_usd = totalPrice
-    prices.delivery_euro = 10 * 0.92
+    prices.delivery_euro = 10 * 0.92  // Standard delivery charge $10
     prices.delivery_usd = 10
     prices.total_euro = (totalPrice + 10) * 0.92
     prices.total_usd = totalPrice + 10
@@ -146,17 +240,17 @@ class Cart extends React.Component {
         <Row className="cart-row">
 
         {
-          user.valid_cart && user.valid_cart.items_list.length > 0 ?
+          user.valid_cart && user.valid_cart.cart_items.length > 0 ?
             <Col sm={8}>
               <Row>
                 {
-                  user.valid_cart.items_list.map((item, index) => (
+                  user.valid_cart.cart_items.map((item, index) => (
                     <Col sm={12} className="cart-item" key={index}>
                       <Row>
                         <Col sm={2}>
                           <img
                             style={{marginRight: "10px", borderRadius: '5px'}}
-                            src={item.item_image}
+                            src={item.item.item_image}
                             width="100%"
                             height="auto"
                             className="d-inline-block align-top"
@@ -165,25 +259,53 @@ class Cart extends React.Component {
                         </Col>
 
                         <Col sm={4}>
-                          <h5>{item.name}</h5>
-                          <p className="title">Size: {item.size}</p>
+                          <h5>{item.item.name}</h5>
+
+                          <Form inline>
+                            <Form.Check
+                              style={{marginRight: '10px'}}
+                              custom
+                              type="radio"
+                              id={`medium_size${item.id}`}
+                              name={`size_radio${item.id}`}
+                              label="Medium"
+                              checked={item.size === "MEDIUM" ? true : false}
+                              onChange={() => this.oneItemSizeChange("MEDIUM", item)}
+                              />
+                            <Form.Check
+                              custom
+                              type="radio"
+                              id={`large_size${item.id}`}
+                              name={`size_radio${item.id}`}
+                              label="Large"
+                              checked={item.size === "LARGE" ? true : false}
+                              onChange={() => this.oneItemSizeChange("LARGE", item)}
+                              />
+                          </Form>
                         </Col>
 
                         <Col sm={2}>
                           <p className="title">Price</p>
-                          <h4 style={{color: 'orange'}}>${item.ls_price}</h4>
+                          {
+                            item.size === "LARGE" ?
+                            <h4 style={{color: 'orange'}}>${item.item.ls_price}</h4>
+                            :
+                            <h4 style={{color: 'orange'}}>${item.item.ms_price}</h4>
+                          }
                         </Col>
 
                         <Col sm={2}>
                           <p className="title">Quantity</p>
                           <QuantityCalculator
-                            key={index}
                             item={item}
+                            quantity={item.quantity}
+                            increaseQuantity={this.increaseQuantity}
+                            decreaseQuantity={this.decreaseQuantity}
                             />
                         </Col>
 
                         <Col sm={2} className="d-flex align-items-center justify-content-center">
-                          <i onClick={this.handleRemoveWarningShow} className="fa fa-trash fa-2x delete-icon"></i>
+                          <i onClick={() => this.handleRemoveWarningShow(item.id)} className="fa fa-trash fa-2x delete-icon"></i>
                         </Col>
 
                       </Row>
@@ -208,7 +330,7 @@ class Cart extends React.Component {
           }
 
           {
-            user.valid_cart && user.valid_cart.items_list.length > 0 ?
+            user.valid_cart && user.valid_cart.cart_items.length > 0 ?
             <Col sm={4}>
               <Row>
                 <Col sm={12} className="summary">
@@ -227,6 +349,7 @@ class Cart extends React.Component {
         <RemoveWarning
           show={showRemoveWarningModal}
           onHide={this.handleRemoveWarningClose}
+          onConfirmDelete={this.onConfirmDelete}
         />
 
         <ShippingAddress

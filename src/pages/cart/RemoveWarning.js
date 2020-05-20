@@ -9,7 +9,7 @@ import {
 
 // Warning modal component to display a warnign on performing some user actions
 const RemoveWarning = (props) => {
-  const { show, onHide } = props
+  const { show, onHide, onConfirmDelete } = props
 
   return (
     <Modal show={show} onHide={onHide}>
@@ -21,7 +21,7 @@ const RemoveWarning = (props) => {
         <Button variant="secondary" onClick={onHide}>
           Close
         </Button>
-        <Button variant="danger" onClick={onHide}>
+        <Button onClick={onConfirmDelete} variant="danger">
           Remove
         </Button>
       </Modal.Footer>

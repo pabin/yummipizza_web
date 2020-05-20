@@ -282,7 +282,7 @@ class OrderList extends React.Component {
                 : null
                 }
                 <tr>
-                  <td colspan="2"></td>
+                  <td colSpan="2"></td>
                   <th>Total</th>
                   {
                     selectedOrder.status === "DELIVERED" ?

@@ -22,10 +22,10 @@ export const orderCreateAPI = async (data) => {
     .then(response => {
       const order = response.data
       responseData.data = order
-      console.log('Order create response: ', order);
+      // console.log('Order create response: ', order);
     })
     .catch(err => {
-      console.log('Error on Order create: ', err)
+      // console.log('Error on Order create: ', err)
       responseData.error = err
     });
     return responseData

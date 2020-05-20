@@ -52,7 +52,7 @@ export function itemListFetch(data){
         dispatch(itemListFetchSuccess(itmeList))
       })
       .catch(err => {
-        console.log('Error on Items List Fetch: ', err)
+        // console.log('Error on Items List Fetch: ', err)
         dispatch(itemListFetchFailure(err))
       });
   }

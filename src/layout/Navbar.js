@@ -62,10 +62,10 @@ const NavBar = (props) => {
 
       <Navbar className="icon-wrapper">
         {
-          user.valid_cart && user.valid_cart.items_list.length > 0 ?
+          user.valid_cart && user.valid_cart.cart_items.length > 0 ?
           <Link to={'/cart'} className="cart-link">
             <i className="fa fa-shopping-cart" style={{fontSize: "40px"}}></i>
-            <span className="badge cartbadge">{user.valid_cart.items_list.length}</span>
+            <span className="badge cartbadge">{user.valid_cart.cart_items.length}</span>
           </Link>
           :
           <Link to={'/cart'} className="cart-link">

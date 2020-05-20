@@ -55,7 +55,7 @@ export function orderListFetch(data){
         dispatch(orderListFetchSuccess(orderList))
       })
       .catch(err => {
-        console.log('Error on Order List Fetch: ', err)
+        // console.log('Error on Order List Fetch: ', err)
         dispatch(orderListFetchFailure(err))
       });
   }

@@ -10,7 +10,7 @@ import axios from 'axios'
 
 
 export function userAuthenticationSuccess(token, user) {
-  console.log('User Authentication Success...')
+  // console.log('User Authentication Success...')
   return {
     type: USER_AUTHENTICATION_SUCCESS,
     token: token,
@@ -19,7 +19,6 @@ export function userAuthenticationSuccess(token, user) {
 }
 
 function userAuthenticating() {
-  console.log('User Authenticating...')
   return {
     type: USER_AUTHENTICATING,
   }
@@ -65,8 +64,6 @@ export function userAuthentication(username, password){
         }, 1000);
       })
       .catch(err => {
-        console.log('Error on User Authentication: ', err)
-
         setTimeout(() => {
           dispatch(userAuthenticationFailure(err))
         }, 1000);

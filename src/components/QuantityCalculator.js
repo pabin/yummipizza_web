@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
 import {
   Button,
@@ -8,28 +8,21 @@ import {
 
 // Quantity Calculator component to increase or decrease the item quantity
 const QuantityCalculator = (props) => {
-  const [quantity, setQuantity] = useState(1);
+    const { quantity, increaseQuantity, decreaseQuantity, item } = props
 
-  const { item } = props
-
-  useEffect(() => {
-    item.quantity = quantity
-    item.size = "LARGE"
-  });
-
-
-  return (
-    <ButtonGroup className="mr-2" aria-label="First group" style={{"backgroundColor": "#EFEFEF"}}>
-      <Button variant="default" onClick={() => setQuantity(quantity > 1 ? quantity-1 : 1)}>-</Button>
-      <input
-        type="tel"
-        className="form-control"
-        style={{"width": "50px", borderRadius: "0px"}}
-        value={quantity}
-        onChange={(e) => setQuantity(e.target.value)}/>
-      <Button variant="default" onClick={() => setQuantity(quantity > 9 ? 10 : quantity+1)}>+</Button>
-    </ButtonGroup>
-  );
+    return (
+      <ButtonGroup className="mr-2" aria-label="First group" style={{"backgroundColor": "#EFEFEF"}}>
+        <Button variant="default" onClick={item ? () => decreaseQuantity(item) : decreaseQuantity}>-</Button>
+        <input
+          disabled
+          type="number"
+          className="form-control"
+          style={{"width": "50px", borderRadius: "0px"}}
+          value={quantity}
+          />
+        <Button variant="default" onClick={item ? () => increaseQuantity(item) : increaseQuantity}>+</Button>
+      </ButtonGroup>
+    );
 }
 
 
