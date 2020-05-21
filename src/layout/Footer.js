@@ -29,18 +29,18 @@ class Footer extends Component {
         <Container>
           <Row>
             <Col sm={3}>
-              <h3>Customer Care</h3>
+              <h5>Customer Care</h5>
               <p>Phone</p>
               <p>Email</p>
               <p>Direct</p>
             </Col>
             <Col sm={3}>
-              <h3>Contact</h3>
+              <h5>Contact</h5>
               <p>About us</p>
               <p>Contact</p>
             </Col>
             <Col sm={6}>
-              <h3>Payment Methods</h3>
+              <h5>Payment Methods</h5>
               <p>Ebanking</p>
               <p>Ewallet</p>
               <p>Master Cards</p>
