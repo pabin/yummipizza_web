@@ -25,10 +25,10 @@ class Signup extends Component {
     super(props)
 
     this.state = {
-      username: "tes",
-      password: "tes",
-      firstName: "tse",
-      lastName: "tes",
+      username: "",
+      password: "",
+      firstName: "",
+      lastName: "",
       registering: false,
       registerFailed: false,
       registered: false,
