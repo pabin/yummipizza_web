@@ -24,10 +24,6 @@ const ServersidePagination = (props) => {
     totalPages = parseInt(totalItems / itemPerPage) + 1
   }
 
-  console.log('totalPages', totalPages);
-  console.log('totalItems', totalItems);
-  console.log('itemPerPage', itemPerPage);
-
   if (totalItems > 0) {
     return (
       <div className="d-flex align-items-end justify-content-end" style={{margin: "25px 0px 10px 0px"}}>

@@ -67,7 +67,7 @@ class Login extends Component {
                   width="70%"
                   height="auto"
                   className="d-inline-block align-top"
-                  alt="React Bootstrap logo"
+                  alt="Site Brand logo"
                   />
               </div>
 
@@ -130,9 +130,7 @@ class Login extends Component {
                 :
                 <Modal.Footer>
                 <Button variant="primary" onClick={this.onLoginButtonPress} block>Login</Button>
-                {/*
-                  <Button variant="secondary" onClick={onSignupPress} block>SignUp</Button>
-                  */}
+                <Button variant="secondary" onClick={onSignupPress} block>SignUp</Button>
               </Modal.Footer>
               }
           </div>

@@ -30,13 +30,12 @@ class App extends Component {
       const user = JSON.parse(localStorage.getItem('user'))
       const userAuthenticated = localStorage.getItem('userAuthenticated')
       const token = localStorage.getItem('token')
-      console.log('userAuthenticated at appp', userAuthenticated);
 
       // Checks if user is authenticated in local storage
       // Checks if the cart validity is still valid
       if (userAuthenticated) {
         if (user.valid_cart) {
-          console.log('user.valid_cart', user.valid_cart);
+          // console.log('user.valid_cart', user.valid_cart);
           const validity = new Date(user.valid_cart.validity)
           const now = new Date()
           if (validity < now) {

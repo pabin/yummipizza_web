@@ -60,7 +60,7 @@ const NavBar = (props) => {
       })
 
       itemList.results = search_term ? filteredItems: backupItemList
-      onItemFilter(itemList, backupItemList)      
+      onItemFilter(itemList, backupItemList)
     }
   }
 
@@ -73,7 +73,7 @@ const NavBar = (props) => {
           width="90%"
           height="auto"
           className="d-inline-block align-top"
-          alt="React Bootstrap logo"
+          alt="Site Logo"
         />
       </Navbar.Brand>
 

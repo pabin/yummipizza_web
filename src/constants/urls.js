@@ -5,7 +5,8 @@ const DOMAIN_NAME = "yummipizza-be-server.herokuapp.com";
 
 // Accounts
 const getAuthenticationUrl = () => `${HTTP_OR_HTTPS}://${DOMAIN_NAME}/accounts/api/authentication/`;
-const getUserRetrieveOrUpdateUrl = (user_id) => `${HTTP_OR_HTTPS}://${DOMAIN_NAME}/account/api/user/${user_id}/`;
+const getUserRetrieveOrUpdateUrl = (user_id) => `${HTTP_OR_HTTPS}://${DOMAIN_NAME}/accounts/api/user/${user_id}/`;
+const getUserSignupUrl = () => `${HTTP_OR_HTTPS}://${DOMAIN_NAME}/accounts/api/signup/`;
 
 // Inventory
 const getItemListUrl = () => `${HTTP_OR_HTTPS}://${DOMAIN_NAME}/inventory/api/items/`;
@@ -32,6 +33,7 @@ const getItemRatingCreateUrl = (item_id) => `${HTTP_OR_HTTPS}://${DOMAIN_NAME}/r
 export {
   getAuthenticationUrl,
   getUserRetrieveOrUpdateUrl,
+  getUserSignupUrl,
 
   getItemListUrl,
   getItemFilterUrl,

@@ -1,30 +1,28 @@
 import axios from 'axios'
 
 import {
-  getOrderCreateUrl,
+  getUserSignupUrl,
 } from '../constants/urls'
 
 
-
-// orderCreate API function to Call OrderCreate API from server
-export const orderCreateAPI = async (data) => {
+// User signup API function to Call user register API from server
+export const userSignupAPI = async (data) => {
   const TOKEN = localStorage.getItem('token')
-  const ORDER_CREATE_CREATE_URL = getOrderCreateUrl()
+  const USER_SIGNUP_URL = getUserSignupUrl()
 
   let responseData = {data: null, error: null}
   await axios({
           method: "POST",
-          url: `${ORDER_CREATE_CREATE_URL}`,
-          headers: {'Authorization': 'Token ' + TOKEN},
+          url: `${USER_SIGNUP_URL}`,
           data: data
         })
     .then(response => {
       const order = response.data
       responseData.data = order
-      // console.log('Order create response: ', order);
+      // console.log('User signup response: ', order);
     })
     .catch(err => {
-      // console.log('Error on Order create: ', err)
+      // console.log('Error on User signup: ', err)
       responseData.error = err
     });
     return responseData
