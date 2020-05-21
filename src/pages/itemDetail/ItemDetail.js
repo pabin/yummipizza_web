@@ -430,7 +430,7 @@ class ItemDetail extends React.Component {
                       <Button onClick={() => this.props.history.push('/')} variant="secondary" block>Continue Shopping</Button>
                     </Col>
                     <Col md={6}>
-                      <Button onClick={this.onAddToCart} variant="primary" block>Add to Cart</Button>
+                      <Button onClick={this.onAddToCart} variant="info" block>Add to Cart</Button>
                     </Col>
                   </Row>
 

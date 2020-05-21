@@ -185,7 +185,7 @@ class ItemCard extends Component {
           <Button
             onClick={this.onAddToCart}
             style={{margin: "10px", width: '13rem', alignSelf: 'center'}}
-            variant="primary" block>
+            variant="info" block>
             {
               loading ?
               <Spinner size={25} />
