@@ -8,6 +8,10 @@ const Rating = (props) => {
   let style = {
     color: "orange",
     fontSize: size ? `${size}px` : '22px',
+  }
+
+  let style2 = {
+    ...style,
     cursor: cursor ?  cursor : null
   }
 
@@ -17,7 +21,7 @@ const Rating = (props) => {
     <div>
       {
         Array.from(Array(rating), (e, index) => (
-          <i key={index} className="fa fa-star" style={style}></i>
+          <i key={index} className="fa fa-star" style={style2}></i>
         ))
       }
       {

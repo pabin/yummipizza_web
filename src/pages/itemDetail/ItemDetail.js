@@ -460,24 +460,36 @@ class ItemDetail extends React.Component {
             {
               itemFetched ?
               <Row style={ratingRowStyle} className="custom-shadow">
-                <Col sm={6}>
-                  <h6>Rate this item</h6>
-                  <div  onClick={() => this.handleItemRating(5)}>
-                    <Rating rating={5} size={25} cursor="pointer" />
-                  </div>
-                  <div onClick={() => this.handleItemRating(4)}>
-                    <Rating rating={4} size={25} cursor="pointer" />
-                  </div>
-                  <div onClick={() => this.handleItemRating(3)}>
-                    <Rating rating={3} size={25} cursor="pointer" />
-                  </div>
-                  <div onClick={() => this.handleItemRating(2)}>
-                    <Rating rating={2} size={25} cursor="pointer" />
-                  </div>
-                  <div onClick={() => this.handleItemRating(1)}>
-                    <Rating rating={1} size={25} cursor="pointer" />
-                  </div>
-                </Col>
+                {
+                  userAuthenticated ?
+                  <Col sm={6}>
+                    <h6>Rate this item</h6>
+                    <div  onClick={() => this.handleItemRating(5)}>
+                      <Rating rating={5} size={25} cursor="pointer" />
+                    </div>
+                    <div onClick={() => this.handleItemRating(4)}>
+                      <Rating rating={4} size={25} cursor="pointer" />
+                    </div>
+                    <div onClick={() => this.handleItemRating(3)}>
+                      <Rating rating={3} size={25} cursor="pointer" />
+                    </div>
+                    <div onClick={() => this.handleItemRating(2)}>
+                      <Rating rating={2} size={25} cursor="pointer" />
+                    </div>
+                    <div onClick={() => this.handleItemRating(1)}>
+                      <Rating rating={1} size={25} cursor="pointer" />
+                    </div>
+                  </Col>
+                  :
+                  <Col sm={6}>
+                    <h6>Login to rate this item</h6>
+                    <Rating rating={5} size={25} />
+                    <Rating rating={4} size={25} />
+                    <Rating rating={3} size={25} />
+                    <Rating rating={2} size={25} />
+                    <Rating rating={1} size={25} />
+                  </Col>
+                }
                 <Col sm={3}>
                   <h6>Total Rating</h6>
                   <h3>{item.ratings_value.total_ratings}</h3>
