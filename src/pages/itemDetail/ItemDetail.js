@@ -49,7 +49,7 @@ class ItemDetail extends React.Component {
     }
 
     const item_id = this.props.location.state.item.id
-    this.itemDetailsFetch()
+    this.itemDetailsFetch(item_id)
     this.props.dispatchCommentFetch(item_id)
     this.updateItemViews(item_id)
   }
@@ -61,11 +61,8 @@ class ItemDetail extends React.Component {
 
 
   // API for Listing item details
-  itemDetailsFetch = () => {
-    console.log('laoding item detaols...');
-    const { item } = this.props.location.state
-
-    getItemDetailsAPI(item.id)
+  itemDetailsFetch = (item_id) => {
+    getItemDetailsAPI(item_id)
     .then(response => {
       if (response.data) {
         // console.log('response.data', response.data);
@@ -602,8 +599,17 @@ class ItemDetail extends React.Component {
                           alt="Item Image"
                           />
                       </Col>
-                      <Col className="d-flex align-items-center justify-content-center">
+                      <Col sm={5} className="d-flex align-items-center justify-content-center" style={{flexDirection: "column"}}>
                         <h2>${popularItem.ls_price}</h2>
+                        <Button
+                          style={{marginTop: '10px'}}
+                          variant="light"
+                          block
+                          onClick={() => {
+                            window.scrollTo(0, 0);
+                            this.setState({ itemFetched: false, fetchingItem: true})
+                            this.itemDetailsFetch(popularItem.id)
+                          }}>View</Button>
                       </Col>
                     </Row>
                   </Col>
