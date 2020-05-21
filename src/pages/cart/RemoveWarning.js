@@ -12,7 +12,7 @@ const RemoveWarning = (props) => {
   const { show, onHide, onConfirmDelete } = props
 
   return (
-    <Modal show={show} onHide={onHide}>
+    <Modal show={show} onHide={onHide} centered>
       <Modal.Header closeButton>
         <Modal.Title>Confirm Item Remove</Modal.Title>
       </Modal.Header>
