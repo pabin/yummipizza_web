@@ -327,7 +327,7 @@ class Cart extends React.Component {
               </Row>
             </Col>
             :
-            <Col sm={12} className="cart-item d-flex align-items-center justify-content-center" style={{minHeight: "200px", flexDirection: 'column'}}>
+            <Col sm={12} className="cart-item d-flex align-items-center justify-content-center" style={{minHeight: "500px", flexDirection: 'column'}}>
               <h5 align="center"><i className="fa fa-exclamation-circle fa-3x"></i></h5>
               <h5 align="center">Your cart is Empty</h5>
               <br/>
