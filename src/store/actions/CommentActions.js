@@ -48,7 +48,7 @@ export function commentFetch(item_id){
         const comments = response.data
         setTimeout(() => {
           dispatch(commentFetchSuccess(comments))
-        }, 3000);
+        }, 2000);
       })
       .catch(err => {
         console.log('Error on Comment Fetch: ', err)

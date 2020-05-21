@@ -50,7 +50,6 @@ class ItemDetail extends React.Component {
 
     const item_id = this.props.location.state.item.id
     this.itemDetailsFetch(item_id)
-    this.props.dispatchCommentFetch(item_id)
     this.updateItemViews(item_id)
   }
 
@@ -68,6 +67,7 @@ class ItemDetail extends React.Component {
         // console.log('response.data', response.data);
         this.setState({itemDetails: response.data})
         this.setState({fetchingItem: false, itemFetched: true})
+        this.props.dispatchCommentFetch(item_id)
       } else if (response.error) {
         this.setState({fetchingItem: false})
       }
@@ -228,7 +228,7 @@ class ItemDetail extends React.Component {
     var { comments: {
       comments,
     }} = this.props
-
+    const { itemDetails } = this.state
     commentCreateAPI(message, user.id, item.id)
     .then(response => {
       if (response.data) {
@@ -237,6 +237,8 @@ class ItemDetail extends React.Component {
         this.props.onCommentUpdate(comments)
         this.setState({comment: ""})
 
+        itemDetails.reviews_count += 1
+        this.setState({itemDetails})
       } else if (response.error) {
         // log errorr
       }
