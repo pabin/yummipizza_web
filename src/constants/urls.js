@@ -11,7 +11,7 @@ const getUserSignupUrl = () => `${HTTP_OR_HTTPS}://${DOMAIN_NAME}/accounts/api/s
 // Inventory
 const getItemListUrl = () => `${HTTP_OR_HTTPS}://${DOMAIN_NAME}/inventory/api/items/`;
 const getItemFilterUrl = () => `${HTTP_OR_HTTPS}://${DOMAIN_NAME}/inventory/api/items-filter/`;
-const getItemViewsUpdateUrl = (item_id) => `${HTTP_OR_HTTPS}://${DOMAIN_NAME}/inventory/api/items/${item_id}/`;
+const getItemViewsUpdateUrl = (item_id) => `${HTTP_OR_HTTPS}://${DOMAIN_NAME}/inventory/api/item/${item_id}/`;
 const getPopularItemListUrl = () => `${HTTP_OR_HTTPS}://${DOMAIN_NAME}/inventory/api/popular-items/`;
 
 const getShoppingCartCreateUrl = () => `${HTTP_OR_HTTPS}://${DOMAIN_NAME}/inventory/api/cart/`;

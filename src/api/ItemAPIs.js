@@ -45,3 +45,22 @@ export const popularItemsListAPI = async () => {
 
   return responseData
 }
+
+
+export const getItemDetailsAPI = async (item_id) => {
+  var ITEM_DETAIL_URL = getItemViewsUpdateUrl(item_id)
+
+  let responseData = {data: null, error: null}
+  await axios({
+          method: "GET",
+          url: `${ITEM_DETAIL_URL}`,
+        })
+    .then(response => {
+      responseData.data = response.data
+    })
+    .catch(err => {
+      responseData.error = err
+    });
+
+  return responseData
+}

@@ -19,8 +19,8 @@ import Message from '../../components/Message'
 import FullScreenLoading from '../../components/FullScreenLoading'
 
 import { shoppingCartCreateAPI, shoppingCartUpdateAPI } from '../../api/CartAPIs';
-import { commentCreateAPI } from '../../api/CommentAPIs';
-import { itemViewsUpdateAPI, popularItemsListAPI } from '../../api/ItemAPIs';
+import { commentCreateAPI, ratingCreateAPI } from '../../api/ReviewAPIs';
+import { itemViewsUpdateAPI, popularItemsListAPI, getItemDetailsAPI } from '../../api/ItemAPIs';
 
 import { userAuthenticationSuccess } from '../../store/actions/AuthenticationActions';
 import { commentFetchSuccess } from '../../store/actions/CommentActions';
@@ -34,7 +34,6 @@ class ItemDetail extends React.Component {
     super(props)
 
     this.state = {
-      loading: false,
       showSuccessMessage: false,
       showFailureMessage: false,
       successMessage: "Added Successfully",
@@ -42,10 +41,15 @@ class ItemDetail extends React.Component {
       itemSize: "LARGE",
       quantity: 1,
       comment: "",
-      popularItems: []
+      popularItems: [],
+      itemFetched: false,
+      loading: false,
+      fetchingItem: true,
+      itemDetails: {},
     }
 
     const item_id = this.props.location.state.item.id
+    this.itemDetailsFetch()
     this.props.dispatchCommentFetch(item_id)
     this.updateItemViews(item_id)
   }
@@ -54,6 +58,25 @@ class ItemDetail extends React.Component {
   componentDidMount() {
     this.listPopularItems()
   }
+
+
+  // API for Listing item details
+  itemDetailsFetch = () => {
+    console.log('laoding item detaols...');
+    const { item } = this.props.location.state
+
+    getItemDetailsAPI(item.id)
+    .then(response => {
+      if (response.data) {
+        // console.log('response.data', response.data);
+        this.setState({itemDetails: response.data})
+        this.setState({fetchingItem: false, itemFetched: true})
+      } else if (response.error) {
+        this.setState({fetchingItem: false})
+      }
+    })
+  }
+
 
   // List out popular items
   listPopularItems = () => {
@@ -223,6 +246,28 @@ class ItemDetail extends React.Component {
     })
   }
 
+
+  // API for Rating Create
+  handleItemRating = (rating) => {
+    const { authentication: {
+      user,
+    }} = this.props
+
+    const { item } = this.props.location.state
+    console.log('user', user.id);
+    console.log('item', item.id);
+    ratingCreateAPI(rating, user.id, item.id)
+    .then(response => {
+      if (response.data) {
+        console.log('response.data', response.data);
+        this.setState({itemDetails: response.data})
+      } else if (response.error) {
+        // log errorr
+      }
+    })
+  }
+
+
   handleReviewComment = (e) => {
     if (e.key === 'Enter') {
       console.log('do validate', e.target.value);
@@ -259,8 +304,8 @@ class ItemDetail extends React.Component {
       user,
     }} = this.props
 
-    const { item } = this.props.location.state
-    const { showSuccessMessage, showFailureMessage, loading, quantity, popularItems, itemSize } = this.state
+    const item = this.state.itemDetails
+    const { showSuccessMessage, showFailureMessage, loading, quantity, popularItems, itemSize, itemFetched, fetchingItem } = this.state
 
     let containerStyle = {
       padding: "0px 30px 0px 30px",
@@ -295,131 +340,155 @@ class ItemDetail extends React.Component {
 
     return (
       <div style={containerStyle}>
-        <Row style={rowstyle} className="custom-shadow">
-          <Col sm={5} className="d-flex align-items-center justify-content-center">
-            <img
-              style={{marginRight: "10px", borderRadius: '5px'}}
-              src={item.item_image}
-              width="100%"
-              height="auto"
-              className="d-inline-block align-top"
-              alt="Item Image"
-            />
-          </Col>
-          <Col sm={4}>
-            <h5>{item.name}</h5>
+        {
+          itemFetched ?
+          <Row style={rowstyle} className="custom-shadow">
+            <Col sm={5} className="d-flex align-items-center justify-content-center">
+              <img
+                style={{marginRight: "10px", borderRadius: '5px'}}
+                src={item.item_image}
+                width="100%"
+                height="auto"
+                className="d-inline-block align-top"
+                alt="Item Image"
+                />
+            </Col>
+            <Col sm={4}>
+              <h5>{item.name}</h5>
               <div style={{display: 'flex'}}>
                 <Rating rating={parseInt(item.ratings_value.average_rating)} />
                 <span style={{fontSize: '14px', color: '#707B7C', marginLeft: '10px'}}>{item.ratings_value.total_ratings} Rating(s) | {item.reviews_count} Review(s)</span>
               </div>
-            <hr/ >
-              <span style={{color: "orange", paddingTop: '0px', marginRight: '20px', fontSize: '35px', fontWeight: 'bold'}}>${ itemSize === "MEDIUM" ? item.ms_price : item.ls_price}</span>
-            {
-              item.discount ?
-              <span style={{fontSize: '14px', color: '#707B7C', marginRight: '10px', marginTop: '0px'}}>
+              <hr/ >
+                <span style={{color: "orange", paddingTop: '0px', marginRight: '20px', fontSize: '35px', fontWeight: 'bold'}}>${ itemSize === "MEDIUM" ? item.ms_price : item.ls_price}</span>
                 {
-                  itemSize === "MEDIUM" ?
-                  <del>$ {(item.ms_price + ((item.discount.discount_percent / 100) * item.ms_price)).toFixed(1)}</del>
-                  :
-                  <del>$ {(item.ls_price + ((item.discount.discount_percent / 100) * item.ls_price)).toFixed(1)}</del>
+                  item.discount ?
+                  <span style={{fontSize: '14px', color: '#707B7C', marginRight: '10px', marginTop: '0px'}}>
+                    {
+                      itemSize === "MEDIUM" ?
+                      <del>$ {(item.ms_price + ((item.discount.discount_percent / 100) * item.ms_price)).toFixed(1)}</del>
+                      :
+                      <del>$ {(item.ls_price + ((item.discount.discount_percent / 100) * item.ls_price)).toFixed(1)}</del>
+                    }
+                  </span>
+                  : null
                 }
-              </span>
-              : null
-            }
 
-            {
-              item.discount ?
-              item.discount.code === 'SPECIAL' ?
-              <Badge variant="secondary">{item.discount.name}</Badge>
-              : item.discount.code === 'LOYALTY' ?
-              <Badge variant="dark">{item.discount.name}</Badge>
-              : item.discount.code === 'HOLIDAY' ?
-              <Badge variant="light">{item.discount.name}</Badge>
-              : item.discount.code === 'STAYHOME' ?
-              <Badge variant="warning">{item.discount.name}</Badge>
-              : null
-              : null
-            }
+                {
+                  item.discount ?
+                  item.discount.code === 'SPECIAL' ?
+                  <Badge variant="secondary">{item.discount.name}</Badge>
+                  : item.discount.code === 'LOYALTY' ?
+                  <Badge variant="dark">{item.discount.name}</Badge>
+                  : item.discount.code === 'HOLIDAY' ?
+                  <Badge variant="light">{item.discount.name}</Badge>
+                  : item.discount.code === 'STAYHOME' ?
+                  <Badge variant="warning">{item.discount.name}</Badge>
+                  : null
+                  : null
+                }
 
-            <hr/ >
-            <Row>
-              <Col sm={2}>
-                <h6 className="title">Size</h6>
-              </Col>
-              <Col sm={10}>
-                <Form inline style={{justifyContent: 'space-around'}}>
-                  <Form.Check
-                    custom
-                    type="radio"
-                    id="medium_size"
-                    name="size_radio"
-                    label="Medium"
-                    checked={this.state.itemSize === "MEDIUM" ? true : false}
-                    onChange={() => this.setState({itemSize: 'MEDIUM'})}
-                    />
-                  <Form.Check
-                    custom
-                    type="radio"
-                    id="large_size"
-                    name="size_radio"
-                    label="Large"
-                    checked={this.state.itemSize === "LARGE" ? true : false}
-                    onChange={() => this.setState({itemSize: 'LARGE'})}
-                    />
-                </Form>
-              </Col>
-            </Row>
-            <Row style={{marginTop: '20px'}}>
-              <Col sm={3}>
-                <h6 className="title">Quantity</h6>
-              </Col>
-              <Col sm={9}>
-                <QuantityCalculator quantity={quantity} increaseQuantity={this.increaseQuantity} decreaseQuantity={this.decreaseQuantity} />
-              </Col>
-            </Row>
+                <hr/ >
+                  <Row>
+                    <Col sm={2}>
+                      <h6 className="title">Size</h6>
+                    </Col>
+                    <Col sm={10}>
+                      <Form inline style={{justifyContent: 'space-around'}}>
+                        <Form.Check
+                          custom
+                          type="radio"
+                          id="medium_size"
+                          name="size_radio"
+                          label="Medium"
+                          checked={this.state.itemSize === "MEDIUM" ? true : false}
+                          onChange={() => this.setState({itemSize: 'MEDIUM'})}
+                          />
+                        <Form.Check
+                          custom
+                          type="radio"
+                          id="large_size"
+                          name="size_radio"
+                          label="Large"
+                          checked={this.state.itemSize === "LARGE" ? true : false}
+                          onChange={() => this.setState({itemSize: 'LARGE'})}
+                          />
+                      </Form>
+                    </Col>
+                  </Row>
+                  <Row style={{marginTop: '20px'}}>
+                    <Col sm={3}>
+                      <h6 className="title">Quantity</h6>
+                    </Col>
+                    <Col sm={9}>
+                      <QuantityCalculator quantity={quantity} increaseQuantity={this.increaseQuantity} decreaseQuantity={this.decreaseQuantity} />
+                    </Col>
+                  </Row>
 
-            <Row style={{marginTop: '20px'}}>
-              <Col md={6}>
-                <Button onClick={() => this.props.history.push('/')} variant="secondary" block>Continue Shopping</Button>
-              </Col>
-              <Col md={6}>
-                <Button onClick={this.onAddToCart} variant="primary" block>Add to Cart</Button>
-              </Col>
-            </Row>
+                  <Row style={{marginTop: '20px'}}>
+                    <Col md={6}>
+                      <Button onClick={() => this.props.history.push('/')} variant="secondary" block>Continue Shopping</Button>
+                    </Col>
+                    <Col md={6}>
+                      <Button onClick={this.onAddToCart} variant="primary" block>Add to Cart</Button>
+                    </Col>
+                  </Row>
 
 
-          </Col>
-          <Col sm={3}>
-            <h6 className="title">Delivery Options</h6>
-            <p><i className="fa fa-map-marker" style={{fontSize: '20px', margin: '5px'}}></i> With in 20 KM of city</p>
-            <hr/ >
+                </Col>
+                <Col sm={3}>
+                  <h6 className="title">Delivery Options</h6>
+                  <p><i className="fa fa-map-marker" style={{fontSize: '20px', margin: '5px'}}></i> With in 20 KM of city</p>
+                  <hr/ >
 
-            <h6 className="title">Return Policy</h6>
-            <p><i className="fa fa-exclamation-circle" style={{fontSize: '20px', margin: '5px'}}></i>No return of delivered goods</p>
-            <hr/ >
-          </Col>
-        </Row>
+                    <h6 className="title">Return Policy</h6>
+                    <p><i className="fa fa-exclamation-circle" style={{fontSize: '20px', margin: '5px'}}></i>No return of delivered goods</p>
+                    <hr/ >
+                    </Col>
+                  </Row>
+          : fetchingItem ?
+          <Row style={rowstyle} className="custom-shadow">
+            <Col className="d-flex align-items-center justify-content-center" style={{minHeight: '500px'}}>
+              <Spinner />
+            </Col>
+          </Row>
+          : null
+        }
 
         <Row>
           <Col sm={8}>
-            <Row style={ratingRowStyle} className="custom-shadow">
-              <Col sm={4}>
-                <h6>Rate this item</h6>
-                <Rating rating={5} size={25} cursor="pointer" />
-                <Rating rating={4} size={25} />
-                <Rating rating={3} size={25} />
-                <Rating rating={2} size={25} />
-                <Rating rating={1} size={25} />
-              </Col>
-              <Col sm={4}>
-                <h5>Total Rating</h5>
-                <h3>{item.ratings_value.total_ratings}</h3>
-              </Col>
-              <Col sm={4}>
-                <h5>Average Rating</h5>
-                <h3>{parseInt(item.ratings_value.average_rating)}</h3>
-              </Col>
-            </Row>
+            {
+              itemFetched ?
+              <Row style={ratingRowStyle} className="custom-shadow">
+                <Col sm={6}>
+                  <h6>Rate this item</h6>
+                  <div  onClick={() => this.handleItemRating(5)}>
+                    <Rating rating={5} size={25} cursor="pointer" />
+                  </div>
+                  <div onClick={() => this.handleItemRating(4)}>
+                    <Rating rating={4} size={25} cursor="pointer" />
+                  </div>
+                  <div onClick={() => this.handleItemRating(3)}>
+                    <Rating rating={3} size={25} cursor="pointer" />
+                  </div>
+                  <div onClick={() => this.handleItemRating(2)}>
+                    <Rating rating={2} size={25} cursor="pointer" />
+                  </div>
+                  <div onClick={() => this.handleItemRating(1)}>
+                    <Rating rating={1} size={25} cursor="pointer" />
+                  </div>
+                </Col>
+                <Col sm={3}>
+                  <h6>Total Rating</h6>
+                  <h3>{item.ratings_value.total_ratings}</h3>
+                </Col>
+                <Col sm={3}>
+                  <h6>Average Rating</h6>
+                  <h3>{parseInt(item.ratings_value.average_rating)}</h3>
+                </Col>
+              </Row>
+              : null
+            }
             <Row style={ratingRowStyle} className="custom-shadow">
                 {
                   commentFetched ?
@@ -507,7 +576,7 @@ class ItemDetail extends React.Component {
             </Card>
             {
               popularItems.map((popularItem, index) => (
-                <Row style={topSellerRowStyle} className="custom-shadow">
+                <Row key={index} style={topSellerRowStyle} className="custom-shadow">
                   <Col sm={12}>
                     <Row>
                       <Col sm={7}>
@@ -548,7 +617,7 @@ class ItemDetail extends React.Component {
 
 const mapStateToProps  = state => ({
   authentication: state.authentication,
-  comments: state.comments
+  comments: state.comments,
 })
 
 const mapDispatchToProps = {
