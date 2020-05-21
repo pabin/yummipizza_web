@@ -297,7 +297,10 @@ class ItemDetail extends React.Component {
           </Col>
           <Col sm={4}>
             <h5>{item.name}</h5>
-            <Rating rating={parseInt(item.ratings_value.average_rating)} />
+              <div style={{display: 'flex'}}>
+                <Rating rating={parseInt(item.ratings_value.average_rating)} />
+                <span style={{fontSize: '14px', color: '#707B7C', marginLeft: '10px'}}>{item.ratings_value.total_ratings} Rating(s) | {item.reviews_count} Review(s)</span>
+              </div>
             <hr/ >
               <span style={{color: "orange", paddingTop: '0px', marginRight: '20px', fontSize: '35px', fontWeight: 'bold'}}>${ itemSize === "MEDIUM" ? item.ms_price : item.ls_price}</span>
             {
