@@ -23,6 +23,7 @@ class Footer extends Component {
         width: "100%",
     }
 
+    const year = (new Date()).getFullYear()
 
     return (
       <div style={style}>
@@ -30,8 +31,8 @@ class Footer extends Component {
           <Row>
             <Col sm={3}>
               <h5>Customer Care</h5>
-              <p>Phone</p>
-              <p>Email</p>
+              <p>Phone &nbsp; 9849472519</p>
+              <p>Email &nbsp; admin@typizza.com</p>
               <p>Direct</p>
             </Col>
             <Col sm={3}>
@@ -44,6 +45,12 @@ class Footer extends Component {
               <p>Ebanking</p>
               <p>Ewallet</p>
               <p>Master Cards</p>
+            </Col>
+          </Row>
+          <hr />
+          <Row>
+            <Col className="d-flex align-items-center justify-content-center">
+              <p>&copy; {year} The Yummi Pizza</p>
             </Col>
           </Row>
         </Container>
