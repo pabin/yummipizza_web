@@ -223,13 +223,11 @@ class ItemDetail extends React.Component {
       user,
     }} = this.props
 
-    const { item } = this.props.location.state
-
     var { comments: {
       comments,
     }} = this.props
     const { itemDetails } = this.state
-    commentCreateAPI(message, user.id, item.id)
+    commentCreateAPI(message, user.id, itemDetails.id)
     .then(response => {
       if (response.data) {
         comments.count += 1
@@ -252,10 +250,9 @@ class ItemDetail extends React.Component {
       user,
     }} = this.props
 
-    const { item } = this.props.location.state
-    console.log('user', user.id);
-    console.log('item', item.id);
-    ratingCreateAPI(rating, user.id, item.id)
+    const { itemDetails } = this.state
+
+    ratingCreateAPI(rating, user.id, itemDetails.id)
     .then(response => {
       if (response.data) {
         console.log('response.data', response.data);
@@ -274,10 +271,6 @@ class ItemDetail extends React.Component {
     }
   }
 
-
-  onRecommendedProductSelect = (item) => {
-    this.props.location.state.item = item
-  }
 
   formatDatetime = (datetime) => {
     let dt = new Date(datetime)
