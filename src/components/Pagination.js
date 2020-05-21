@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import {
   Pagination,
@@ -18,7 +18,7 @@ const ServersidePagination = (props) => {
   let totalPages = 1
   if (totalItems===itemPerPage) {
     totalPages = 1
-  } else if (totalItems % itemPerPage == 0) {
+  } else if (totalItems % itemPerPage === 0) {
     totalPages = (totalItems / itemPerPage)
   } else if ((totalItems > itemPerPage) && (totalItems % itemPerPage !== 0)) {
     totalPages = parseInt(totalItems / itemPerPage) + 1

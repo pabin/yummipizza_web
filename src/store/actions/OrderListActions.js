@@ -33,12 +33,14 @@ function orderListFetchFailure(err) {
 export function orderListFetch(data){
   const TOKEN = localStorage.getItem('token')
 
+  let URL;
+  let params;
   if (data.filter) {
-    var URL = getUserOrderFilterUrl()
-    var params = data.data
+    URL = getUserOrderFilterUrl()
+    params = data.data
   } else if (data.list) {
-    var URL = getUserOrderListUrl()
-    var params = null
+    URL = getUserOrderListUrl()
+    params = null
   }
 
   return (dispatch) => {

@@ -66,8 +66,8 @@ class OrderList extends React.Component {
 
   onItemFilter = (filterOption, value) => {
     const { filters } = this.state
-    filters.map(filter => {
-      filter.options.map(option => {
+    filters.forEach(filter => {
+      filter.options.forEach(option => {
         if (filterOption.id === option.id) option.selected = value;
       })
     })
@@ -78,21 +78,21 @@ class OrderList extends React.Component {
     let status = []
 
     // let { types, prices, reviews, sort_by } = this.state
-    filters.map(filter => {
-      filter.options.map(option => {
-        if (filter.id == "DATE") {
+    filters.forEach(filter => {
+      filter.options.forEach(option => {
+        if (filter.id === "DATE") {
           if (option.selected) {
             dates.push(option.id)
           } else {
             dates = dates.filter(date => date !== option.id)
           };
-        } else if (filter.id == "PRICE") {
+        } else if (filter.id === "PRICE") {
           if (option.selected) {
             prices.push(option.id)
           } else {
             prices = prices.filter(price => price !== option.id)
           };
-        } else if (filter.id == "STATUS") {
+        } else if (filter.id === "STATUS") {
           if (option.selected) {
             status.push(option.id)
           } else {

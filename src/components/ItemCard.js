@@ -5,7 +5,6 @@ import {
   Button,
   Card,
   Badge,
-  Row,
 } from 'react-bootstrap';
 
 import { Redirect } from 'react-router-dom';

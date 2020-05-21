@@ -4,7 +4,6 @@ import {
   COMMENT_FETCHING } from '../reducers/CommentReducers'
 
 import { getItemReviewListUrl } from '../../constants/urls'
-import store from '../index'
 
 import axios from 'axios'
 

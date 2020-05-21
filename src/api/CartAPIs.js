@@ -95,7 +95,6 @@ export const cartItemDeleteAPI = async (cart_item_id) => {
           headers: {'Authorization': 'Token ' + TOKEN},
         })
     .then(response => {
-      const shoppingCart = response.data
       responseData.data = true
     })
     .catch(err => {

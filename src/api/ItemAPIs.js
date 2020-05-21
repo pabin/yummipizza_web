@@ -1,5 +1,4 @@
 import axios from 'axios'
-import store from '../store'
 import { getItemViewsUpdateUrl, getPopularItemListUrl } from '../constants/urls'
 
 

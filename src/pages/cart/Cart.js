@@ -48,7 +48,7 @@ class Cart extends React.Component {
     }} = this.props
 
     let order_items = []
-    user.valid_cart.cart_items.map(item => {
+    user.valid_cart.cart_items.forEach(item => {
       order_items.push({
         item_id: item.item.id,
         quantity: item.quantity,
@@ -166,7 +166,7 @@ class Cart extends React.Component {
       if (response.data) {
         const cartItemResponse = response.data
 
-        user.valid_cart.cart_items.map(cartitem => {
+        user.valid_cart.cart_items.forEach(cartitem => {
           if (cartitem.id === cartItemResponse.id) {
             cartitem.id = cartItemResponse.id
             cartitem.quantity = cartItemResponse.quantity
@@ -196,7 +196,7 @@ class Cart extends React.Component {
     .then(response => {
       if (response.data) {
 
-        let filteredCartItems = user.valid_cart.cart_items.filter(cartitm => cartitm.id != this.state.itemToDelete)
+        let filteredCartItems = user.valid_cart.cart_items.filter(cartitm => cartitm.id !== this.state.itemToDelete)
         user.valid_cart.cart_items = filteredCartItems
 
         this.setState({showRemoveWarningModal: false})
@@ -219,7 +219,7 @@ class Cart extends React.Component {
     let prices = {}
     let totalPrice = 0
     if (user.valid_cart) {
-        user.valid_cart.cart_items.map(item => {
+        user.valid_cart.cart_items.forEach(item => {
           if (item.size === "LARGE") {
             totalPrice += item.item.ls_price * item.quantity
           } else if (item.size === "MEDIUM") {
@@ -234,8 +234,6 @@ class Cart extends React.Component {
     prices.delivery_usd = 10
     prices.total_euro = (totalPrice + 10) * 0.92
     prices.total_usd = totalPrice + 10
-
-    const time_now = new Date()
 
     return (
       <div className="cart-container">

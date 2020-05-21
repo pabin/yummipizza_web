@@ -55,7 +55,7 @@ const NavBar = (props) => {
     if (itemListFetched) {
       console.log('search_term', search_term);
       let filteredItems = []
-      backupItemList.map(item => {
+      backupItemList.forEach(item => {
         if (item.name.toLowerCase().includes(search_term.toLowerCase())) filteredItems.push(item);
       })
 

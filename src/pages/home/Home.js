@@ -60,8 +60,8 @@ class HomePage extends React.Component {
 
   onItemFilter = (filterOption, value) => {
     const { filters } = this.state
-    filters.map(filter => {
-      filter.options.map(option => {
+    filters.forEach(filter => {
+      filter.options.forEach(option => {
         if (filterOption.id === option.id) option.selected = value;
       })
     })
@@ -72,21 +72,21 @@ class HomePage extends React.Component {
     let reviews = []
 
     let { sort_by } = this.state
-    filters.map(filter => {
-      filter.options.map(option => {
-        if (filter.id == "TYPE") {
+    filters.forEach(filter => {
+      filter.options.forEach(option => {
+        if (filter.id === "TYPE") {
           if (option.selected) {
             types.push(option.id)
           } else {
             types = types.filter(typ => typ !== option.id)
           }
-        } else if (filter.id == "PRICE") {
+        } else if (filter.id === "PRICE") {
           if (option.selected) {
             prices.push(option.id)
           } else {
             prices = prices.filter(price => price !== option.id)
           }
-        } else if (filter.id == "REVIEW") {
+        } else if (filter.id === "REVIEW") {
           if (option.selected) {
             reviews.push(option.id)
           } else {

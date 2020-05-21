@@ -15,7 +15,6 @@ import FullScreenLoading from '../../components/FullScreenLoading'
 import Message from '../../components/Message'
 
 import { userSignupAPI } from '../../api/AccountsAPIs';
-import { userAuthentication } from '../../store/actions/AuthenticationActions';
 import { userAuthenticationSuccess } from '../../store/actions/AuthenticationActions';
 
 
