@@ -406,7 +406,7 @@ class ItemDetail extends React.Component {
               </Col>
               <Col sm={4}>
                 <h5>Average Rating</h5>
-                <h3>{item.ratings_value.average_rating}</h3>
+                <h3>{parseInt(item.ratings_value.average_rating)}</h3>
               </Col>
             </Row>
             <Row style={ratingRowStyle} className="custom-shadow">
