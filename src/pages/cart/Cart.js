@@ -235,6 +235,8 @@ class Cart extends React.Component {
     prices.total_euro = (totalPrice + 10) * 0.92
     prices.total_usd = totalPrice + 10
 
+    const time_now = new Date()
+
     return (
       <div className="cart-container">
         <Row className="cart-row">
@@ -244,8 +246,14 @@ class Cart extends React.Component {
             <Col sm={8}>
               <Row>
                 <Col sm={12} className="cart-item d-flex align-items-center" style={{padding: "10px"}}>
-                  <i className="fa fa-shopping-cart" style={{fontSize: "30px", marginLeft: '10px', marginRight: "20px"}}></i>
-                  <h5 style={{paddingTop: '10px'}}>{user.valid_cart.cart_items.length} Item(s) in Your Cart</h5>
+                  <div className="d-flex">
+                    <i className="fa fa-shopping-cart" style={{fontSize: "30px", marginLeft: '10px', marginRight: "20px"}}></i>
+                    <h5 style={{paddingTop: '5px'}}>{user.valid_cart.cart_items.length} Item(s) in Your Cart</h5>
+                    {/*
+                      <span style={{fontSize: '16px', color: '#707B7C', marginLeft: '20px', paddingTop: '5px'}}>Your cart will expire in {parseInt(((new Date(user.valid_cart.validity)).getTime() - time_now.getTime())/60000)} minutes</span>
+                    */}
+                  </div>
+
                 </Col>
                 {
                   user.valid_cart.cart_items.map((item, index) => (
