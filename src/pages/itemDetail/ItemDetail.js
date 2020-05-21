@@ -495,7 +495,7 @@ class ItemDetail extends React.Component {
               <Card.Header><h5>Recommended Items</h5></Card.Header>
             </Card>
             {
-              popularItems.slice(0, 4).map((popularItem, index) => (
+              popularItems.map((popularItem, index) => (
                 <Row style={topSellerRowStyle} className="custom-shadow">
                   <Col sm={12}>
                     <Row>

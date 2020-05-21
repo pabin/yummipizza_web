@@ -51,7 +51,7 @@ export function orderListFetch(data){
           })
       .then(response => {
         const orderList = response.data
-        console.log('Order List @ actions ', JSON.stringify(orderList))
+        // console.log('Order List @ actions ', JSON.stringify(orderList))
         dispatch(orderListFetchSuccess(orderList))
       })
       .catch(err => {

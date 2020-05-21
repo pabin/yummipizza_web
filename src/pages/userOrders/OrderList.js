@@ -9,7 +9,6 @@ import {
   Table,
   Badge,
   Card,
-  Pagination,
 } from 'react-bootstrap';
 
 
@@ -26,7 +25,6 @@ class OrderList extends React.Component {
 
     var params = new URLSearchParams(this.props.location.search);
     var page = parseInt(params.get('page'))
-
 
     this.state = {
       currentPage: (page ? page : 1),
@@ -82,19 +80,22 @@ class OrderList extends React.Component {
       filter.options.map(option => {
         if (filter.id == "DATE") {
           if (option.selected) {
-            console.log('yes date is selected', option.id, option.selected);
             dates.push(option.id)
-          } else dates.pop(option.id);
+          } else {
+            dates = dates.filter(date => date !== option.id)
+          };
         } else if (filter.id == "PRICE") {
           if (option.selected) {
-            console.log('yes price is selected', option.id, option.selected);
             prices.push(option.id)
-          } else prices.pop(option.id);
+          } else {
+            prices = prices.filter(price => price !== option.id)
+          };
         } else if (filter.id == "STATUS") {
           if (option.selected) {
-            console.log('yes status is selected', option.id, option.selected);
             status.push(option.id)
-          } else status.pop(option.id);
+          } else {
+            status = status.filter(sts => sts !== option.id)
+          }
         }
       })
     })
@@ -106,7 +107,6 @@ class OrderList extends React.Component {
       prices: prices,
       status: status,
     }
-    console.log('data', data);
     this.props.dispatchOrderListFetch({filter: true, data: data})
   }
 
@@ -157,16 +157,6 @@ class OrderList extends React.Component {
     }} = this.props
 
     const { filters, showDetailModal, selectedOrder } = this.state
-
-    let active = 2;
-    let items = [];
-    for (let number = 1; number <= orderList.count/10; number++) {
-      items.push(
-        <Pagination.Item key={number} active={number === active}>
-          {number}
-        </Pagination.Item>,
-      );
-    }
 
     return (
       <div className="cart-container">

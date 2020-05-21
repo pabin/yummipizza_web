@@ -5,7 +5,6 @@ import {
   Form,
   Row,
   Col,
-  Pagination,
 } from 'react-bootstrap';
 
 import './Home.css';
@@ -49,9 +48,6 @@ class HomePage extends React.Component {
           {type: "checkbox", id: "RATINGS", label: "Have Ratings", selected: false},
         ]},
       ],
-      // types: [],
-      // prices: [],
-      // reviews: [],
     }
 
     if (page) {
@@ -75,25 +71,27 @@ class HomePage extends React.Component {
     let prices = []
     let reviews = []
 
-    // let { types, prices, reviews, sort_by } = this.state
     let { sort_by } = this.state
     filters.map(filter => {
       filter.options.map(option => {
         if (filter.id == "TYPE") {
           if (option.selected) {
-            console.log('yes type is selected', option.id, option.selected);
             types.push(option.id)
-          } else types.pop(option.id);
+          } else {
+            types = types.filter(typ => typ !== option.id)
+          }
         } else if (filter.id == "PRICE") {
           if (option.selected) {
-            console.log('yes price is selected', option.id, option.selected);
             prices.push(option.id)
-          } else prices.pop(option.id);
+          } else {
+            prices = prices.filter(price => price !== option.id)
+          }
         } else if (filter.id == "REVIEW") {
           if (option.selected) {
-            console.log('yes reviews is selected', option.id, option.selected);
             reviews.push(option.id)
-          } else reviews.pop(option.id);
+          } else {
+            reviews = reviews.filter(review => review !== option.id)
+          }
         }
       })
     })
@@ -111,6 +109,7 @@ class HomePage extends React.Component {
   }
 
   onItemSorting = (value) => {
+    console.log('onItemSorting...');
     const { types, prices, reviews } = this.state
     if (value) this.props.dispatchItemListFetch({filter: true, data: {types: types, prices:prices, reviews: reviews, sort_by: value}})
   }
@@ -138,7 +137,6 @@ class HomePage extends React.Component {
       errorMessage,
     }} = this.props
     const { filters } = this.state
-    // console.log('filters', filters);
 
     return (
       <Row className="home-row">
@@ -168,6 +166,7 @@ class HomePage extends React.Component {
                           this.onItemSorting(e.target.value)
                         }}>
                       <option value="">Sorty By</option>
+                      <option value="POPULARITY">Popularity</option>
                       <option value="LOW_TO_HIGH">Price low to high</option>
                       <option value="HIGHT_TO_LOW">Price high to low</option>
                     </Form.Control>
