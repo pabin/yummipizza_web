@@ -29,18 +29,18 @@ class Footer extends Component {
       <div style={style}>
         <Container>
           <Row>
-            <Col sm={3}>
+            <Col sm={4}>
               <h5>Customer Care</h5>
               <p>Phone &nbsp; 9849472519</p>
               <p>Email &nbsp; admin@typizza.com</p>
               <p>Direct</p>
             </Col>
-            <Col sm={3}>
+            <Col sm={4}>
               <h5>Contact</h5>
               <p>About us</p>
               <p>Contact</p>
             </Col>
-            <Col sm={6}>
+            <Col sm={4}>
               <h5>Payment Methods</h5>
               <p>Ebanking</p>
               <p>Ewallet</p>
