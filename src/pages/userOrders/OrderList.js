@@ -246,14 +246,6 @@ class OrderList extends React.Component {
               handlePagination={this.handlePagination}
               />
           </Col>
-
-          {
-            orderListFetched && orderList.results.length <= 0 ?
-            <Col sm={12} className="cart-item d-flex align-items-center justify-content-center">
-              <h5>No orders found!</h5>
-            </Col>
-            : null
-          }
         </Row>
 
 
