@@ -64,10 +64,10 @@ class Cart extends React.Component {
       if (response.data) {
         // log success
         const user = response.data
-        this.props.updateUserDetail(token, user)
-        localStorage.setItem('user', JSON.stringify(user))
-
         this.showingLoading(this.successMessageAlert)
+        localStorage.setItem('user', JSON.stringify(user))
+        this.props.updateUserDetail(token, user)
+
 
       } else if (response.error) {
         this.showingLoading(this.failureMessageAlert)
