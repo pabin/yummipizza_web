@@ -104,7 +104,7 @@ const ShippingAddress = (props) => {
                 </Form.Group>
 
                 <Form.Group as={Col} controlId="formGridEmail">
-                  <Form.Label>Email (Optional)</Form.Label>
+                  <Form.Label>Email</Form.Label>
                   <Form.Control value={email} type="email" placeholder="Enter email"onChange={(e => setEmail(e.target.value))} />
                 </Form.Group>
               </Form.Row>
