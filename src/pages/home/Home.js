@@ -148,10 +148,9 @@ class HomePage extends React.Component {
         {
           itemListFetched ?
           <Col sm={9}>
-            <h6>Most Popular Pizzas</h6>
             <Row>
-              <Col sm={4}>
-                <p>{itemList.results.length} Items on this page</p>
+              <Col sm={4} style={{paddingTop: '15px'}} className="d-flex align-items-center">
+                <h6 align="center">{itemList.results.length} Items on this page</h6>
               </Col>
 
               <Col sm={8} className="d-flex justify-content-end">
@@ -175,7 +174,7 @@ class HomePage extends React.Component {
               </Col>
             </Row>
 
-            <hr />
+            <hr style={{padding: '0px'}} />
 
             <div className="d-flex align-items-center justify-content-center" style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap'}}>
               {
