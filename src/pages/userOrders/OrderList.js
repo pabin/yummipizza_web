@@ -56,7 +56,9 @@ class OrderList extends React.Component {
       this.props.dispatchOrderListFetch({list: true})
     }
 
-    if (!this.props.userAuthenticated) {
+    const userAuthenticated = localStorage.getItem('userAuthenticated')
+
+    if (!userAuthenticated) {
       this.props.history.push("/")
     }
   }
