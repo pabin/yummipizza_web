@@ -235,6 +235,17 @@ class ItemDetail extends React.Component {
     this.props.location.state.item = item
   }
 
+  formatDatetime = (datetime) => {
+    let dt = new Date(datetime)
+    let finalDT = `${dt.getFullYear()}-${dt.getMonth()+1}-${dt.getDate()}`
+    return finalDT
+  }
+
+  formatTime = (datetime) => {
+    let dt = new Date(datetime)
+    let finalDT = `${dt.getHours()}:${dt.getMinutes()}`
+    return finalDT
+  }
 
   render() {
     const { comments: {
@@ -436,7 +447,7 @@ class ItemDetail extends React.Component {
                               }
                             </Col>
                             <Col sm={9} style={{backgroundColor: '#EFEFEF', borderRadius: '10px', padding: '10px'}}>
-                              <span style={{fontWeight: 'bold'}}>{comment.user.first_name} {comment.user.last_name}</span><br/>
+                              <span style={{fontWeight: 'bold'}}>{comment.user.first_name} {comment.user.last_name} <span style={{fontSize: '12px', color: '#707B7C', marginLeft: '7px'}}>{this.formatDatetime(comment.created_at)} | {this.formatTime(comment.created_at)}</span></span><br/>
                               <span>{comment.message}</span>
                             </Col>
                           </Row>
