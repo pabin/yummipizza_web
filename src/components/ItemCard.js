@@ -5,6 +5,7 @@ import {
   Button,
   Card,
   Badge,
+  Row,
 } from 'react-bootstrap';
 
 import { Redirect } from 'react-router-dom';
@@ -151,7 +152,10 @@ class ItemCard extends Component {
           <Card.Body style={{padding: '10px'}}>
             <span onClick={() => {this.setState({redirect: true})}} className="pointer-cursor">
               {item.name}
-              <Rating size={16} rating={parseInt(item.ratings_value.average_rating)} />
+              <div style={{display: 'flex'}}>
+                <Rating size={13} rating={parseInt(item.ratings_value.average_rating)} />
+                <span style={{fontSize: '11px', color: '#707B7C', marginLeft: '4px', marginTop: '6px'}}>{item.ratings_value.total_ratings} Ratings | {item.reviews_count} Reviews</span>
+              </div>
             </span>
             <h4 style={{color: 'orange', fontWeight: 'bold'}}>${item.ls_price}</h4>
 

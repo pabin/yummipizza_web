@@ -35,7 +35,6 @@ function commentFetchFailure(err) {
 
 
 export function commentFetch(item_id){
-  // const TOKEN = localStorage.getItem('token')
   var COMMENT_LIST_URL = getItemReviewListUrl()
 
   return (dispatch) => {
@@ -43,16 +42,13 @@ export function commentFetch(item_id){
     axios({
             method: "GET",
             url: `${COMMENT_LIST_URL}`,
-            // headers: {'Authorization': 'Token ' + TOKEN},
             params: { item_id: item_id }
           })
       .then(response => {
         const comments = response.data
         setTimeout(() => {
           dispatch(commentFetchSuccess(comments))
-        }, 4000);
-
-        // dispatch(commentFetchSuccess(comments))
+        }, 3000);
       })
       .catch(err => {
         console.log('Error on Comment Fetch: ', err)
