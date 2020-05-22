@@ -35,8 +35,17 @@ class Cart extends React.Component {
       showSuccessMessage: false,
       showFailureMessage: false,
       itemToDelete: "",
+      validityCheckTime: 0,
     }
 
+  }
+
+
+  componentDidMount(){
+    this.interval = setInterval(
+      () => this.setState((prevState)=> ({ validityCheckTime: prevState.validityCheckTime + 1000 })),
+      60000
+    );
   }
 
 
@@ -235,6 +244,8 @@ class Cart extends React.Component {
     prices.total_euro = (totalPrice + 10) * 0.92
     prices.total_usd = totalPrice + 10
 
+    const time_now = new Date()
+
     return (
       <div className="cart-container">
         <Row className="cart-row">
@@ -247,9 +258,9 @@ class Cart extends React.Component {
                   <div className="d-flex">
                     <i className="fa fa-shopping-cart" style={{fontSize: "30px", marginLeft: '10px', marginRight: "20px"}}></i>
                     <h5 style={{paddingTop: '5px'}}>{user.valid_cart.cart_items.length} Item(s) in Your Cart</h5>
-                    {/*
-                      <span style={{fontSize: '16px', color: '#707B7C', marginLeft: '20px', paddingTop: '5px'}}>Your cart will expire in {parseInt(((new Date(user.valid_cart.validity)).getTime() - time_now.getTime())/60000)} minutes</span>
-                    */}
+
+                    <span style={{fontSize: '16px', color: '#707B7C', marginLeft: '20px', paddingTop: '5px'}}>Your cart will expire in {parseInt(((new Date(user.valid_cart.validity)).getTime() - time_now.getTime())/60000)} minutes</span>
+
                   </div>
 
                 </Col>

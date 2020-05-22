@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 
 import {
@@ -17,15 +17,18 @@ import logo from '../assets/logo/logo_cropped.png';
 import FullScreenLoading from '../components/FullScreenLoading'
 import { USER_AUTHENTICATION_LOGOUT } from '../store/reducers/AuthenticationReducers';
 import { itemListFetchSuccess } from '../store/actions/ItemListActions';
+import { userAuthenticationSuccess } from '../store/actions/AuthenticationActions';
 
 
 const NavBar = (props) => {
   const [loading, setLoading] = useState(false)
   const [searchTerm, setSearchTerm] = useState("")
+  const [validityCheckTime, setValidityCheckTime] = useState(0)
   const history = useHistory();
 
   const { authentication: {
     userAuthenticated,
+    token,
     user,
   }} = props
 
@@ -36,6 +39,25 @@ const NavBar = (props) => {
   }} = props
 
   const { onLoginPress, onItemFilter } = props
+
+  const checkIfCartIsValid = () => {
+    if (user.valid_cart) {
+      const time_now = new Date()
+      if (!(time_now < new Date(user.valid_cart.validity))) {
+        console.log('cart validity expired');
+        user.valid_cart = null
+        props.updateUserDetail(token, user)
+        localStorage.setItem('user', JSON.stringify(user))
+      }
+    }
+  }
+
+  // Check every 10 second if cart is valid
+  setTimeout(() => {
+    setValidityCheckTime(validityCheckTime+1)
+    checkIfCartIsValid()
+  }, 60000);
+
 
   // Handles user logout, clears localstorage and redux store
   const handleLogout = () => {
@@ -135,6 +157,7 @@ const mapStateToProps  = state => ({
 
 const mapDispatchToProps = dispatch => ({
   onUserLogout: () => dispatch({type: USER_AUTHENTICATION_LOGOUT}),
+  updateUserDetail: (token, user) => userAuthenticationSuccess(token, user),
   onItemFilter: (itemList, backupItemList) => dispatch(itemListFetchSuccess(itemList, backupItemList)),
 })
 

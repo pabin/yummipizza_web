@@ -49,12 +49,13 @@ class ItemDetail extends React.Component {
     }
 
     const item_id = this.props.location.state.item.id
-    this.itemDetailsFetch(item_id)
     this.updateItemViews(item_id)
   }
 
 
   componentDidMount() {
+    const item_id = this.props.location.state.item.id
+    this.itemDetailsFetch(item_id)
     this.listPopularItems()
   }
 
@@ -255,7 +256,7 @@ class ItemDetail extends React.Component {
     ratingCreateAPI(rating, user.id, itemDetails.id)
     .then(response => {
       if (response.data) {
-        console.log('response.data', response.data);
+        // console.log('response.data', response.data);
         this.setState({itemDetails: response.data})
       } else if (response.error) {
         // log errorr
@@ -266,7 +267,7 @@ class ItemDetail extends React.Component {
 
   handleReviewComment = (e) => {
     if (e.key === 'Enter') {
-      console.log('do validate', e.target.value);
+      // console.log('do validate', e.target.value);
       this.onReviewCreate(e.target.value)
     }
   }
