@@ -31,7 +31,7 @@ class Footer extends Component {
           <Row>
             <Col sm={4}>
               <h5>Customer Care</h5>
-              <p>Phone &nbsp; +91-975-5514-845</p>
+              <p>Phone &nbsp; +977-9849472519</p>
               <p>Email &nbsp; admin@typizza.com</p>
               <p>Direct</p>
             </Col>

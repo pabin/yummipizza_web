@@ -14,11 +14,11 @@ import OrderSummary from './OrderSummary';
 const ShippingAddress = (props) => {
   const [name, setName] = useState(Math.floor((Math.random() * 1000) + 1)+" St Avenue");
   const [street, setStreet] = useState("Apt 43");
-  const [city, setCity] = useState("Delhi");
-  const [state, setState] = useState("Delhi");
+  const [city, setCity] = useState("Kathmandu");
+  const [state, setState] = useState("Kathmandu");
   const [zipCode, setZipCode] = useState("110018");
 
-  const [mobile, setMobile] = useState("9798"+Math.floor((Math.random() * 1000000)+ 1));
+  const [mobile, setMobile] = useState("9841"+Math.floor((Math.random() * 1000000)+ 1));
   const [email, setEmail] = useState("ilovepizza@gmail.com");
 
   const { show, onHide, prices, orderCreate } = props
@@ -83,9 +83,9 @@ const ShippingAddress = (props) => {
                 <Form.Group as={Col} controlId="formGridState">
                   <Form.Label>State</Form.Label>
                   <Form.Control as="select" value={state} onChange={(e => setState(e.target.value))}>
-                    <option value="State 1">Delhi</option>
-                    <option value="State 2">Haryana</option>
-                    <option value="State 3">Rajasthan</option>
+                    <option value="State 1">State 1</option>
+                    <option value="State 2">State 2</option>
+                    <option value="State 3">State 3</option>
                   </Form.Control>
                 </Form.Group>
 
