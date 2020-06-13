@@ -18,7 +18,7 @@ const ShippingAddress = (props) => {
   const [state, setState] = useState("Delhi");
   const [zipCode, setZipCode] = useState("110018");
 
-  const [mobile, setMobile] = useState("919798"+Math.floor((Math.random() * 1000000)+ 1));
+  const [mobile, setMobile] = useState("9798"+Math.floor((Math.random() * 1000000)+ 1));
   const [email, setEmail] = useState("ilovepizza@gmail.com");
 
   const { show, onHide, prices, orderCreate } = props
