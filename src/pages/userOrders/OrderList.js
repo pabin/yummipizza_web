@@ -182,7 +182,6 @@ class OrderList extends React.Component {
                     <th>#</th>
                     <th>Date</th>
                     <th>Address</th>
-                    <th>Mobile</th>
                     <th>Items</th>
                     <th>Price</th>
                     <th>Status</th>
@@ -196,7 +195,6 @@ class OrderList extends React.Component {
                         <td>{index + 1}</td>
                         <td>{this.formatDatetime(order.ordered_at)} <Badge variant="dark">{this.formatTime(order.ordered_at)}</Badge></td>
                         <td>{order.delivery_address.name}</td>
-                        <td>{order.contact_detail.mobile}</td>
                         <td>{order.order_items.length}</td>
                         {
                           order.status === "CANCELLED" ?
