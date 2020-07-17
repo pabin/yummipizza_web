@@ -23,8 +23,8 @@ class Login extends Component {
     super(props)
 
     this.state = {
-      username: "ilovepizza",
-      password: "ilovepizza",
+      username: "",
+      password: "",
     }
 
   }
