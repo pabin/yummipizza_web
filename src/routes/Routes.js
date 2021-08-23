@@ -2,6 +2,7 @@ import Home from '../pages/home/Home';
 import ItemDetail from '../pages/itemDetail/ItemDetail';
 import OrderList from '../pages/userOrders/OrderList';
 import Cart from '../pages/cart/Cart';
+import CareersPage from '../pages/careers/';
 
 // Authentication Pages
 import Login from '../pages/authentication/Login';
@@ -14,6 +15,7 @@ const routesList = [
     { path: '/item', exact: true, name: 'Items', component: ItemDetail },
     { path: '/orders', exact: true, name: 'Orders', component: OrderList },
     { path: '/cart', exact: true, name: 'Cart', component: Cart },
+    { path: '/careers', exact: true, name: 'Cart', component: CareersPage },
 
     { path: '/login', exact: true, name: 'Orders', component: Login },
     { path: '/signup', exact: true, name: 'Orders', component: Signup },

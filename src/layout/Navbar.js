@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
+import { useLocation } from 'react-router-dom'
 
 import {
   Navbar,
@@ -25,6 +26,12 @@ const NavBar = (props) => {
   const [searchTerm, setSearchTerm] = useState("")
   const [validityCheckTime, setValidityCheckTime] = useState(0)
   const history = useHistory();
+  const location = useLocation();
+
+  let searchText;
+  if (location.pathname === '/careers') {
+    searchText = 'Search Yummi Careers... ';
+  }
 
   const { authentication: {
     userAuthenticated,
@@ -110,7 +117,7 @@ const NavBar = (props) => {
           )}
           style={{"width": "60%"}}
           type="text"
-          placeholder="Search Yummi Pizza..."
+          placeholder={ searchText ? searchText : 'Search Yummi Pizza...'}
           className="mr-sm-2" />
         <Button onClick={() => handleItemSearch(searchTerm)} variant="secondary">Search</Button>
       </Form>
@@ -140,7 +147,10 @@ const NavBar = (props) => {
 
         </Navbar>
         :
-        <Nav.Link onClick={onLoginPress} className="cart-link">Login</Nav.Link>
+        <>
+          <Nav.Link onClick={onLoginPress} className="cart-link">Login</Nav.Link>
+          <Nav.Link as={Link} to={'/careers'} className="cart-link">Careers</Nav.Link>
+        </>
       }
       </Navbar.Collapse>
       <FullScreenLoading show={loading} message="Logging Out..." />
