@@ -1,5 +1,9 @@
-## Project Setup Steps
+<p align="center">
+<br />
+<img src="https://github.com/pabin/yummipizza_web/blob/master/src/assets/logo/logo_cropped.png?raw=true" width="350" height="58" center />
+</p>
 
+## Project Setup Steps
 
 ```
 git clone https://github.com/pabin/yummipizza_web.git
