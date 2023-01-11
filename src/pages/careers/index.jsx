@@ -10,8 +10,8 @@ const CareersPage = () => {
     padding: 20,
   }
 
-  const source = 'https://appyhere-webapply-dev.web.app/frZgt2qnaFkVyWZwvXcp/nepal-team';
-  const iframeElem = '<iframe src="https://appyhere-webapply-dev.web.app/frZgt2qnaFkVyWZwvXcp/nepal-team" position="relative" width="100%" height="700" frameBorder="0"></iframe>';
+  const source = 'https://example.web.app/someid/slug';
+  const iframeElem = '<iframe src="https://examplep/someid/slug" position="relative" width="100%" height="700" frameBorder="0"></iframe>';
   const renderIframe = () => {
     return {
       __html: iframeElem
